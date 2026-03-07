@@ -109,6 +109,29 @@ canvas {
   width: 100%;
 }
 
+.disclaimer {
+  margin-bottom: 28px;
+  padding: 16px 18px;
+  background: rgba(237, 232, 231, 0.72);
+  border: 1px solid rgba(29, 29, 29, 0.08);
+  border-radius: 12px;
+}
+
+.disclaimer-label {
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--dark);
+  margin-bottom: 6px;
+}
+
+.disclaimer-copy {
+  font-size: 13px;
+  line-height: 1.55;
+  color: #4c4542;
+}
+
 .stag {
   font-size: 10px;
   font-weight: 700;
@@ -602,6 +625,15 @@ td.ch {
     padding: 20px 12px 32px;
   }
 
+  .disclaimer {
+    margin-bottom: 20px;
+    padding: 14px 14px;
+  }
+
+  .disclaimer-copy {
+    font-size: 12px;
+  }
+
   .stitle {
     font-size: 15px;
     margin-bottom: 12px;
@@ -724,6 +756,11 @@ td.ch {
 </div>
 
 <div class="wrap">
+  <div class="disclaimer">
+    <div class="disclaimer-label">Disclaimer</div>
+    <div class="disclaimer-copy">This report uses Shopify referring-channel data to show attributable organic search performance. It is the clearest and most consistent source available for this view, but it does not capture all SEO impact. Some traffic is unattributed, channel labeling can vary, and session-based comparisons do not apply to 2020-2021.</div>
+  </div>
+
   <div class="stag">2025</div>
   <div class="stitle">Latest Completed Year vs Prior Year</div>
   <div class="kpi-row">
@@ -758,8 +795,6 @@ td.ch {
       <div class="kpi-note">Orders divided by sessions</div>
     </div>
   </div>
-
-  <div class="note chart-note">2020 and 2021 show empty session-based graphs because Shopify Analytics was not collecting session data in the referring-channel export for those years.</div>
 
   <div class="row2">
     <div class="card">
@@ -1110,6 +1145,97 @@ td.ch {
     </div>
   </div>
 
+  <div class="full">
+    <div class="stag">AI Assistant Referrals</div>
+    <div class="stitle">LLM and AI Assistant Referral Data</div>
+    <div class="note chart-note">This section is intentionally separate from the SEO report above. It captures only rows that exist in Shopify and were mapped to <strong>channel_group = ai_assistant</strong>, including assistants such as ChatGPT, Perplexity, Claude, Poe, Qwen, Grok, DeepSeek, and others when present in the processed source data.</div>
+
+    <div class="row2">
+      <div class="card">
+        <div class="card-title">Annual AI Assistant Summary</div>
+        <div class="card-sub">Yearly totals across all detected LLM and AI assistant referral rows</div>
+        <div class="mini-table-wrap">
+          <table class="mini-table">
+            <thead>
+              <tr>
+                <th>Year</th>
+                <th class="r">Sessions</th>
+                <th class="r">Revenue</th>
+                <th class="r">Orders</th>
+                <th class="r">CVR</th>
+                <th class="r">AOV</th>
+                <th class="r">New</th>
+                <th class="r">Returning</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr><td>2023</td><td class="r">4</td><td class="r">$0.00</td><td class="r">0</td><td class="r">0.0000</td><td class="r">-</td><td class="r">0</td><td class="r">0</td></tr>
+              <tr><td>2024</td><td class="r">164</td><td class="r">$0.00</td><td class="r">0</td><td class="r">0.0000</td><td class="r">-</td><td class="r">0</td><td class="r">0</td></tr>
+              <tr><td>2025</td><td class="r">1,767</td><td class="r">$8,509.16</td><td class="r">8</td><td class="r">0.0045</td><td class="r">$1,063.65</td><td class="r">8</td><td class="r">0</td></tr>
+              <tr><td class="ch">2023-2025 Total</td><td class="r">1,935</td><td class="r">$8,509.16</td><td class="r">8</td><td class="r">0.0041</td><td class="r">$1,063.65</td><td class="r">8</td><td class="r">0</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-title">AI Assistant Breakdown by Year and Channel</div>
+        <div class="card-sub">Organic and unknown rows are combined into a single assistant total for each year</div>
+        <div class="filter-bar">
+          <div class="filter-controls">
+            <label class="filter-label" for="aiAssistantYearSelect">Year Filter</label>
+            <select id="aiAssistantYearSelect" class="filter-select">
+              <option value="2025">2025</option>
+              <option value="2024">2024</option>
+              <option value="2023">2023</option>
+              <option value="all">All years</option>
+            </select>
+          </div>
+          <div id="aiAssistantRowSummary" class="filter-summary"></div>
+        </div>
+        <div class="mini-table-wrap">
+          <table class="mini-table">
+            <thead>
+              <tr>
+                <th>Year</th>
+                <th>Assistant</th>
+                <th class="r">Sessions</th>
+                <th class="r">Revenue</th>
+                <th class="r">Orders</th>
+                <th class="r">CVR</th>
+                <th class="r">AOV</th>
+                <th class="r">New</th>
+                <th class="r">Returning</th>
+              </tr>
+            </thead>
+            <tbody id="aiAssistantBreakdownBody">
+              <tr><td>2023</td><td>Perplexity</td><td class="r">2</td><td class="r">$0.00</td><td class="r">0</td><td class="r">0.0000</td><td class="r">-</td><td class="r">0</td><td class="r">0</td></tr>
+              <tr><td>2023</td><td>Phind</td><td class="r">1</td><td class="r">$0.00</td><td class="r">0</td><td class="r">0.0000</td><td class="r">-</td><td class="r">0</td><td class="r">0</td></tr>
+              <tr><td>2023</td><td>You</td><td class="r">1</td><td class="r">$0.00</td><td class="r">0</td><td class="r">0.0000</td><td class="r">-</td><td class="r">0</td><td class="r">0</td></tr>
+              <tr><td>2024</td><td>ChatGPT</td><td class="r">110</td><td class="r">$0.00</td><td class="r">0</td><td class="r">0.0000</td><td class="r">-</td><td class="r">0</td><td class="r">0</td></tr>
+              <tr><td>2024</td><td>Felo</td><td class="r">2</td><td class="r">$0.00</td><td class="r">0</td><td class="r">0.0000</td><td class="r">-</td><td class="r">0</td><td class="r">0</td></tr>
+              <tr><td>2024</td><td>Perplexity</td><td class="r">50</td><td class="r">$0.00</td><td class="r">0</td><td class="r">0.0000</td><td class="r">-</td><td class="r">0</td><td class="r">0</td></tr>
+              <tr><td>2024</td><td>Poe</td><td class="r">1</td><td class="r">$0.00</td><td class="r">0</td><td class="r">0.0000</td><td class="r">-</td><td class="r">0</td><td class="r">0</td></tr>
+              <tr><td>2024</td><td>You</td><td class="r">1</td><td class="r">$0.00</td><td class="r">0</td><td class="r">0.0000</td><td class="r">-</td><td class="r">0</td><td class="r">0</td></tr>
+              <tr><td>2025</td><td>ChatGPT</td><td class="r">1,396</td><td class="r">$8,509.16</td><td class="r">8</td><td class="r">0.0057</td><td class="r">$1,063.65</td><td class="r">8</td><td class="r">0</td></tr>
+              <tr><td>2025</td><td>Claude</td><td class="r">16</td><td class="r">$0.00</td><td class="r">0</td><td class="r">0.0000</td><td class="r">-</td><td class="r">0</td><td class="r">0</td></tr>
+              <tr><td>2025</td><td>DeepSeek</td><td class="r">3</td><td class="r">$0.00</td><td class="r">0</td><td class="r">0.0000</td><td class="r">-</td><td class="r">0</td><td class="r">0</td></tr>
+              <tr><td>2025</td><td>Doubao</td><td class="r">3</td><td class="r">$0.00</td><td class="r">0</td><td class="r">0.0000</td><td class="r">-</td><td class="r">0</td><td class="r">0</td></tr>
+              <tr><td>2025</td><td>Felo</td><td class="r">1</td><td class="r">$0.00</td><td class="r">0</td><td class="r">0.0000</td><td class="r">-</td><td class="r">0</td><td class="r">0</td></tr>
+              <tr><td>2025</td><td>Grok</td><td class="r">2</td><td class="r">$0.00</td><td class="r">0</td><td class="r">0.0000</td><td class="r">-</td><td class="r">0</td><td class="r">0</td></tr>
+              <tr><td>2025</td><td>iAsk</td><td class="r">1</td><td class="r">$0.00</td><td class="r">0</td><td class="r">0.0000</td><td class="r">-</td><td class="r">0</td><td class="r">0</td></tr>
+              <tr><td>2025</td><td>Manus</td><td class="r">1</td><td class="r">$0.00</td><td class="r">0</td><td class="r">0.0000</td><td class="r">-</td><td class="r">0</td><td class="r">0</td></tr>
+              <tr><td>2025</td><td>Mistral</td><td class="r">2</td><td class="r">$0.00</td><td class="r">0</td><td class="r">0.0000</td><td class="r">-</td><td class="r">0</td><td class="r">0</td></tr>
+              <tr><td>2025</td><td>Perplexity</td><td class="r">331</td><td class="r">$0.00</td><td class="r">0</td><td class="r">0.0000</td><td class="r">-</td><td class="r">0</td><td class="r">0</td></tr>
+              <tr><td>2025</td><td>Poe</td><td class="r">3</td><td class="r">$0.00</td><td class="r">0</td><td class="r">0.0000</td><td class="r">-</td><td class="r">0</td><td class="r">0</td></tr>
+              <tr><td>2025</td><td>Qwen</td><td class="r">8</td><td class="r">$0.00</td><td class="r">0</td><td class="r">0.0000</td><td class="r">-</td><td class="r">0</td><td class="r">0</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+
   <div class="footer">
     <span>MVP Visuals - SEO YoY Report</span>
     <span>Generated from data/processed/yoy_channel_summary.csv</span>
@@ -1221,7 +1347,11 @@ const detailRowSummary = document.getElementById('detailRowSummary');
 const detailPrevPage = document.getElementById('detailPrevPage');
 const detailNextPage = document.getElementById('detailNextPage');
 const detailPageInfo = document.getElementById('detailPageInfo');
+const aiAssistantYearSelect = document.getElementById('aiAssistantYearSelect');
+const aiAssistantRowSummary = document.getElementById('aiAssistantRowSummary');
+const aiAssistantBreakdownBody = document.getElementById('aiAssistantBreakdownBody');
 const detailRows = Array.from(detailTableBody.querySelectorAll('tr'));
+const aiAssistantRows = Array.from(aiAssistantBreakdownBody.querySelectorAll('tr'));
 const detailPageSize = 10;
 let currentDetailPage = 1;
 
@@ -1256,6 +1386,13 @@ document.querySelectorAll('.mini-table, .tw table, .context-card table').forEach
 
 function getFilteredDetailRows(selectedYear) {
   return detailRows.filter((row) => {
+    const rowYear = row.cells[0] ? row.cells[0].textContent.trim() : '';
+    return selectedYear === 'all' || rowYear === selectedYear;
+  });
+}
+
+function getFilteredAiAssistantRows(selectedYear) {
+  return aiAssistantRows.filter((row) => {
     const rowYear = row.cells[0] ? row.cells[0].textContent.trim() : '';
     return selectedYear === 'all' || rowYear === selectedYear;
   });
@@ -1302,8 +1439,41 @@ function applyDetailYearFilter(selectedYear) {
   renderDetailTable();
 }
 
+function renderAiAssistantTable() {
+  const selectedYear = aiAssistantYearSelect.value;
+  const filteredRows = getFilteredAiAssistantRows(selectedYear);
+
+  aiAssistantRows.forEach((row) => {
+    row.style.display = 'none';
+  });
+
+  filteredRows.forEach((row) => {
+    row.style.display = '';
+  });
+
+  if (filteredRows.length === 0) {
+    aiAssistantRowSummary.textContent = selectedYear === 'all'
+      ? 'No AI assistant rows to display'
+      : `No AI assistant rows for ${selectedYear}`;
+    return;
+  }
+
+  aiAssistantRowSummary.textContent = selectedYear === 'all'
+    ? `Showing ${filteredRows.length} AI assistant rows across all years`
+    : `Showing ${filteredRows.length} AI assistant rows for ${selectedYear}`;
+}
+
+function applyAiAssistantYearFilter(selectedYear) {
+  aiAssistantYearSelect.value = selectedYear;
+  renderAiAssistantTable();
+}
+
 detailYearSelect.addEventListener('change', (event) => {
   applyDetailYearFilter(event.target.value);
+});
+
+aiAssistantYearSelect.addEventListener('change', (event) => {
+  applyAiAssistantYearFilter(event.target.value);
 });
 
 detailPrevPage.addEventListener('click', () => {
@@ -1324,6 +1494,8 @@ detailNextPage.addEventListener('click', () => {
 
 detailYearSelect.value = '2025';
 applyDetailYearFilter('2025');
+aiAssistantYearSelect.value = '2025';
+applyAiAssistantYearFilter('2025');
 
 new Chart(document.getElementById('revenueChart'), {
   type: 'bar',
