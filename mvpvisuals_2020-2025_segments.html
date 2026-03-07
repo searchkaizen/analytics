@@ -1,7 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta name="robots" content="noindex">
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>MVP Visuals - Search Referral Report</title>
@@ -1503,8 +1502,8 @@ new Chart(document.getElementById('revenueChart'), {
   data: {
     labels,
     datasets: [
-      { label: 'Site Total', data: annual.map((item) => item.siteRevenue), backgroundColor: '#C8A96E', borderRadius: 4 },
-      { label: 'SEO Organic', data: annual.map((item) => item.seoRevenue), backgroundColor: '#2D5A3D', borderRadius: 4 }
+      { label: 'Site Total', data: annual.map((item) => item.siteRevenue), backgroundColor: gold, borderRadius: 4 },
+      { label: 'SEO Organic', data: annual.map((item) => item.seoRevenue), backgroundColor: dark, borderRadius: 4 }
     ]
   },
   options: {
@@ -1526,8 +1525,8 @@ new Chart(document.getElementById('sessionsChart'), {
   data: {
     labels,
     datasets: [
-      { label: 'Site Total', data: annual.map((item) => sessionSeriesValue(item.siteSessions, item)), backgroundColor: '#C8A96E', borderRadius: 4 },
-      { label: 'SEO Organic', data: annual.map((item) => sessionSeriesValue(item.seoSessions, item)), backgroundColor: '#2D5A3D', borderRadius: 4 }
+      { label: 'Site Total', data: annual.map((item) => sessionSeriesValue(item.siteSessions, item)), backgroundColor: gold, borderRadius: 4 },
+      { label: 'SEO Organic', data: annual.map((item) => sessionSeriesValue(item.seoSessions, item)), backgroundColor: dark, borderRadius: 4 }
     ]
   },
   options: {
@@ -1549,8 +1548,8 @@ new Chart(document.getElementById('ordersChart'), {
   data: {
     labels,
     datasets: [
-      { label: 'Site Total', data: annual.map((item) => item.siteOrders), backgroundColor: '#C8A96E', borderRadius: 4 },
-      { label: 'SEO Organic', data: annual.map((item) => item.seoOrders), backgroundColor: '#2D5A3D', borderRadius: 4 }
+      { label: 'Site Total', data: annual.map((item) => item.siteOrders), backgroundColor: gold, borderRadius: 4 },
+      { label: 'SEO Organic', data: annual.map((item) => item.seoOrders), backgroundColor: dark, borderRadius: 4 }
     ]
   },
   options: {
