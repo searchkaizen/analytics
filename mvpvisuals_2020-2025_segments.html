@@ -1,859 +1,108 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="utf-8"/>
-<meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>MVP Visuals — Organic Search Performance Report 2021–2025</title>
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet"/>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
-<style>
-  :root {
-    --ink: #0d1117;
-    --bg: #f4f2ee;
-    --panel: #ffffff;
-    --accent: #c8a96e;
-    --accent2: #2d5a3d;
-    --muted: #7a7468;
-    --rule: #e2ddd6;
-    --up: #2d5a3d;
-    --down: #8b2020;
-    --up-bg: #eaf3ec;
-    --down-bg: #faecec;
-    --serif: 'Playfair Display', Georgia, serif;
-    --sans: 'DM Sans', sans-serif;
-  }
-
-  * { box-sizing: border-box; margin: 0; padding: 0; }
-
-  body {
-    font-family: var(--sans);
-    background: var(--bg);
-    color: var(--ink);
-    font-size: 14px;
-    line-height: 1.6;
-  }
-
-  /* MASTHEAD */
-  .masthead {
-    background: var(--ink);
-    color: #fff;
-    padding: 56px 64px 48px;
-    position: relative;
-    overflow: hidden;
-  }
-  .masthead::before {
-    content: '';
-    position: absolute;
-    top: -80px; right: -80px;
-    width: 400px; height: 400px;
-    border-radius: 50%;
-    background: radial-gradient(circle, rgba(200,169,110,0.18) 0%, transparent 70%);
-    pointer-events: none;
-  }
-  .masthead-label {
-    font-family: var(--sans);
-    font-size: 11px;
-    font-weight: 600;
-    letter-spacing: .18em;
-    text-transform: uppercase;
-    color: var(--accent);
-    margin-bottom: 14px;
-  }
-  .masthead h1 {
-    font-family: var(--serif);
-    font-size: clamp(28px, 4vw, 48px);
-    font-weight: 900;
-    line-height: 1.1;
-    margin-bottom: 12px;
-    color: #fff;
-  }
-  .masthead-sub {
-    color: rgba(255,255,255,0.55);
-    font-size: 14px;
-    font-weight: 300;
-  }
-  .masthead-meta {
-    margin-top: 36px;
-    display: flex;
-    gap: 32px;
-    flex-wrap: wrap;
-    border-top: 1px solid rgba(255,255,255,0.12);
-    padding-top: 24px;
-    font-size: 12px;
-    color: rgba(255,255,255,0.4);
-    letter-spacing: .04em;
-  }
-
-  /* CONTENT WRAP */
-  .wrap { max-width: 1160px; margin: 0 auto; padding: 48px 40px; }
-
-  /* SECTION HEADERS */
-  .section-label {
-    font-family: var(--sans);
-    font-size: 10px;
-    font-weight: 600;
-    letter-spacing: .2em;
-    text-transform: uppercase;
-    color: var(--accent);
-    margin-bottom: 6px;
-  }
-  .section-title {
-    font-family: var(--serif);
-    font-size: 22px;
-    font-weight: 700;
-    margin-bottom: 20px;
-    color: var(--ink);
-  }
-  .section-title span { color: var(--accent2); }
-
-  /* KPI GRID */
-  .kpi-grid {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 16px;
-    margin-bottom: 52px;
-  }
-  .kpi-card {
-    background: var(--panel);
-    border: 1px solid var(--rule);
-    border-radius: 12px;
-    padding: 22px 20px 18px;
-    position: relative;
-    overflow: hidden;
-  }
-  .kpi-card::after {
-    content: '';
-    position: absolute;
-    bottom: 0; left: 0;
-    width: 100%; height: 3px;
-    background: var(--accent);
-    opacity: 0.5;
-  }
-  .kpi-card.up::after { background: var(--up); opacity: 0.6; }
-  .kpi-card.down::after { background: var(--down); opacity: 0.6; }
-  .kpi-label {
-    font-size: 10px;
-    font-weight: 600;
-    letter-spacing: .15em;
-    text-transform: uppercase;
-    color: var(--muted);
-    margin-bottom: 8px;
-  }
-  .kpi-val {
-    font-family: var(--serif);
-    font-size: 30px;
-    font-weight: 700;
-    line-height: 1;
-    margin-bottom: 8px;
-  }
-  .kpi-delta {
-    font-size: 12px;
-    font-weight: 600;
-    display: inline-flex;
-    align-items: center;
-    gap: 4px;
-    padding: 3px 8px;
-    border-radius: 20px;
-  }
-  .kpi-delta.up { color: var(--up); background: var(--up-bg); }
-  .kpi-delta.down { color: var(--down); background: var(--down-bg); }
-  .kpi-note { font-size: 11px; color: var(--muted); margin-top: 5px; }
-
-  /* CHARTS */
-  .charts-row {
-    display: grid;
-    grid-template-columns: 1.6fr 1fr;
-    gap: 20px;
-    margin-bottom: 52px;
-  }
-  .chart-card {
-    background: var(--panel);
-    border: 1px solid var(--rule);
-    border-radius: 14px;
-    padding: 28px;
-  }
-  .chart-title {
-    font-family: var(--serif);
-    font-size: 16px;
-    font-weight: 700;
-    margin-bottom: 4px;
-  }
-  .chart-sub {
-    font-size: 12px;
-    color: var(--muted);
-    margin-bottom: 22px;
-  }
-  .chart-wrap { position: relative; height: 240px; }
-
-  .charts-row2 {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 20px;
-    margin-bottom: 52px;
-  }
-
-  /* TABLES */
-  .table-section { margin-bottom: 52px; }
-  .table-wrap {
-    background: var(--panel);
-    border: 1px solid var(--rule);
-    border-radius: 14px;
-    overflow: hidden;
-  }
-  table { width: 100%; border-collapse: collapse; }
-  thead { background: var(--ink); }
-  thead th {
-    font-family: var(--sans);
-    font-size: 10px;
-    font-weight: 600;
-    letter-spacing: .12em;
-    text-transform: uppercase;
-    color: rgba(255,255,255,0.6);
-    padding: 13px 16px;
-    text-align: left;
-  }
-  thead th.r { text-align: right; }
-  tbody tr { border-bottom: 1px solid #f0ece5; }
-  tbody tr:last-child { border-bottom: none; }
-  tbody tr:hover { background: #faf8f4; }
-  td {
-    padding: 12px 16px;
-    font-size: 13px;
-    vertical-align: middle;
-  }
-  td.r { text-align: right; }
-  td.channel {
-    font-weight: 500;
-    color: var(--ink);
-  }
-  td.channel em {
-    display: block;
-    font-style: normal;
-    font-size: 11px;
-    color: var(--muted);
-    font-weight: 400;
-  }
-  .badge {
-    display: inline-block;
-    font-size: 10px;
-    font-weight: 600;
-    letter-spacing: .05em;
-    padding: 2px 8px;
-    border-radius: 20px;
-    text-transform: uppercase;
-  }
-  .badge-organic { background: #e8f3eb; color: #2d5a3d; }
-  .badge-new { background: #fff4e2; color: #8a5e00; }
-  .pill {
-    display: inline-flex;
-    align-items: center;
-    gap: 3px;
-    font-size: 12px;
-    font-weight: 600;
-    padding: 3px 8px;
-    border-radius: 20px;
-  }
-  .pill.up { color: var(--up); background: var(--up-bg); }
-  .pill.down { color: var(--down); background: var(--down-bg); }
-  .pill.new { color: #8a5e00; background: #fff4e2; }
-  .bar-cell { min-width: 120px; }
-  .bar-bg { background: #f0ece5; border-radius: 4px; height: 6px; overflow: hidden; }
-  .bar-fill { height: 6px; border-radius: 4px; background: var(--accent2); }
-
-  /* INSIGHT BOXES */
-  .insight-grid {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 16px;
-    margin-bottom: 52px;
-  }
-  .insight {
-    background: var(--panel);
-    border: 1px solid var(--rule);
-    border-left: 4px solid var(--accent);
-    border-radius: 0 12px 12px 0;
-    padding: 20px;
-  }
-  .insight.warn { border-left-color: var(--down); }
-  .insight.pos { border-left-color: var(--up); }
-  .insight-head {
-    font-size: 10px;
-    font-weight: 700;
-    letter-spacing: .15em;
-    text-transform: uppercase;
-    color: var(--muted);
-    margin-bottom: 8px;
-  }
-  .insight p {
-    font-size: 13px;
-    line-height: 1.6;
-    color: var(--ink);
-  }
-  .insight strong { color: var(--accent2); }
-  .insight.warn strong { color: var(--down); }
-
-  /* CVR OPPORTUNITY BOX */
-  .opportunity {
-    background: linear-gradient(135deg, var(--ink) 0%, #1e2d3d 100%);
-    border-radius: 16px;
-    padding: 40px 48px;
-    color: #fff;
-    margin-bottom: 52px;
-    display: grid;
-    grid-template-columns: 1fr 1fr 1fr;
-    gap: 40px;
-    align-items: center;
-  }
-  .opp-label {
-    font-size: 10px;
-    letter-spacing: .15em;
-    text-transform: uppercase;
-    color: var(--accent);
-    margin-bottom: 8px;
-    font-weight: 600;
-  }
-  .opp-head {
-    font-family: var(--serif);
-    font-size: 20px;
-    font-weight: 700;
-    line-height: 1.3;
-    margin-bottom: 10px;
-  }
-  .opp-body { font-size: 13px; color: rgba(255,255,255,0.65); line-height: 1.6; }
-  .opp-stat {
-    text-align: center;
-    padding: 0 16px;
-    border-left: 1px solid rgba(255,255,255,0.12);
-  }
-  .opp-stat .num {
-    font-family: var(--serif);
-    font-size: 36px;
-    font-weight: 900;
-    color: var(--accent);
-    display: block;
-    line-height: 1;
-    margin-bottom: 6px;
-  }
-  .opp-stat .desc { font-size: 12px; color: rgba(255,255,255,0.5); line-height: 1.4; }
-
-  /* FOOTER */
-  .report-footer {
-    border-top: 1px solid var(--rule);
-    padding-top: 24px;
-    margin-top: 24px;
-    font-size: 11px;
-    color: var(--muted);
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-  }
-
-  @media (max-width: 900px) {
-    .masthead { padding: 36px 24px; }
-    .wrap { padding: 32px 20px; }
-    .kpi-grid { grid-template-columns: repeat(2, 1fr); }
-    .charts-row, .charts-row2, .insight-grid, .opportunity { grid-template-columns: 1fr; }
-    .opp-stat { border-left: none; border-top: 1px solid rgba(255,255,255,0.12); padding: 16px 0 0; }
-  }
-</style>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>SEO YoY Report</title>
+  <style>
+    :root {
+      --bg: #f4f1ea;
+      --panel: #fffdf8;
+      --ink: #16212c;
+      --muted: #5c6a72;
+      --line: #d8d1c2;
+      --accent: #1f6feb;
+      --accent-2: #f59e0b;
+      --shadow: 0 12px 30px rgba(22, 33, 44, 0.08);
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: Georgia, "Iowan Old Style", "Palatino Linotype", serif;
+      color: var(--ink);
+      background:
+        radial-gradient(circle at top left, rgba(31, 111, 235, 0.08), transparent 28%),
+        radial-gradient(circle at top right, rgba(245, 158, 11, 0.10), transparent 24%),
+        var(--bg);
+    }
+    .page { max-width: 1380px; margin: 0 auto; padding: 36px 24px 56px; }
+    .hero {
+      background: linear-gradient(135deg, rgba(255,255,255,0.96), rgba(255,248,235,0.94));
+      border: 1px solid rgba(216, 209, 194, 0.9);
+      border-radius: 24px;
+      box-shadow: var(--shadow);
+      padding: 28px 30px;
+      margin-bottom: 24px;
+    }
+    h1, h2, h3 { margin: 0; font-weight: 600; }
+    h1 { font-size: clamp(2rem, 4vw, 3.4rem); letter-spacing: -0.03em; }
+    h2 { font-size: 1.3rem; margin-bottom: 14px; }
+    h3 { font-size: 1.05rem; margin-bottom: 10px; }
+    .meta, .scope { color: var(--muted); font-size: 0.97rem; line-height: 1.55; margin-top: 10px; }
+    .stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(190px, 1fr)); gap: 14px; margin: 24px 0; }
+    .stat-card, .panel, .chart-card {
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: 18px;
+      box-shadow: var(--shadow);
+    }
+    .stat-card { padding: 18px 18px 16px; }
+    .stat-label { color: var(--muted); font-size: 0.84rem; text-transform: uppercase; letter-spacing: 0.08em; }
+    .stat-value { margin-top: 8px; font-size: 1.45rem; font-weight: 700; }
+    .two-col { display: grid; grid-template-columns: 1.15fr 0.85fr; gap: 18px; margin-bottom: 18px; }
+    .panel { padding: 18px; overflow: auto; }
+    .charts-grid { display: grid; grid-template-columns: 1fr; gap: 18px; margin-bottom: 18px; }
+    .chart-card { padding: 18px; overflow: auto; }
+    svg { width: 100%; height: auto; display: block; }
+    .grid { stroke: rgba(22, 33, 44, 0.10); stroke-width: 1; }
+    .axis { stroke: rgba(22, 33, 44, 0.36); stroke-width: 1.5; }
+    .axis-label { fill: #44515b; font-size: 12px; }
+    .legend-label { fill: #44515b; font-size: 12px; }
+    .value-label { fill: #16212c; font-size: 12px; }
+    table { width: 100%; border-collapse: collapse; font-size: 0.92rem; min-width: 880px; }
+    th, td { padding: 10px 12px; border-bottom: 1px solid var(--line); text-align: right; white-space: nowrap; }
+    th:first-child, td:first-child { text-align: left; }
+    th:nth-child(2), td:nth-child(2) { text-align: left; }
+    thead th { position: sticky; top: 0; background: #fbf7ef; z-index: 1; }
+    tbody tr:nth-child(even) { background: rgba(31, 111, 235, 0.03); }
+    .section { margin-bottom: 18px; }
+    .note { color: var(--muted); font-size: 0.9rem; line-height: 1.5; }
+    @media (max-width: 1100px) { .two-col { grid-template-columns: 1fr; } }
+  </style>
 </head>
 <body>
+  <div class="page">
+    <section class="hero">
+      <h1>SEO YoY Report</h1>
+      <div class="meta">Generated: 2026-03-07 05:32 UTC</div>
+      <div class="scope">SEO scope used in this report: <strong>channel_group = search_engine</strong> and <strong>traffic_type_norm = organic</strong>. Values below are direct calculations from processed data. No narrative interpretation is included.</div>
+      <div class="scope">Source files covered: 2020-2025 Shopify referring-channel exports. Processed inputs: <strong>data/processed/yoy_channel_summary.csv</strong>.</div>
+      <div class="stats-grid"><div class="stat-card"><div class="stat-label">Site Sessions</div><div class="stat-value">495,666</div></div><div class="stat-card"><div class="stat-label">Site Revenue</div><div class="stat-value">$6,750,791.70</div></div><div class="stat-card"><div class="stat-label">Site Orders</div><div class="stat-value">5,649</div></div><div class="stat-card"><div class="stat-label">SEO Sessions</div><div class="stat-value">302,561</div></div><div class="stat-card"><div class="stat-label">SEO Revenue</div><div class="stat-value">$820,485.81</div></div><div class="stat-card"><div class="stat-label">SEO Orders</div><div class="stat-value">943</div></div><div class="stat-card"><div class="stat-label">SEO Session Share</div><div class="stat-value">61.04%</div></div><div class="stat-card"><div class="stat-label">SEO Revenue Share</div><div class="stat-value">12.15%</div></div></div>
+    </section>
 
-<!-- MASTHEAD -->
-<div class="masthead">
-  <div class="masthead-label">Organic Search Performance Report</div>
-  <h1>MVP Visuals<br/>SEO Analysis 2021–2025</h1>
-  <div class="masthead-sub">Five-year organic channel performance · Revenue, sessions &amp; conversion deep dive</div>
-  <div class="masthead-meta">
-    <span>Prepared: March 2026</span>
-    <span>Data source: Shopify referring channel export</span>
-    <span>Channels analyzed: 263 organic sources</span>
-    <span>Period: Full Year 2021 → Full Year 2025</span>
-  </div>
-</div>
+    <div class="charts-grid"><section class="chart-card"><h3>Sessions By Year</h3><svg viewBox="0 0 940 360" role="img" aria-label="Sessions By Year"><line x1="76" y1="302.00" x2="916" y2="302.00" class="grid" /><line x1="76" y1="237.00" x2="916" y2="237.00" class="grid" /><line x1="76" y1="172.00" x2="916" y2="172.00" class="grid" /><line x1="76" y1="107.00" x2="916" y2="107.00" class="grid" /><line x1="76" y1="42.00" x2="916" y2="42.00" class="grid" /><text x="66" y="306.00" text-anchor="end" class="axis-label">0</text><text x="66" y="241.00" text-anchor="end" class="axis-label">59,892</text><text x="66" y="176.00" text-anchor="end" class="axis-label">119,784</text><text x="66" y="111.00" text-anchor="end" class="axis-label">179,677</text><text x="66" y="46.00" text-anchor="end" class="axis-label">239,569</text><line x1="76" y1="302" x2="916" y2="302" class="axis" /><rect x="116.00" y="302.00" width="28.00" height="0.00" fill="#8fb9ff" rx="3" /><rect x="146.00" y="302.00" width="28.00" height="0.00" fill="#1f6feb" rx="3" /><rect x="256.00" y="302.00" width="28.00" height="0.00" fill="#8fb9ff" rx="3" /><rect x="286.00" y="302.00" width="28.00" height="0.00" fill="#1f6feb" rx="3" /><rect x="396.00" y="287.95" width="28.00" height="14.05" fill="#8fb9ff" rx="3" /><rect x="426.00" y="294.51" width="28.00" height="7.49" fill="#1f6feb" rx="3" /><rect x="536.00" y="230.60" width="28.00" height="71.40" fill="#8fb9ff" rx="3" /><rect x="566.00" y="265.62" width="28.00" height="36.38" fill="#1f6feb" rx="3" /><rect x="676.00" y="109.51" width="28.00" height="192.49" fill="#8fb9ff" rx="3" /><rect x="706.00" y="192.06" width="28.00" height="109.94" fill="#1f6feb" rx="3" /><rect x="816.00" y="42.00" width="28.00" height="260.00" fill="#8fb9ff" rx="3" /><rect x="846.00" y="127.45" width="28.00" height="174.55" fill="#1f6feb" rx="3" /><text x="146.00" y="342" text-anchor="middle" class="axis-label">2020</text><text x="286.00" y="342" text-anchor="middle" class="axis-label">2021</text><text x="426.00" y="342" text-anchor="middle" class="axis-label">2022</text><text x="566.00" y="342" text-anchor="middle" class="axis-label">2023</text><text x="706.00" y="342" text-anchor="middle" class="axis-label">2024</text><text x="846.00" y="342" text-anchor="middle" class="axis-label">2025</text><rect x="76" y="12" width="12" height="12" fill="#8fb9ff" rx="2" /><text x="94" y="22" class="legend-label">Site Total</text><rect x="236" y="12" width="12" height="12" fill="#1f6feb" rx="2" /><text x="254" y="22" class="legend-label">SEO Organic</text></svg></section><section class="chart-card"><h3>Revenue By Year</h3><svg viewBox="0 0 940 360" role="img" aria-label="Revenue By Year"><line x1="76" y1="302.00" x2="916" y2="302.00" class="grid" /><line x1="76" y1="237.00" x2="916" y2="237.00" class="grid" /><line x1="76" y1="172.00" x2="916" y2="172.00" class="grid" /><line x1="76" y1="107.00" x2="916" y2="107.00" class="grid" /><line x1="76" y1="42.00" x2="916" y2="42.00" class="grid" /><text x="66" y="306.00" text-anchor="end" class="axis-label">$0.00</text><text x="66" y="241.00" text-anchor="end" class="axis-label">$405,935.34</text><text x="66" y="176.00" text-anchor="end" class="axis-label">$811,870.67</text><text x="66" y="111.00" text-anchor="end" class="axis-label">$1,217,806.01</text><text x="66" y="46.00" text-anchor="end" class="axis-label">$1,623,741.34</text><line x1="76" y1="302" x2="916" y2="302" class="axis" /><rect x="116.00" y="249.38" width="28.00" height="52.62" fill="#ffd166" rx="3" /><rect x="146.00" y="292.18" width="28.00" height="9.82" fill="#f59e0b" rx="3" /><rect x="256.00" y="148.21" width="28.00" height="153.79" fill="#ffd166" rx="3" /><rect x="286.00" y="279.86" width="28.00" height="22.14" fill="#f59e0b" rx="3" /><rect x="396.00" y="121.47" width="28.00" height="180.53" fill="#ffd166" rx="3" /><rect x="426.00" y="287.95" width="28.00" height="14.05" fill="#f59e0b" rx="3" /><rect x="536.00" y="89.67" width="28.00" height="212.33" fill="#ffd166" rx="3" /><rect x="566.00" y="296.15" width="28.00" height="5.85" fill="#f59e0b" rx="3" /><rect x="676.00" y="42.00" width="28.00" height="260.00" fill="#ffd166" rx="3" /><rect x="706.00" y="268.99" width="28.00" height="33.01" fill="#f59e0b" rx="3" /><rect x="816.00" y="80.30" width="28.00" height="221.70" fill="#ffd166" rx="3" /><rect x="846.00" y="255.48" width="28.00" height="46.52" fill="#f59e0b" rx="3" /><text x="146.00" y="342" text-anchor="middle" class="axis-label">2020</text><text x="286.00" y="342" text-anchor="middle" class="axis-label">2021</text><text x="426.00" y="342" text-anchor="middle" class="axis-label">2022</text><text x="566.00" y="342" text-anchor="middle" class="axis-label">2023</text><text x="706.00" y="342" text-anchor="middle" class="axis-label">2024</text><text x="846.00" y="342" text-anchor="middle" class="axis-label">2025</text><rect x="76" y="12" width="12" height="12" fill="#ffd166" rx="2" /><text x="94" y="22" class="legend-label">Site Total</text><rect x="236" y="12" width="12" height="12" fill="#f59e0b" rx="2" /><text x="254" y="22" class="legend-label">SEO Organic</text></svg></section><section class="chart-card"><h3>Orders By Year</h3><svg viewBox="0 0 940 360" role="img" aria-label="Orders By Year"><line x1="76" y1="302.00" x2="916" y2="302.00" class="grid" /><line x1="76" y1="237.00" x2="916" y2="237.00" class="grid" /><line x1="76" y1="172.00" x2="916" y2="172.00" class="grid" /><line x1="76" y1="107.00" x2="916" y2="107.00" class="grid" /><line x1="76" y1="42.00" x2="916" y2="42.00" class="grid" /><text x="66" y="306.00" text-anchor="end" class="axis-label">0</text><text x="66" y="241.00" text-anchor="end" class="axis-label">296</text><text x="66" y="176.00" text-anchor="end" class="axis-label">592</text><text x="66" y="111.00" text-anchor="end" class="axis-label">889</text><text x="66" y="46.00" text-anchor="end" class="axis-label">1,185</text><line x1="76" y1="302" x2="916" y2="302" class="axis" /><rect x="116.00" y="184.62" width="28.00" height="117.38" fill="#8bd3c7" rx="3" /><rect x="146.00" y="271.94" width="28.00" height="30.06" fill="#0f766e" rx="3" /><rect x="256.00" y="108.04" width="28.00" height="193.96" fill="#8bd3c7" rx="3" /><rect x="286.00" y="269.75" width="28.00" height="32.25" fill="#0f766e" rx="3" /><rect x="396.00" y="92.68" width="28.00" height="209.32" fill="#8bd3c7" rx="3" /><rect x="426.00" y="276.11" width="28.00" height="25.89" fill="#0f766e" rx="3" /><rect x="536.00" y="88.08" width="28.00" height="213.92" fill="#8bd3c7" rx="3" /><rect x="566.00" y="287.52" width="28.00" height="14.48" fill="#0f766e" rx="3" /><rect x="676.00" y="57.14" width="28.00" height="244.86" fill="#8bd3c7" rx="3" /><rect x="706.00" y="257.24" width="28.00" height="44.76" fill="#0f766e" rx="3" /><rect x="816.00" y="42.00" width="28.00" height="260.00" fill="#8bd3c7" rx="3" /><rect x="846.00" y="242.54" width="28.00" height="59.46" fill="#0f766e" rx="3" /><text x="146.00" y="342" text-anchor="middle" class="axis-label">2020</text><text x="286.00" y="342" text-anchor="middle" class="axis-label">2021</text><text x="426.00" y="342" text-anchor="middle" class="axis-label">2022</text><text x="566.00" y="342" text-anchor="middle" class="axis-label">2023</text><text x="706.00" y="342" text-anchor="middle" class="axis-label">2024</text><text x="846.00" y="342" text-anchor="middle" class="axis-label">2025</text><rect x="76" y="12" width="12" height="12" fill="#8bd3c7" rx="2" /><text x="94" y="22" class="legend-label">Site Total</text><rect x="236" y="12" width="12" height="12" fill="#0f766e" rx="2" /><text x="254" y="22" class="legend-label">SEO Organic</text></svg></section><section class="chart-card"><h3>SEO Share Of Site Totals</h3><svg viewBox="0 0 940 360" role="img" aria-label="SEO Share Of Site Totals"><line x1="76" y1="302.00" x2="916" y2="302.00" class="grid" /><line x1="76" y1="237.00" x2="916" y2="237.00" class="grid" /><line x1="76" y1="172.00" x2="916" y2="172.00" class="grid" /><line x1="76" y1="107.00" x2="916" y2="107.00" class="grid" /><line x1="76" y1="42.00" x2="916" y2="42.00" class="grid" /><text x="66" y="306.00" text-anchor="end" class="axis-label">0.00%</text><text x="66" y="241.00" text-anchor="end" class="axis-label">16.78%</text><text x="66" y="176.00" text-anchor="end" class="axis-label">33.57%</text><text x="66" y="111.00" text-anchor="end" class="axis-label">50.35%</text><text x="66" y="46.00" text-anchor="end" class="axis-label">67.14%</text><line x1="76" y1="302" x2="916" y2="302" class="axis" /><path d="M 76.00 302.00 L 244.00 302.00 L 412.00 95.56 L 580.00 104.67 L 748.00 80.80 L 916.00 42.00" fill="none" stroke="#c2410c" stroke-width="3" /><path d="M 76.00 229.76 L 244.00 246.24 L 412.00 271.86 L 580.00 291.33 L 748.00 252.83 L 916.00 220.74" fill="none" stroke="#7c3aed" stroke-width="3" /><circle cx="76.00" cy="302.00" r="4" fill="#c2410c" /><circle cx="244.00" cy="302.00" r="4" fill="#c2410c" /><circle cx="412.00" cy="95.56" r="4" fill="#c2410c" /><circle cx="580.00" cy="104.67" r="4" fill="#c2410c" /><circle cx="748.00" cy="80.80" r="4" fill="#c2410c" /><circle cx="916.00" cy="42.00" r="4" fill="#c2410c" /><circle cx="76.00" cy="229.76" r="4" fill="#7c3aed" /><circle cx="244.00" cy="246.24" r="4" fill="#7c3aed" /><circle cx="412.00" cy="271.86" r="4" fill="#7c3aed" /><circle cx="580.00" cy="291.33" r="4" fill="#7c3aed" /><circle cx="748.00" cy="252.83" r="4" fill="#7c3aed" /><circle cx="916.00" cy="220.74" r="4" fill="#7c3aed" /><text x="76.00" y="342" text-anchor="middle" class="axis-label">2020</text><text x="244.00" y="342" text-anchor="middle" class="axis-label">2021</text><text x="412.00" y="342" text-anchor="middle" class="axis-label">2022</text><text x="580.00" y="342" text-anchor="middle" class="axis-label">2023</text><text x="748.00" y="342" text-anchor="middle" class="axis-label">2024</text><text x="916.00" y="342" text-anchor="middle" class="axis-label">2025</text><rect x="76" y="12" width="12" height="12" fill="#c2410c" rx="2" /><text x="94" y="22" class="legend-label">SEO Session Share</text><rect x="256" y="12" width="12" height="12" fill="#7c3aed" rx="2" /><text x="274" y="22" class="legend-label">SEO Revenue Share</text></svg></section><section class="chart-card"><h3>Top SEO Channels By Revenue</h3><svg viewBox="0 0 940 414" role="img" aria-label="Top SEO Channels By Revenue"><text x="208" y="51" text-anchor="end" class="axis-label">google</text><rect x="220" y="36" width="676.00" height="18" fill="#1f6feb" rx="3" /><text x="904.00" y="50" class="value-label">$721,025.82</text><text x="208" y="79" text-anchor="end" class="axis-label">bing</text><rect x="220" y="64" width="63.69" height="18" fill="#1f6feb" rx="3" /><text x="291.69" y="78" class="value-label">$67,934.70</text><text x="208" y="107" text-anchor="end" class="axis-label">yahoo</text><rect x="220" y="92" width="18.14" height="18" fill="#1f6feb" rx="3" /><text x="246.14" y="106" class="value-label">$19,349.31</text><text x="208" y="135" text-anchor="end" class="axis-label">duckduckgo</text><rect x="220" y="120" width="7.18" height="18" fill="#1f6feb" rx="3" /><text x="235.18" y="134" class="value-label">$7,655.51</text><text x="208" y="163" text-anchor="end" class="axis-label">brave</text><rect x="220" y="148" width="2.73" height="18" fill="#1f6feb" rx="3" /><text x="230.73" y="162" class="value-label">$2,915.47</text><text x="208" y="191" text-anchor="end" class="axis-label">qwant</text><rect x="220" y="176" width="1.50" height="18" fill="#1f6feb" rx="3" /><text x="229.50" y="190" class="value-label">$1,605.00</text><text x="208" y="219" text-anchor="end" class="axis-label">yandex</text><rect x="220" y="204" width="0.00" height="18" fill="#1f6feb" rx="3" /><text x="228.00" y="218" class="value-label">$0.00</text><text x="208" y="247" text-anchor="end" class="axis-label">baidu</text><rect x="220" y="232" width="0.00" height="18" fill="#1f6feb" rx="3" /><text x="228.00" y="246" class="value-label">$0.00</text><text x="208" y="275" text-anchor="end" class="axis-label">ecosia</text><rect x="220" y="260" width="0.00" height="18" fill="#1f6feb" rx="3" /><text x="228.00" y="274" class="value-label">$0.00</text><text x="208" y="303" text-anchor="end" class="axis-label">searchandnews</text><rect x="220" y="288" width="0.00" height="18" fill="#1f6feb" rx="3" /><text x="228.00" y="302" class="value-label">$0.00</text><text x="208" y="331" text-anchor="end" class="axis-label">aol</text><rect x="220" y="316" width="0.00" height="18" fill="#1f6feb" rx="3" /><text x="228.00" y="330" class="value-label">$0.00</text><text x="208" y="359" text-anchor="end" class="axis-label">gsearch</text><rect x="220" y="344" width="0.00" height="18" fill="#1f6feb" rx="3" /><text x="228.00" y="358" class="value-label">$0.00</text></svg></section></div>
 
-<div class="wrap">
-
-  <!-- KPI SUMMARY -->
-  <div class="section-label">At a Glance</div>
-  <div class="section-title">2025 Organic <span>Key Performance Indicators</span></div>
-  <div class="kpi-grid">
-    <div class="kpi-card up">
-      <div class="kpi-label">2025 SEO Revenue</div>
-      <div class="kpi-val">$333,929</div>
-      <span class="kpi-delta up">▲ +51.5% vs 2024</span>
-      <div class="kpi-note">Best organic revenue in 5 years</div>
-    </div>
-    <div class="kpi-card up">
-      <div class="kpi-label">Organic Sessions</div>
-      <div class="kpi-val">163,750</div>
-      <span class="kpi-delta up">▲ +59.3% vs 2024</span>
-      <div class="kpi-note">68.4% of all tracked sessions</div>
-    </div>
-    <div class="kpi-card up">
-      <div class="kpi-label">Organic Orders</div>
-      <div class="kpi-val">319</div>
-      <span class="kpi-delta up">▲ +39.9% vs 2024</span>
-      <div class="kpi-note">28% of all 2025 orders</div>
-    </div>
-    <div class="kpi-card up">
-      <div class="kpi-label">Organic AOV</div>
-      <div class="kpi-val">$1,047</div>
-      <span class="kpi-delta up">▲ +8.3% vs 2024</span>
-      <div class="kpi-note">vs $967 in 2024</div>
-    </div>
-  </div>
-
-  <!-- ROW 1 CHARTS -->
-  <div class="charts-row">
-    <div class="chart-card">
-      <div class="chart-title">Organic Revenue vs. Sessions (2021–2025)</div>
-      <div class="chart-sub">Revenue decoupled from sessions in 2023 — now recovering in tandem</div>
-      <div class="chart-wrap"><canvas id="revenueSessionsChart"></canvas></div>
-    </div>
-    <div class="chart-card">
-      <div class="chart-title">SEO Revenue Share of Total</div>
-      <div class="chart-sub">Organic % of total site revenue by year</div>
-      <div class="chart-wrap"><canvas id="shareChart"></canvas></div>
-    </div>
-  </div>
-
-  <!-- ROW 2 CHARTS -->
-  <div class="charts-row2">
-    <div class="chart-card">
-      <div class="chart-title">Organic Conversion Rate Over Time</div>
-      <div class="chart-sub">CVR cratered in 2023 — still not recovered to 2022 levels</div>
-      <div class="chart-wrap"><canvas id="cvrChart"></canvas></div>
-    </div>
-    <div class="chart-card">
-      <div class="chart-title">Average Order Value — Organic vs. All Channels</div>
-      <div class="chart-sub">Organic AOV tracking upward, closing gap with site average</div>
-      <div class="chart-wrap"><canvas id="aovChart"></canvas></div>
-    </div>
-  </div>
-
-  <!-- INSIGHTS -->
-  <div class="section-label">Strategic Takeaways</div>
-  <div class="section-title">Key <span>Findings</span></div>
-  <div class="insight-grid">
-    <div class="insight pos">
-      <div class="insight-head">📈 Momentum</div>
-      <p>Organic revenue grew <strong>+51.5% YoY</strong> in 2025 — the strongest single-year improvement in the dataset. Sessions grew faster (+59%), signaling continued indexing gains yet to fully convert.</p>
-    </div>
-    <div class="insight warn">
-      <div class="insight-head">⚠️ CVR Gap</div>
-      <p>Conversion rate remains at <strong>0.195%</strong> — flat vs. 2024 and far below 2022's 1.78%. All organic growth is volume-driven. CVR optimization is the highest-leverage next action.</p>
-    </div>
-    <div class="insight">
-      <div class="insight-head">🤖 AI Referral Traffic</div>
-      <p>ChatGPT appeared as a revenue-generating referrer for the first time in 2025: <strong>~$8,500 across 8 orders</strong> (3 channels combined). AOV of $1,100+ — high-quality buyers from AI assistants.</p>
-    </div>
-    <div class="insight pos">
-      <div class="insight-head">🔍 Bing Organic</div>
-      <p>Bing delivers <strong>$22,182 in revenue</strong> at a $1,052 AOV — higher than Google organic. Low volume (7K sessions) but highly qualified buyer intent. Consistently growing year over year.</p>
-    </div>
-    <div class="insight warn">
-      <div class="insight-head">📉 2023 Trough</div>
-      <p>Google organic revenue dropped <strong>-80% from 2021 to 2023</strong> despite sessions growing 5x. This "traffic without intent" gap has since corrected but the CVR floor remains structurally low.</p>
-    </div>
-    <div class="insight">
-      <div class="insight-head">🏷️ Long-Tail Performers</div>
-      <p>Dealspotr ($6.8K, 15 orders), Knoji ($3.4K), and Menlosecurity ($10.1K at <strong>$3,239 AOV</strong>) punch well above their session counts — niche referrers driving premium buyers.</p>
-    </div>
-  </div>
-
-  <!-- CVR OPPORTUNITY -->
-  <div class="opportunity">
-    <div>
-      <div class="opp-label">Revenue Opportunity</div>
-      <div class="opp-head">CVR Optimization<br/>Is the #1 SEO Lever</div>
-      <div class="opp-body">Organic sessions grew 59% in 2025 but conversion rate stayed flat at ~0.2%. With 163K sessions and a $1,047 AOV, even modest CVR improvements unlock significant incremental revenue — without a single additional visit.</div>
-    </div>
-    <div class="opp-stat">
-      <span class="num">+$165K</span>
-      <div class="desc">Incremental revenue if CVR improves from 0.20% → 0.30%<br/>(same 2025 session volume)</div>
-    </div>
-    <div class="opp-stat">
-      <span class="num">+$496K</span>
-      <div class="desc">Incremental revenue if CVR returns to 2022 levels (1.78%)<br/>— the structural ceiling</div>
-    </div>
-  </div>
-
-  <!-- CHANNEL TABLE -->
-  <div class="table-section">
-    <div class="section-label">Channel Breakdown</div>
-    <div class="section-title">Top Organic Channels <span>by 2025 Revenue</span></div>
-    <div class="table-wrap">
-      <table>
-        <thead>
-          <tr>
-            <th>Channel</th>
-            <th class="r">2025 Revenue</th>
-            <th class="r">Orders</th>
-            <th class="r">Sessions</th>
-            <th class="r">AOV</th>
-            <th class="r">YoY Sales</th>
-            <th>Share of SEO Rev.</th>
-          </tr>
-        </thead>
-        <tbody id="channelTbody"></tbody>
-      </table>
-    </div>
-  </div>
-
-  <!-- 5-YEAR TREND TABLE -->
-  <div class="table-section">
-    <div class="section-label">Historical View</div>
-    <div class="section-title">5-Year Organic <span>Revenue Trend</span></div>
-    <div class="table-wrap">
-      <table>
-        <thead>
-          <tr>
-            <th>Year</th>
-            <th class="r">Organic Revenue</th>
-            <th class="r">Orders</th>
-            <th class="r">Sessions</th>
-            <th class="r">AOV</th>
-            <th class="r">CVR</th>
-            <th class="r">New Customers</th>
-            <th class="r">% New</th>
-            <th class="r">SEO Rev. Share</th>
-          </tr>
-        </thead>
-        <tbody id="trendTbody"></tbody>
-      </table>
-    </div>
-  </div>
-
-  <!-- AI REFERRAL TABLE -->
-  <div class="table-section">
-    <div class="section-label">Emerging Channel · 2025 First Appearance</div>
-    <div class="section-title">AI-Referred <span>Traffic (ChatGPT)</span></div>
-    <div class="table-wrap">
-      <table>
-        <thead>
-          <tr>
-            <th>Source</th>
-            <th class="r">Revenue</th>
-            <th class="r">Orders</th>
-            <th class="r">Sessions</th>
-            <th class="r">AOV</th>
-            <th class="r">New Customers</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td class="channel">chatgpt | organic <em>Search via ChatGPT browse mode</em></td>
-            <td class="r">$3,578</td>
-            <td class="r">3</td>
-            <td class="r">176</td>
-            <td class="r">$1,115</td>
-            <td class="r">3</td>
-          </tr>
-          <tr>
-            <td class="channel">chatgpt | unknown <em>ChatGPT referral (untagged)</em></td>
-            <td class="r">$4,721</td>
-            <td class="r">4</td>
-            <td class="r">714</td>
-            <td class="r">$1,091</td>
-            <td class="r">4</td>
-          </tr>
-          <tr>
-            <td class="channel">chatgpt.com | unknown <em>Direct chatgpt.com referral</em></td>
-            <td class="r">$210</td>
-            <td class="r">1</td>
-            <td class="r">506</td>
-            <td class="r">$120</td>
-            <td class="r">1</td>
-          </tr>
-          <tr style="background:#faf8f4; font-weight:600;">
-            <td class="channel">TOTAL — All ChatGPT Sources</td>
-            <td class="r">$8,509</td>
-            <td class="r">8</td>
-            <td class="r">1,396</td>
-            <td class="r">$1,064</td>
-            <td class="r">8</td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
-  </div>
-
-  <div class="report-footer">
-    <span>MVP Visuals · SEO Performance Report · March 2026</span>
-    <span>Data: Shopify Referring Channel Export 2021–2025 · Organic traffic type only</span>
-  </div>
-
-</div><!-- /wrap -->
-
-<script>
-// ── DATA ──────────────────────────────────────────────────────────────────────
-const YEARS = [2021, 2022, 2023, 2024, 2025];
-
-const trendData = [
-  { year: 2021, revenue: 144543, orders: 156, sessions: 0,      aov: 927,  cvr: null, newC: 104, ret: 44,  totalRev: 960412 },
-  { year: 2022, revenue: 94573,  orders: 126, sessions: 7086,   aov: 751,  cvr: 1.78, newC: 69,  ret: 44,  totalRev: 1127423 },
-  { year: 2023, revenue: 39958,  orders: 79,  sessions: 34286,  aov: 506,  cvr: 0.23, newC: 42,  ret: 29,  totalRev: 1326037 },
-  { year: 2024, revenue: 220414, orders: 228, sessions: 102796, aov: 967,  cvr: 0.22, newC: 140, ret: 65,  totalRev: 1623741 },
-  { year: 2025, revenue: 333929, orders: 319, sessions: 163750, aov: 1047, cvr: 0.195,newC: 200, ret: 93,  totalRev: 1384572 },
-];
-
-const channelData = [
-  { channel: 'google | organic', revenue: 259941, orders: 238, sessions: 147700, aov: 1049, yoy: 40.9, newC: 150, ret: 67 },
-  { channel: 'bing | organic',   revenue: 22182,  orders: 20,  sessions: 7004,   aov: 1052, yoy: 44.1, newC: 13,  ret: 6  },
-  { channel: 'menlosecurity | organic', revenue: 10140, orders: 3, sessions: 27, aov: 3239, yoy: 375.4, newC: 1, ret: 2 },
-  { channel: 'dealspotr | organic',     revenue: 6818,  orders: 15, sessions: 14, aov: 507,  yoy: 89.5, newC: 8,  ret: 7 },
-  { channel: 'yahoo! | organic', revenue: 6271,  orders: 9,  sessions: 2026,   aov: 620,  yoy: 193.4, newC: 5,  ret: 4  },
-  { channel: 'office | organic', revenue: 4141,  orders: 4,  sessions: 140,    aov: 973,  yoy: 3.9,   newC: 4,  ret: 0  },
-  { channel: 'chatgpt | organic',revenue: 3578,  orders: 3,  sessions: 176,    aov: 1115, yoy: null,  newC: 3,  ret: 0  },
-  { channel: 'knoji | organic',  revenue: 3445,  orders: 1,  sessions: 6,      aov: 3445, yoy: 61.7,  newC: 1,  ret: 0  },
-  { channel: 'asana | organic',  revenue: 2461,  orders: 3,  sessions: 23,     aov: 774,  yoy: null,  newC: 3,  ret: 0  },
-  { channel: 'ecommercefuel | organic', revenue: 2484, orders: 1, sessions: 17, aov: 2353, yoy: null, newC: 1, ret: 0 },
-  { channel: 'shopify | organic',revenue: 2349,  orders: 9,  sessions: 201,    aov: 709,  yoy: null,  newC: 0,  ret: 5  },
-  { channel: 'edgepilot | organic', revenue: 2204, orders: 2, sessions: 11,    aov: 1044, yoy: null,  newC: 2,  ret: 0  },
-  { channel: 'brave | organic',  revenue: 1621,  orders: 3,  sessions: 532,    aov: 475,  yoy: null,  newC: 3,  ret: 0  },
-  { channel: 'duckduckgo | organic', revenue: 487, orders: 1, sessions: 2873,  aov: 454,  yoy: -88.1, newC: 0, ret: 1  },
-];
-
-const totalSEO2025 = 333929;
-
-// ── HELPERS ───────────────────────────────────────────────────────────────────
-const $ = id => document.getElementById(id);
-const fmt = n => '$' + Math.round(n).toLocaleString();
-const fmtN = n => Math.round(n).toLocaleString();
-
-// ── TREND TABLE ───────────────────────────────────────────────────────────────
-const trendTbody = $('trendTbody');
-trendData.forEach((r, i) => {
-  const share = ((r.revenue / r.totalRev) * 100).toFixed(1);
-  const newPct = Math.round(r.newC / (r.newC + r.ret) * 100);
-  const yoyRevEl = i === 0 ? '—' : (() => {
-    const pct = ((r.revenue - trendData[i-1].revenue) / trendData[i-1].revenue * 100).toFixed(1);
-    const cls = pct >= 0 ? 'up' : 'down';
-    return `<span class="pill ${cls}">${pct >= 0 ? '▲' : '▼'} ${Math.abs(pct)}%</span>`;
-  })();
-  const cvrStr = r.cvr === null ? '—' : r.cvr.toFixed(3) + '%';
-  trendTbody.innerHTML += `<tr>
-    <td><strong>${r.year}</strong></td>
-    <td class="r">${fmt(r.revenue)} ${i > 0 ? yoyRevEl : ''}</td>
-    <td class="r">${fmtN(r.orders)}</td>
-    <td class="r">${r.sessions === 0 ? '—' : fmtN(r.sessions)}</td>
-    <td class="r">${fmt(r.aov)}</td>
-    <td class="r">${cvrStr}</td>
-    <td class="r">${fmtN(r.newC)}</td>
-    <td class="r">${newPct}%</td>
-    <td class="r">${share}%</td>
-  </tr>`;
-});
-
-// ── CHANNEL TABLE ─────────────────────────────────────────────────────────────
-const channelTbody = $('channelTbody');
-channelData.forEach(r => {
-  const share = (r.revenue / totalSEO2025 * 100).toFixed(1);
-  const barW = Math.round(r.revenue / totalSEO2025 * 100);
-  const isNew = r.yoy === null;
-  const yoyEl = isNew
-    ? `<span class="pill new">NEW</span>`
-    : `<span class="pill ${r.yoy >= 0 ? 'up' : 'down'}">${r.yoy >= 0 ? '▲' : '▼'} ${Math.abs(r.yoy).toFixed(1)}%</span>`;
-  channelTbody.innerHTML += `<tr>
-    <td class="channel">${r.channel}</td>
-    <td class="r">${fmt(r.revenue)}</td>
-    <td class="r">${r.orders}</td>
-    <td class="r">${r.sessions === 0 ? '—' : fmtN(r.sessions)}</td>
-    <td class="r">${fmt(r.aov)}</td>
-    <td class="r">${yoyEl}</td>
-    <td class="bar-cell">
-      <div style="display:flex;align-items:center;gap:8px;justify-content:flex-end;">
-        <div class="bar-bg" style="width:80px;flex-shrink:0;">
-          <div class="bar-fill" style="width:${barW}%"></div>
-        </div>
-        <span style="font-size:12px;color:var(--muted);min-width:36px;text-align:right">${share}%</span>
+    <section class="two-col section">
+      <div class="panel">
+        <h2>Annual SEO And Site Totals</h2>
+        <table><thead><tr><th>Year</th><th>Site Sessions</th><th>SEO Sessions</th><th>SEO Sessions YoY</th><th>Site Revenue</th><th>SEO Revenue</th><th>SEO Revenue YoY</th><th>Site Orders</th><th>SEO Orders</th><th>SEO Orders YoY</th><th>SEO Session Share</th><th>SEO Revenue Share</th><th>SEO CVR</th><th>SEO AOV</th></tr></thead><tbody><tr><td>2020</td><td>0</td><td>0</td><td>0 / -</td><td>$328,607.04</td><td>$61,296.69</td><td>$61,296.69 / -</td><td>535</td><td>137</td><td>137 / -</td><td>-</td><td>18.65%</td><td>-</td><td>$447.42</td></tr><tr><td>2021</td><td>0</td><td>0</td><td>0 / -</td><td>$960,411.79</td><td>$138,278.86</td><td>$76,982.17 / 125.59%</td><td>884</td><td>147</td><td>10 / 7.30%</td><td>-</td><td>14.40%</td><td>-</td><td>$940.67</td></tr><tr><td>2022</td><td>12,944</td><td>6,900</td><td>6,900 / -</td><td>$1,127,422.88</td><td>$87,739.11</td><td>$-50,539.75 / -36.55%</td><td>954</td><td>118</td><td>-29 / -19.73%</td><td>53.31%</td><td>7.78%</td><td>0.0171</td><td>$743.55</td></tr><tr><td>2023</td><td>65,792</td><td>33,523</td><td>26,623 / 385.84%</td><td>$1,326,037.03</td><td>$36,520.93</td><td>$-51,218.18 / -58.38%</td><td>975</td><td>66</td><td>-52 / -44.07%</td><td>50.95%</td><td>2.75%</td><td>0.0020</td><td>$553.35</td></tr><tr><td>2024</td><td>177,361</td><td>101,302</td><td>67,779 / 202.19%</td><td>$1,623,741.34</td><td>$206,148.56</td><td>$169,627.63 / 464.47%</td><td>1,116</td><td>204</td><td>138 / 209.09%</td><td>57.12%</td><td>12.70%</td><td>0.0020</td><td>$1,010.53</td></tr><tr><td>2025</td><td>239,569</td><td>160,836</td><td>59,534 / 58.77%</td><td>$1,384,571.62</td><td>$290,501.66</td><td>$84,353.10 / 40.92%</td><td>1,185</td><td>271</td><td>67 / 32.84%</td><td>67.14%</td><td>20.98%</td><td>0.0017</td><td>$1,071.96</td></tr></tbody></table>
       </div>
-    </td>
-  </tr>`;
-});
+      <div class="panel">
+        <h2>Total Context</h2>
+        <table><thead><tr><th>Metric</th><th>Site Total</th><th>SEO Total</th></tr></thead><tbody><tr><td>Sessions</td><td>495,666</td><td>302,561</td></tr><tr><td>Revenue</td><td>$6,750,791.70</td><td>$820,485.81</td></tr><tr><td>Orders</td><td>5,649</td><td>943</td></tr><tr><td>New Customers</td><td>2,519</td><td>588</td></tr><tr><td>Returning Customers</td><td>1,753</td><td>283</td></tr><tr><td>Conversion Rate</td><td>0.0114</td><td>0.0031</td></tr><tr><td>Average Order Value</td><td>$1,195.04</td><td>$870.08</td></tr></tbody></table>
+        <div class="note" style="margin-top: 16px;">Data note: source sessions are 0 for all rows in 2020 and 2021.</div>
+      </div>
+    </section>
 
-// ── CHARTS ────────────────────────────────────────────────────────────────────
-const palette = {
-  gold: '#c8a96e',
-  green: '#2d5a3d',
-  red: '#8b2020',
-  muted: '#bab5ad',
-  ink: '#0d1117',
-  bg: '#f4f2ee',
-};
+    <section class="panel section">
+      <h2>Top SEO Channels: Cumulative Totals</h2>
+      <table><thead><tr><th>SEO Channel</th><th>Sessions</th><th>Revenue</th><th>Orders</th><th>New Customers</th><th>Returning Customers</th><th>CVR</th><th>AOV</th></tr></thead><tbody><tr><td>google</td><td>276,067</td><td>$721,025.82</td><td>831</td><td>515</td><td>248</td><td>0.0030</td><td>$867.66</td></tr><tr><td>bing</td><td>14,172</td><td>$67,934.70</td><td>67</td><td>45</td><td>18</td><td>0.0047</td><td>$1,013.95</td></tr><tr><td>yahoo</td><td>3,951</td><td>$19,349.31</td><td>28</td><td>18</td><td>10</td><td>0.0071</td><td>$691.05</td></tr><tr><td>duckduckgo</td><td>5,717</td><td>$7,655.51</td><td>12</td><td>6</td><td>6</td><td>0.0021</td><td>$637.96</td></tr><tr><td>brave</td><td>743</td><td>$2,915.47</td><td>4</td><td>4</td><td>0</td><td>0.0054</td><td>$728.87</td></tr><tr><td>qwant</td><td>16</td><td>$1,605.00</td><td>1</td><td>0</td><td>1</td><td>0.0625</td><td>$1,605.00</td></tr><tr><td>yandex</td><td>986</td><td>$0.00</td><td>0</td><td>0</td><td>0</td><td>0.0000</td><td>-</td></tr><tr><td>baidu</td><td>315</td><td>$0.00</td><td>0</td><td>0</td><td>0</td><td>0.0000</td><td>-</td></tr><tr><td>ecosia</td><td>248</td><td>$0.00</td><td>0</td><td>0</td><td>0</td><td>0.0000</td><td>-</td></tr><tr><td>searchandnews</td><td>118</td><td>$0.00</td><td>0</td><td>0</td><td>0</td><td>0.0000</td><td>-</td></tr><tr><td>aol</td><td>63</td><td>$0.00</td><td>0</td><td>0</td><td>0</td><td>0.0000</td><td>-</td></tr><tr><td>gsearch</td><td>40</td><td>$0.00</td><td>0</td><td>0</td><td>0</td><td>0.0000</td><td>-</td></tr><tr><td>crowdsearch</td><td>24</td><td>$0.00</td><td>0</td><td>0</td><td>0</td><td>0.0000</td><td>-</td></tr><tr><td>startpage</td><td>20</td><td>$0.00</td><td>0</td><td>0</td><td>0</td><td>0.0000</td><td>-</td></tr><tr><td>presearch</td><td>10</td><td>$0.00</td><td>0</td><td>0</td><td>0</td><td>0.0000</td><td>-</td></tr><tr><td>voicecommandsearcher</td><td>5</td><td>$0.00</td><td>0</td><td>0</td><td>0</td><td>0.0000</td><td>-</td></tr><tr><td>activelysearching</td><td>4</td><td>$0.00</td><td>0</td><td>0</td><td>0</td><td>0.0000</td><td>-</td></tr><tr><td>search</td><td>4</td><td>$0.00</td><td>0</td><td>0</td><td>0</td><td>0.0000</td><td>-</td></tr><tr><td>search tab</td><td>3</td><td>$0.00</td><td>0</td><td>0</td><td>0</td><td>0.0000</td><td>-</td></tr><tr><td>browseand search</td><td>2</td><td>$0.00</td><td>0</td><td>0</td><td>0</td><td>0.0000</td><td>-</td></tr></tbody></table>
+    </section>
 
-Chart.defaults.font.family = "'DM Sans', sans-serif";
-Chart.defaults.color = '#7a7468';
-
-// 1. Revenue + Sessions combo
-new Chart($('revenueSessionsChart'), {
-  type: 'bar',
-  data: {
-    labels: ['2021','2022','2023','2024','2025'],
-    datasets: [
-      {
-        type: 'bar',
-        label: 'Organic Revenue',
-        data: [144543, 94573, 39958, 220414, 333929],
-        backgroundColor: [palette.muted, palette.muted, palette.red+'88', palette.green+'aa', palette.green],
-        borderRadius: 5,
-        yAxisID: 'y',
-        order: 2,
-      },
-      {
-        type: 'line',
-        label: 'Organic Sessions',
-        data: [null, 7086, 34286, 102796, 163750],
-        borderColor: palette.gold,
-        backgroundColor: 'transparent',
-        borderWidth: 2.5,
-        pointBackgroundColor: palette.gold,
-        pointRadius: 5,
-        tension: 0.35,
-        yAxisID: 'y2',
-        order: 1,
-      }
-    ]
-  },
-  options: {
-    responsive: true, maintainAspectRatio: false,
-    interaction: { mode: 'index', intersect: false },
-    plugins: {
-      legend: { position: 'top', labels: { boxWidth: 12, padding: 16, font: { size: 12 } } },
-      tooltip: {
-        callbacks: {
-          label: ctx => ctx.dataset.label === 'Organic Revenue'
-            ? ` $${Math.round(ctx.raw).toLocaleString()}`
-            : ` ${ctx.raw === null ? 'n/a' : Math.round(ctx.raw).toLocaleString()} sessions`
-        }
-      }
-    },
-    scales: {
-      y: {
-        position: 'left',
-        ticks: { callback: v => '$' + (v/1000).toFixed(0) + 'k', font: { size: 11 } },
-        grid: { color: '#f0ece5' }
-      },
-      y2: {
-        position: 'right',
-        ticks: { callback: v => (v/1000).toFixed(0) + 'k', font: { size: 11 } },
-        grid: { drawOnChartArea: false }
-      },
-      x: { ticks: { font: { size: 11 } }, grid: { display: false } }
-    }
-  }
-});
-
-// 2. SEO share doughnut per year
-new Chart($('shareChart'), {
-  type: 'bar',
-  data: {
-    labels: ['2021','2022','2023','2024','2025'],
-    datasets: [{
-      label: 'SEO Revenue Share (%)',
-      data: [15.1, 8.4, 3.0, 13.6, 24.1],
-      backgroundColor: [palette.muted+'aa', palette.muted+'aa', palette.red+'88', palette.green+'aa', palette.green],
-      borderRadius: 6,
-    }]
-  },
-  options: {
-    responsive: true, maintainAspectRatio: false,
-    plugins: {
-      legend: { display: false },
-      tooltip: { callbacks: { label: ctx => ` ${ctx.raw}% of total revenue` } }
-    },
-    scales: {
-      y: {
-        ticks: { callback: v => v + '%', font: { size: 11 } },
-        grid: { color: '#f0ece5' },
-        max: 30,
-      },
-      x: { ticks: { font: { size: 11 } }, grid: { display: false } }
-    }
-  }
-});
-
-// 3. CVR line
-new Chart($('cvrChart'), {
-  type: 'line',
-  data: {
-    labels: ['2021','2022','2023','2024','2025'],
-    datasets: [{
-      label: 'Conversion Rate (%)',
-      data: [null, 1.78, 0.23, 0.22, 0.195],
-      borderColor: palette.red,
-      backgroundColor: palette.red + '18',
-      fill: true,
-      borderWidth: 2.5,
-      pointBackgroundColor: [palette.muted, palette.green, palette.red, palette.red+'aa', palette.gold],
-      pointRadius: 6,
-      tension: 0.3,
-    }]
-  },
-  options: {
-    responsive: true, maintainAspectRatio: false,
-    plugins: {
-      legend: { display: false },
-      tooltip: { callbacks: { label: ctx => ctx.raw === null ? ' No data' : ` CVR: ${ctx.raw}%` } }
-    },
-    scales: {
-      y: {
-        ticks: { callback: v => v + '%', font: { size: 11 } },
-        grid: { color: '#f0ece5' },
-      },
-      x: { ticks: { font: { size: 11 } }, grid: { display: false } }
-    }
-  }
-});
-
-// 4. AOV comparison
-new Chart($('aovChart'), {
-  type: 'line',
-  data: {
-    labels: ['2021','2022','2023','2024','2025'],
-    datasets: [
-      {
-        label: 'Organic AOV',
-        data: [927, 751, 506, 967, 1047],
-        borderColor: palette.green,
-        backgroundColor: 'transparent',
-        borderWidth: 2.5,
-        pointBackgroundColor: palette.green,
-        pointRadius: 5,
-        tension: 0.3,
-      },
-      {
-        label: 'All-Channel AOV',
-        data: [1086, 1182, 1360, 1455, null],
-        borderColor: palette.gold,
-        backgroundColor: 'transparent',
-        borderWidth: 2,
-        pointBackgroundColor: palette.gold,
-        pointRadius: 5,
-        tension: 0.3,
-        borderDash: [5, 4],
-      }
-    ]
-  },
-  options: {
-    responsive: true, maintainAspectRatio: false,
-    interaction: { mode: 'index', intersect: false },
-    plugins: {
-      legend: { position: 'top', labels: { boxWidth: 12, padding: 14, font: { size: 12 } } },
-      tooltip: { callbacks: { label: ctx => ctx.raw === null ? ` Not available` : ` $${Math.round(ctx.raw).toLocaleString()}` } }
-    },
-    scales: {
-      y: {
-        ticks: { callback: v => '$' + v, font: { size: 11 } },
-        grid: { color: '#f0ece5' },
-      },
-      x: { ticks: { font: { size: 11 } }, grid: { display: false } }
-    }
-  }
-});
-</script>
-<script defer src="https://static.cloudflareinsights.com/beacon.min.js/v8c78df7c7c0f484497ecbca7046644da1771523124516" integrity="sha512-8DS7rgIrAmghBFwoOTujcf6D9rXvH8xm8JQ1Ja01h9QX8EzXldiszufYa4IFfKdLUKTTrnSFXLDkUEOTrZQ8Qg==" data-cf-beacon='{"version":"2024.11.0","token":"4a91f1dd461d485cab75bae21b8ec263","r":1,"server_timing":{"name":{"cfCacheStatus":true,"cfEdge":true,"cfExtPri":true,"cfL4":true,"cfOrigin":true,"cfSpeedBrain":true},"location_startswith":null}}' crossorigin="anonymous"></script>
+    <section class="panel section">
+      <h2>SEO Channel Detail By Year</h2>
+      <table><thead><tr><th>Year</th><th>SEO Channel</th><th>Sessions</th><th>Revenue</th><th>Orders</th><th>New Customers</th><th>Returning Customers</th><th>CVR</th><th>AOV</th></tr></thead><tbody><tr><td>2020</td><td>google</td><td>0</td><td>$51,286.09</td><td>121</td><td>83</td><td>36</td><td>-</td><td>$423.85</td></tr><tr><td>2020</td><td>yahoo</td><td>0</td><td>$5,122.92</td><td>7</td><td>6</td><td>1</td><td>-</td><td>$731.85</td></tr><tr><td>2020</td><td>bing</td><td>0</td><td>$2,783.68</td><td>7</td><td>6</td><td>1</td><td>-</td><td>$397.67</td></tr><tr><td>2020</td><td>qwant</td><td>0</td><td>$1,605.00</td><td>1</td><td>0</td><td>1</td><td>-</td><td>$1,605.00</td></tr><tr><td>2020</td><td>duckduckgo</td><td>0</td><td>$499.00</td><td>1</td><td>1</td><td>0</td><td>-</td><td>$499.00</td></tr><tr><td>2021</td><td>google</td><td>0</td><td>$126,035.80</td><td>132</td><td>89</td><td>37</td><td>-</td><td>$954.82</td></tr><tr><td>2021</td><td>bing</td><td>0</td><td>$8,562.04</td><td>9</td><td>6</td><td>3</td><td>-</td><td>$951.34</td></tr><tr><td>2021</td><td>yahoo</td><td>0</td><td>$2,792.18</td><td>3</td><td>3</td><td>0</td><td>-</td><td>$930.73</td></tr><tr><td>2021</td><td>duckduckgo</td><td>0</td><td>$888.84</td><td>3</td><td>1</td><td>2</td><td>-</td><td>$296.28</td></tr><tr><td>2022</td><td>google</td><td>6,590</td><td>$74,475.65</td><td>103</td><td>55</td><td>38</td><td>0.0156</td><td>$723.06</td></tr><tr><td>2022</td><td>bing</td><td>124</td><td>$10,758.43</td><td>11</td><td>6</td><td>2</td><td>0.0887</td><td>$978.04</td></tr><tr><td>2022</td><td>yahoo</td><td>52</td><td>$2,247.03</td><td>3</td><td>2</td><td>1</td><td>0.0577</td><td>$749.01</td></tr><tr><td>2022</td><td>duckduckgo</td><td>94</td><td>$258.00</td><td>1</td><td>0</td><td>1</td><td>0.0106</td><td>$258.00</td></tr><tr><td>2022</td><td>yandex</td><td>20</td><td>$0.00</td><td>0</td><td>0</td><td>0</td><td>0.0000</td><td>-</td></tr><tr><td>2022</td><td>brave</td><td>9</td><td>$0.00</td><td>0</td><td>0</td><td>0</td><td>0.0000</td><td>-</td></tr><tr><td>2022</td><td>startpage</td><td>5</td><td>$0.00</td><td>0</td><td>0</td><td>0</td><td>0.0000</td><td>-</td></tr><tr><td>2022</td><td>ecosia</td><td>4</td><td>$0.00</td><td>0</td><td>0</td><td>0</td><td>0.0000</td><td>-</td></tr><tr><td>2022</td><td>aol</td><td>1</td><td>$0.00</td><td>0</td><td>0</td><td>0</td><td>0.0000</td><td>-</td></tr><tr><td>2022</td><td>qwant</td><td>1</td><td>$0.00</td><td>0</td><td>0</td><td>0</td><td>0.0000</td><td>-</td></tr><tr><td>2023</td><td>google</td><td>31,427</td><td>$24,758.57</td><td>51</td><td>28</td><td>17</td><td>0.0016</td><td>$485.46</td></tr><tr><td>2023</td><td>bing</td><td>860</td><td>$8,252.60</td><td>8</td><td>4</td><td>4</td><td>0.0093</td><td>$1,031.58</td></tr><tr><td>2023</td><td>duckduckgo</td><td>524</td><td>$1,436.49</td><td>3</td><td>2</td><td>1</td><td>0.0057</td><td>$478.83</td></tr><tr><td>2023</td><td>brave</td><td>54</td><td>$1,294.87</td><td>1</td><td>1</td><td>0</td><td>0.0185</td><td>$1,294.87</td></tr><tr><td>2023</td><td>yahoo</td><td>322</td><td>$778.40</td><td>3</td><td>1</td><td>2</td><td>0.0093</td><td>$259.47</td></tr><tr><td>2023</td><td>yandex</td><td>193</td><td>$0.00</td><td>0</td><td>0</td><td>0</td><td>0.0000</td><td>-</td></tr><tr><td>2023</td><td>baidu</td><td>105</td><td>$0.00</td><td>0</td><td>0</td><td>0</td><td>0.0000</td><td>-</td></tr><tr><td>2023</td><td>ecosia</td><td>14</td><td>$0.00</td><td>0</td><td>0</td><td>0</td><td>0.0000</td><td>-</td></tr><tr><td>2023</td><td>aol</td><td>10</td><td>$0.00</td><td>0</td><td>0</td><td>0</td><td>0.0000</td><td>-</td></tr><tr><td>2023</td><td>startpage</td><td>5</td><td>$0.00</td><td>0</td><td>0</td><td>0</td><td>0.0000</td><td>-</td></tr><tr><td>2023</td><td>gsearch</td><td>3</td><td>$0.00</td><td>0</td><td>0</td><td>0</td><td>0.0000</td><td>-</td></tr><tr><td>2023</td><td>presearch</td><td>3</td><td>$0.00</td><td>0</td><td>0</td><td>0</td><td>0.0000</td><td>-</td></tr><tr><td>2023</td><td>mobilesearchers</td><td>1</td><td>$0.00</td><td>0</td><td>0</td><td>0</td><td>0.0000</td><td>-</td></tr><tr><td>2023</td><td>search</td><td>1</td><td>$0.00</td><td>0</td><td>0</td><td>0</td><td>0.0000</td><td>-</td></tr><tr><td>2023</td><td>search1</td><td>1</td><td>$0.00</td><td>0</td><td>0</td><td>0</td><td>0.0000</td><td>-</td></tr><tr><td>2024</td><td>google</td><td>90,350</td><td>$184,528.73</td><td>186</td><td>110</td><td>53</td><td>0.0021</td><td>$992.09</td></tr><tr><td>2024</td><td>bing</td><td>6,184</td><td>$15,396.24</td><td>12</td><td>10</td><td>2</td><td>0.0019</td><td>$1,283.02</td></tr><tr><td>2024</td><td>duckduckgo</td><td>2,226</td><td>$4,086.00</td><td>3</td><td>2</td><td>1</td><td>0.0013</td><td>$1,362.00</td></tr><tr><td>2024</td><td>yahoo</td><td>1,551</td><td>$2,137.59</td><td>3</td><td>1</td><td>2</td><td>0.0019</td><td>$712.53</td></tr><tr><td>2024</td><td>yandex</td><td>446</td><td>$0.00</td><td>0</td><td>0</td><td>0</td><td>0.0000</td><td>-</td></tr><tr><td>2024</td><td>brave</td><td>148</td><td>$0.00</td><td>0</td><td>0</td><td>0</td><td>0.0000</td><td>-</td></tr><tr><td>2024</td><td>baidu</td><td>120</td><td>$0.00</td><td>0</td><td>0</td><td>0</td><td>0.0000</td><td>-</td></tr><tr><td>2024</td><td>searchandnews</td><td>118</td><td>$0.00</td><td>0</td><td>0</td><td>0</td><td>0.0000</td><td>-</td></tr><tr><td>2024</td><td>ecosia</td><td>75</td><td>$0.00</td><td>0</td><td>0</td><td>0</td><td>0.0000</td><td>-</td></tr><tr><td>2024</td><td>crowdsearch</td><td>24</td><td>$0.00</td><td>0</td><td>0</td><td>0</td><td>0.0000</td><td>-</td></tr><tr><td>2024</td><td>aol</td><td>22</td><td>$0.00</td><td>0</td><td>0</td><td>0</td><td>0.0000</td><td>-</td></tr><tr><td>2024</td><td>presearch</td><td>5</td><td>$0.00</td><td>0</td><td>0</td><td>0</td><td>0.0000</td><td>-</td></tr><tr><td>2024</td><td>startpage</td><td>3</td><td>$0.00</td><td>0</td><td>0</td><td>0</td><td>0.0000</td><td>-</td></tr><tr><td>2024</td><td>browseand search</td><td>2</td><td>$0.00</td><td>0</td><td>0</td><td>0</td><td>0.0000</td><td>-</td></tr><tr><td>2024</td><td>direct finder</td><td>2</td><td>$0.00</td><td>0</td><td>0</td><td>0</td><td>0.0000</td><td>-</td></tr><tr><td>2024</td><td>qwant</td><td>2</td><td>$0.00</td><td>0</td><td>0</td><td>0</td><td>0.0000</td><td>-</td></tr><tr><td>2024</td><td>search</td><td>2</td><td>$0.00</td><td>0</td><td>0</td><td>0</td><td>0.0000</td><td>-</td></tr><tr><td>2024</td><td>searchblasting</td><td>2</td><td>$0.00</td><td>0</td><td>0</td><td>0</td><td>0.0000</td><td>-</td></tr><tr><td>2024</td><td>searchnowweb</td><td>2</td><td>$0.00</td><td>0</td><td>0</td><td>0</td><td>0.0000</td><td>-</td></tr><tr><td>2024</td><td>absolutefinder</td><td>1</td><td>$0.00</td><td>0</td><td>0</td><td>0</td><td>0.0000</td><td>-</td></tr><tr><td>2024</td><td>find search results</td><td>1</td><td>$0.00</td><td>0</td><td>0</td><td>0</td><td>0.0000</td><td>-</td></tr><tr><td>2024</td><td>gosrch</td><td>1</td><td>$0.00</td><td>0</td><td>0</td><td>0</td><td>0.0000</td><td>-</td></tr><tr><td>2024</td><td>gsearch</td><td>1</td><td>$0.00</td><td>0</td><td>0</td><td>0</td><td>0.0000</td><td>-</td></tr><tr><td>2024</td><td>mobilesearchers</td><td>1</td><td>$0.00</td><td>0</td><td>0</td><td>0</td><td>0.0000</td><td>-</td></tr><tr><td>2024</td><td>mobilesearchresults</td><td>1</td><td>$0.00</td><td>0</td><td>0</td><td>0</td><td>0.0000</td><td>-</td></tr><tr><td>2024</td><td>my results finder</td><td>1</td><td>$0.00</td><td>0</td><td>0</td><td>0</td><td>0.0000</td><td>-</td></tr><tr><td>2024</td><td>mybrowsersearchresult</td><td>1</td><td>$0.00</td><td>0</td><td>0</td><td>0</td><td>0.0000</td><td>-</td></tr><tr><td>2024</td><td>newsearchers</td><td>1</td><td>$0.00</td><td>0</td><td>0</td><td>0</td><td>0.0000</td><td>-</td></tr><tr><td>2024</td><td>onlinewebsearches</td><td>1</td><td>$0.00</td><td>0</td><td>0</td><td>0</td><td>0.0000</td><td>-</td></tr><tr><td>2024</td><td>searchlock</td><td>1</td><td>$0.00</td><td>0</td><td>0</td><td>0</td><td>0.0000</td><td>-</td></tr><tr><td>2024</td><td>searchnowfind</td><td>1</td><td>$0.00</td><td>0</td><td>0</td><td>0</td><td>0.0000</td><td>-</td></tr><tr><td>2024</td><td>searchted</td><td>1</td><td>$0.00</td><td>0</td><td>0</td><td>0</td><td>0.0000</td><td>-</td></tr><tr><td>2024</td><td>searchwayback</td><td>1</td><td>$0.00</td><td>0</td><td>0</td><td>0</td><td>0.0000</td><td>-</td></tr><tr><td>2024</td><td>startpagina</td><td>1</td><td>$0.00</td><td>0</td><td>0</td><td>0</td><td>0.0000</td><td>-</td></tr><tr><td>2024</td><td>superquicksearch</td><td>1</td><td>$0.00</td><td>0</td><td>0</td><td>0</td><td>0.0000</td><td>-</td></tr><tr><td>2024</td><td>swipeandsearch</td><td>1</td><td>$0.00</td><td>0</td><td>0</td><td>0</td><td>0.0000</td><td>-</td></tr><tr><td>2024</td><td>yahoo images</td><td>1</td><td>$0.00</td><td>0</td><td>0</td><td>0</td><td>0.0000</td><td>-</td></tr><tr><td>2025</td><td>google</td><td>147,700</td><td>$259,940.98</td><td>238</td><td>150</td><td>67</td><td>0.0016</td><td>$1,092.19</td></tr><tr><td>2025</td><td>bing</td><td>7,004</td><td>$22,181.71</td><td>20</td><td>13</td><td>6</td><td>0.0029</td><td>$1,109.09</td></tr><tr><td>2025</td><td>yahoo</td><td>2,026</td><td>$6,271.19</td><td>9</td><td>5</td><td>4</td><td>0.0044</td><td>$696.80</td></tr><tr><td>2025</td><td>brave</td><td>532</td><td>$1,620.60</td><td>3</td><td>3</td><td>0</td><td>0.0056</td><td>$540.20</td></tr><tr><td>2025</td><td>duckduckgo</td><td>2,873</td><td>$487.18</td><td>1</td><td>0</td><td>1</td><td>0.0003</td><td>$487.18</td></tr><tr><td>2025</td><td>yandex</td><td>327</td><td>$0.00</td><td>0</td><td>0</td><td>0</td><td>0.0000</td><td>-</td></tr><tr><td>2025</td><td>ecosia</td><td>155</td><td>$0.00</td><td>0</td><td>0</td><td>0</td><td>0.0000</td><td>-</td></tr><tr><td>2025</td><td>baidu</td><td>90</td><td>$0.00</td><td>0</td><td>0</td><td>0</td><td>0.0000</td><td>-</td></tr><tr><td>2025</td><td>gsearch</td><td>36</td><td>$0.00</td><td>0</td><td>0</td><td>0</td><td>0.0000</td><td>-</td></tr><tr><td>2025</td><td>aol</td><td>30</td><td>$0.00</td><td>0</td><td>0</td><td>0</td><td>0.0000</td><td>-</td></tr><tr><td>2025</td><td>qwant</td><td>13</td><td>$0.00</td><td>0</td><td>0</td><td>0</td><td>0.0000</td><td>-</td></tr><tr><td>2025</td><td>startpage</td><td>7</td><td>$0.00</td><td>0</td><td>0</td><td>0</td><td>0.0000</td><td>-</td></tr><tr><td>2025</td><td>voicecommandsearcher</td><td>5</td><td>$0.00</td><td>0</td><td>0</td><td>0</td><td>0.0000</td><td>-</td></tr><tr><td>2025</td><td>activelysearching</td><td>4</td><td>$0.00</td><td>0</td><td>0</td><td>0</td><td>0.0000</td><td>-</td></tr><tr><td>2025</td><td>search tab</td><td>3</td><td>$0.00</td><td>0</td><td>0</td><td>0</td><td>0.0000</td><td>-</td></tr><tr><td>2025</td><td>csesearch5</td><td>2</td><td>$0.00</td><td>0</td><td>0</td><td>0</td><td>0.0000</td><td>-</td></tr><tr><td>2025</td><td>icons search</td><td>2</td><td>$0.00</td><td>0</td><td>0</td><td>0</td><td>0.0000</td><td>-</td></tr><tr><td>2025</td><td>presearch</td><td>2</td><td>$0.00</td><td>0</td><td>0</td><td>0</td><td>0.0000</td><td>-</td></tr><tr><td>2025</td><td>startsearch</td><td>2</td><td>$0.00</td><td>0</td><td>0</td><td>0</td><td>0.0000</td><td>-</td></tr><tr><td>2025</td><td>thesearchsphere</td><td>2</td><td>$0.00</td><td>0</td><td>0</td><td>0</td><td>0.0000</td><td>-</td></tr><tr><td>2025</td><td>activesearchresults</td><td>1</td><td>$0.00</td><td>0</td><td>0</td><td>0</td><td>0.0000</td><td>-</td></tr><tr><td>2025</td><td>faroo</td><td>1</td><td>$0.00</td><td>0</td><td>0</td><td>0</td><td>0.0000</td><td>-</td></tr><tr><td>2025</td><td>gosrch</td><td>1</td><td>$0.00</td><td>0</td><td>0</td><td>0</td><td>0.0000</td><td>-</td></tr><tr><td>2025</td><td>iconseeker</td><td>1</td><td>$0.00</td><td>0</td><td>0</td><td>0</td><td>0.0000</td><td>-</td></tr><tr><td>2025</td><td>locationwidesearch</td><td>1</td><td>$0.00</td><td>0</td><td>0</td><td>0</td><td>0.0000</td><td>-</td></tr><tr><td>2025</td><td>lycos</td><td>1</td><td>$0.00</td><td>0</td><td>0</td><td>0</td><td>0.0000</td><td>-</td></tr><tr><td>2025</td><td>movies search</td><td>1</td><td>$0.00</td><td>0</td><td>0</td><td>0</td><td>0.0000</td><td>-</td></tr><tr><td>2025</td><td>my search results</td><td>1</td><td>$0.00</td><td>0</td><td>0</td><td>0</td><td>0.0000</td><td>-</td></tr><tr><td>2025</td><td>picsearch</td><td>1</td><td>$0.00</td><td>0</td><td>0</td><td>0</td><td>0.0000</td><td>-</td></tr><tr><td>2025</td><td>search</td><td>1</td><td>$0.00</td><td>0</td><td>0</td><td>0</td><td>0.0000</td><td>-</td></tr><tr><td>2025</td><td>search frame</td><td>1</td><td>$0.00</td><td>0</td><td>0</td><td>0</td><td>0.0000</td><td>-</td></tr><tr><td>2025</td><td>searchgby</td><td>1</td><td>$0.00</td><td>0</td><td>0</td><td>0</td><td>0.0000</td><td>-</td></tr><tr><td>2025</td><td>searchirc</td><td>1</td><td>$0.00</td><td>0</td><td>0</td><td>0</td><td>0.0000</td><td>-</td></tr><tr><td>2025</td><td>searchteam</td><td>1</td><td>$0.00</td><td>0</td><td>0</td><td>0</td><td>0.0000</td><td>-</td></tr><tr><td>2025</td><td>seekfu</td><td>1</td><td>$0.00</td><td>0</td><td>0</td><td>0</td><td>0.0000</td><td>-</td></tr><tr><td>2025</td><td>seekly</td><td>1</td><td>$0.00</td><td>0</td><td>0</td><td>0</td><td>0.0000</td><td>-</td></tr><tr><td>2025</td><td>smarsearch</td><td>1</td><td>$0.00</td><td>0</td><td>0</td><td>0</td><td>0.0000</td><td>-</td></tr><tr><td>2025</td><td>smartsearchnow</td><td>1</td><td>$0.00</td><td>0</td><td>0</td><td>0</td><td>0.0000</td><td>-</td></tr><tr><td>2025</td><td>startsiden</td><td>1</td><td>$0.00</td><td>0</td><td>0</td><td>0</td><td>0.0000</td><td>-</td></tr><tr><td>2025</td><td>wbsrch</td><td>1</td><td>$0.00</td><td>0</td><td>0</td><td>0</td><td>0.0000</td><td>-</td></tr><tr><td>2025</td><td>yahoo images</td><td>1</td><td>$0.00</td><td>0</td><td>0</td><td>0</td><td>0.0000</td><td>-</td></tr></tbody></table>
+    </section>
+  </div>
 </body>
 </html>
