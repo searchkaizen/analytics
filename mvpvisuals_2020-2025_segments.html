@@ -1571,8 +1571,8 @@ new Chart(document.getElementById('shareChart'), {
   data: {
     labels,
     datasets: [
-      { label: 'SEO Session Share', data: annual.map((item) => item.sessionShare), borderColor: '#2D5A3D', backgroundColor: 'rgba(45, 90, 61, 0.10)', pointBackgroundColor: '#2D5A3D', pointRadius: 4, borderWidth: 2.5, tension: 0.25, spanGaps: false },
-      { label: 'SEO Revenue Share', data: annual.map((item) => item.revenueShare), borderColor: '#C8A96E', backgroundColor: 'rgba(200, 169, 110, 0.10)', pointBackgroundColor: '#C8A96E', pointRadius: 4, borderWidth: 2.5, tension: 0.25 }
+      { label: 'SEO Session Share', data: annual.map((item) => item.sessionShare), borderColor: dark, backgroundColor: 'rgba(29, 29, 29, 0.10)', pointBackgroundColor: dark, pointRadius: 4, borderWidth: 2.5, tension: 0.25, spanGaps: false },
+      { label: 'SEO Revenue Share', data: annual.map((item) => item.revenueShare), borderColor: gold, backgroundColor: 'rgba(241, 178, 65, 0.10)', pointBackgroundColor: gold, pointRadius: 4, borderWidth: 2.5, tension: 0.25 }
     ]
   },
   options: {
@@ -1620,7 +1620,7 @@ new Chart(document.getElementById('channelChart'), {
   data: {
     labels: channelRevenue.map((item) => item.channel),
     datasets: [
-      { label: 'Revenue', data: channelRevenue.map((item) => item.revenue), backgroundColor: ['#2D5A3D', '#3D6A49', '#4E7B57', '#5E8C65', '#6F9D73', '#7FAE81'], borderRadius: 4 }
+      { label: 'Revenue', data: channelRevenue.map((item) => item.revenue), backgroundColor: ['#F1B241', '#E3A43B', '#D59634', '#C7882D', '#B97A27', '#AB6D20'], borderRadius: 4 }
     ]
   },
   options: {
