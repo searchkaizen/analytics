@@ -197,14 +197,14 @@ canvas {
 
 .row2 {
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: 1fr;
   gap: 14px;
   margin-bottom: 36px;
 }
 
 .split-grid {
   display: grid;
-  grid-template-columns: 1.2fr 0.8fr;
+  grid-template-columns: 1fr;
   gap: 14px;
   margin-bottom: 36px;
 }
@@ -224,6 +224,7 @@ canvas {
   background: var(--panel);
   border: 1px solid var(--rule);
   border-radius: 12px;
+  overflow: hidden;
   min-width: 0;
 }
 
@@ -272,39 +273,27 @@ canvas {
   z-index: 2;
 }
 
-.chart-wrap.is-scrollable:not(.at-end)::before,
-.mini-table-wrap.is-scrollable:not(.at-end)::before,
-.tw.is-scrollable:not(.at-end)::before,
-.context-card.is-scrollable:not(.at-end)::before {
-  opacity: 1;
+.chart-wrap::-webkit-scrollbar,
+.mini-table-wrap::-webkit-scrollbar,
+.tw::-webkit-scrollbar,
+.context-card::-webkit-scrollbar {
+  height: 10px;
 }
 
-.scroll-hint {
-  position: absolute;
-  right: 10px;
-  bottom: 10px;
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  padding: 4px 8px;
+.chart-wrap::-webkit-scrollbar-thumb,
+.mini-table-wrap::-webkit-scrollbar-thumb,
+.tw::-webkit-scrollbar-thumb,
+.context-card::-webkit-scrollbar-thumb {
+  background: rgba(29, 29, 29, 0.28);
   border-radius: 999px;
-  background: rgba(29, 29, 29, 0.84);
-  color: var(--white);
-  font-size: 10px;
-  font-weight: 700;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  white-space: nowrap;
-  pointer-events: none;
-  opacity: 0;
-  transform: translateY(4px);
-  transition: opacity 0.2s ease, transform 0.2s ease;
-  z-index: 3;
 }
 
-.is-scrollable:not(.at-end) > .scroll-hint {
-  opacity: 1;
-  transform: translateY(0);
+.chart-wrap::-webkit-scrollbar-track,
+.mini-table-wrap::-webkit-scrollbar-track,
+.tw::-webkit-scrollbar-track,
+.context-card::-webkit-scrollbar-track {
+  background: rgba(29, 29, 29, 0.06);
+  border-radius: 999px;
 }
 
 .chart-note {
@@ -358,6 +347,7 @@ canvas {
 .tw,
 .context-card {
   overflow-x: auto;
+  overflow-y: hidden;
   -webkit-overflow-scrolling: touch;
   overscroll-behavior-x: contain;
   scrollbar-width: thin;
@@ -466,6 +456,59 @@ td.ch {
   color: var(--muted);
 }
 
+.na-value {
+  display: inline-flex;
+  align-items: center;
+  padding: 2px 8px;
+  border: 1px dashed rgba(29, 29, 29, 0.22);
+  border-radius: 999px;
+  color: var(--muted);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  cursor: help;
+}
+
+.detail-pagination {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.pagination-btn {
+  appearance: none;
+  border: 1px solid var(--rule);
+  border-radius: 999px;
+  background: var(--panel);
+  color: var(--dark);
+  font: inherit;
+  font-size: 12px;
+  font-weight: 700;
+  padding: 8px 12px;
+  line-height: 1;
+  cursor: pointer;
+  transition: background 0.2s ease, border-color 0.2s ease, color 0.2s ease;
+}
+
+.pagination-btn:hover:not(:disabled) {
+  background: #faf8f6;
+  border-color: #cfc8c4;
+}
+
+.pagination-btn:disabled {
+  opacity: 0.45;
+  cursor: default;
+}
+
+.pagination-info {
+  font-size: 12px;
+  color: var(--muted);
+  min-width: 74px;
+  text-align: center;
+}
+
 .footer {
   border-top: 1px solid var(--rule);
   padding-top: 18px;
@@ -491,11 +534,6 @@ td.ch {
     grid-template-columns: repeat(2, 1fr);
   }
 
-  .row2,
-  .split-grid {
-    grid-template-columns: 1fr;
-  }
-
   .tw table th:first-child,
   .tw table td:first-child,
   .context-card table th:first-child,
@@ -516,11 +554,17 @@ td.ch {
     background: var(--panel);
     box-shadow: 10px 0 12px -12px rgba(29, 29, 29, 0.45);
   }
+
+  .chart-wrap.is-scrollable:not(.at-end)::before,
+  .mini-table-wrap.is-scrollable:not(.at-end)::before,
+  .tw.is-scrollable:not(.at-end)::before,
+  .context-card.is-scrollable:not(.at-end)::before {
+    opacity: 1;
+  }
 }
 
 @media (max-width: 1180px) {
   .split-grid {
-    grid-template-columns: 1fr;
     gap: 24px;
   }
 }
@@ -628,6 +672,11 @@ td.ch {
     width: 100%;
   }
 
+  .detail-pagination {
+    width: 100%;
+    justify-content: space-between;
+  }
+
   .filter-select {
     width: 100%;
     min-height: 40px;
@@ -679,6 +728,12 @@ td.ch {
   <div class="stitle">Latest Completed Year vs Prior Year</div>
   <div class="kpi-row">
     <div class="kpi">
+      <div class="kpi-label">SEO Sessions</div>
+      <div class="kpi-val">160,836</div>
+      <span class="kpi-delta up">▲ 58.8%</span>
+      <div class="kpi-note">67.14% of site sessions</div>
+    </div>
+    <div class="kpi">
       <div class="kpi-label">SEO Revenue</div>
       <div class="kpi-val">$290,501.66</div>
       <span class="kpi-delta up">▲ 40.9%</span>
@@ -689,12 +744,6 @@ td.ch {
       <div class="kpi-val">271</div>
       <span class="kpi-delta up">▲ 32.8%</span>
       <div class="kpi-note">22.87% of site orders</div>
-    </div>
-    <div class="kpi">
-      <div class="kpi-label">SEO Sessions</div>
-      <div class="kpi-val">160,836</div>
-      <span class="kpi-delta up">▲ 58.8%</span>
-      <div class="kpi-note">67.14% of site sessions</div>
     </div>
     <div class="kpi">
       <div class="kpi-label">SEO AOV</div>
@@ -714,19 +763,6 @@ td.ch {
 
   <div class="row2">
     <div class="card">
-      <div class="card-title">Revenue by Year</div>
-      <div class="card-sub">Site total versus SEO organic revenue</div>
-      <div class="chart-wrap"><canvas id="revenueChart"></canvas></div>
-      <div class="mini-table-wrap">
-        <table class="mini-table">
-          <thead>
-            <tr><th>Year</th><th class="r">Site Total</th><th class="r">SEO Organic</th><th class="r">SEO YoY %</th></tr>
-          </thead>
-          <tbody id="revenueMiniTable"></tbody>
-        </table>
-      </div>
-    </div>
-    <div class="card">
       <div class="card-title">Sessions by Year</div>
       <div class="card-sub">Site total versus SEO organic sessions</div>
       <div class="chart-wrap"><canvas id="sessionsChart"></canvas></div>
@@ -736,6 +772,19 @@ td.ch {
             <tr><th>Year</th><th class="r">Site Total</th><th class="r">SEO Organic</th><th class="r">SEO YoY %</th></tr>
           </thead>
           <tbody id="sessionsMiniTable"></tbody>
+        </table>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-title">Revenue by Year</div>
+      <div class="card-sub">Site total versus SEO organic revenue</div>
+      <div class="chart-wrap"><canvas id="revenueChart"></canvas></div>
+      <div class="mini-table-wrap">
+        <table class="mini-table">
+          <thead>
+            <tr><th>Year</th><th class="r">Site Total</th><th class="r">SEO Organic</th><th class="r">SEO YoY %</th></tr>
+          </thead>
+          <tbody id="revenueMiniTable"></tbody>
         </table>
       </div>
     </div>
@@ -922,6 +971,11 @@ td.ch {
         </select>
       </div>
       <div id="detailRowSummary" class="filter-summary"></div>
+      <div class="detail-pagination">
+        <button id="detailPrevPage" class="pagination-btn" type="button">Previous</button>
+        <div id="detailPageInfo" class="pagination-info"></div>
+        <button id="detailNextPage" class="pagination-btn" type="button">Next</button>
+      </div>
     </div>
     <div class="tw">
       <table>
@@ -1108,6 +1162,25 @@ function integerOrDash(value) {
   return value === null ? '-' : value.toLocaleString();
 }
 
+function isSessionUnavailable(item) {
+  return item.siteSessions === 0 && item.seoSessions === 0 && Number(item.year) < 2022;
+}
+
+function unavailableBadge(message) {
+  return `<span class="na-value" title="${message}">N/A</span>`;
+}
+
+function sessionTableCell(value, item) {
+  if (isSessionUnavailable(item)) {
+    return unavailableBadge('Shopify did not collect referring-channel session data for this year, so session totals are unavailable.');
+  }
+  return integerOrDash(value);
+}
+
+function sessionSeriesValue(value, item) {
+  return isSessionUnavailable(item) ? null : value;
+}
+
 function yoyPercent(current, previous) {
   if (current === null || previous === null || previous === 0) {
     return '-';
@@ -1123,7 +1196,7 @@ document.getElementById('revenueMiniTable').innerHTML = annual.map((item) =>
 ).join('');
 
 document.getElementById('sessionsMiniTable').innerHTML = annual.map((item) =>
-  `<tr><td>${item.year}</td><td class="r">${integerOrDash(item.siteSessions)}</td><td class="r">${integerOrDash(item.seoSessions)}</td><td class="r">${yoyPercent(item.seoSessions, annual[annual.findIndex((entry) => entry.year === item.year) - 1]?.seoSessions ?? null)}</td></tr>`
+  `<tr><td>${item.year}</td><td class="r">${sessionTableCell(item.siteSessions, item)}</td><td class="r">${sessionTableCell(item.seoSessions, item)}</td><td class="r">${isSessionUnavailable(item) ? unavailableBadge('Shopify did not collect referring-channel session data for this year, so year-over-year session change is unavailable.') : yoyPercent(item.seoSessions, annual[annual.findIndex((entry) => entry.year === item.year) - 1]?.seoSessions ?? null)}</td></tr>`
 ).join('');
 
 document.getElementById('ordersMiniTable').innerHTML = annual.map((item) =>
@@ -1145,7 +1218,12 @@ document.getElementById('channelMiniTable').innerHTML = channelRevenue.map((item
 const detailYearSelect = document.getElementById('detailYearSelect');
 const detailTableBody = document.getElementById('detailTableBody');
 const detailRowSummary = document.getElementById('detailRowSummary');
+const detailPrevPage = document.getElementById('detailPrevPage');
+const detailNextPage = document.getElementById('detailNextPage');
+const detailPageInfo = document.getElementById('detailPageInfo');
 const detailRows = Array.from(detailTableBody.querySelectorAll('tr'));
+const detailPageSize = 10;
+let currentDetailPage = 1;
 
 function addTableCellLabels(table) {
   const headers = Array.from(table.querySelectorAll('thead th')).map((header) => header.textContent.trim());
@@ -1167,14 +1245,7 @@ function syncScrollableState(element) {
   element.classList.toggle('at-end', !scrollable || atEnd);
 }
 
-function enhanceScrollableRegion(element, hintText = 'Swipe for more') {
-  if (!element.querySelector(':scope > .scroll-hint')) {
-    const hint = document.createElement('span');
-    hint.className = 'scroll-hint';
-    hint.textContent = hintText;
-    element.appendChild(hint);
-  }
-
+function enhanceScrollableRegion(element) {
   const update = () => syncScrollableState(element);
   element.addEventListener('scroll', update, { passive: true });
   window.addEventListener('resize', update);
@@ -1183,25 +1254,72 @@ function enhanceScrollableRegion(element, hintText = 'Swipe for more') {
 
 document.querySelectorAll('.mini-table, .tw table, .context-card table').forEach(addTableCellLabels);
 
-function applyDetailYearFilter(selectedYear) {
-  let visibleCount = 0;
+function getFilteredDetailRows(selectedYear) {
+  return detailRows.filter((row) => {
+    const rowYear = row.cells[0] ? row.cells[0].textContent.trim() : '';
+    return selectedYear === 'all' || rowYear === selectedYear;
+  });
+}
+
+function renderDetailTable() {
+  const selectedYear = detailYearSelect.value;
+  const filteredRows = getFilteredDetailRows(selectedYear);
+  const totalRows = filteredRows.length;
+  const totalPages = Math.max(1, Math.ceil(totalRows / detailPageSize));
+  const safePage = Math.min(currentDetailPage, totalPages);
+  const startIndex = (safePage - 1) * detailPageSize;
+  const endIndex = Math.min(startIndex + detailPageSize, totalRows);
+
+  currentDetailPage = safePage;
 
   detailRows.forEach((row) => {
-    const rowYear = row.cells[0] ? row.cells[0].textContent.trim() : '';
-    const showRow = selectedYear === 'all' || rowYear === selectedYear;
-    row.style.display = showRow ? '' : 'none';
-    if (showRow) {
-      visibleCount += 1;
-    }
+    row.style.display = 'none';
   });
 
-  detailRowSummary.textContent = selectedYear === 'all'
-    ? `Showing all years (${visibleCount} rows)`
-    : `Showing ${selectedYear} (${visibleCount} rows)`;
+  filteredRows.slice(startIndex, endIndex).forEach((row) => {
+    row.style.display = '';
+  });
+
+  if (totalRows === 0) {
+    detailRowSummary.textContent = selectedYear === 'all'
+      ? 'No rows to display'
+      : `No rows for ${selectedYear}`;
+  } else {
+    const visibleStart = startIndex + 1;
+    detailRowSummary.textContent = selectedYear === 'all'
+      ? `Showing ${visibleStart}-${endIndex} of ${totalRows} rows across all years`
+      : `Showing ${visibleStart}-${endIndex} of ${totalRows} rows for ${selectedYear}`;
+  }
+
+  detailPageInfo.textContent = `Page ${currentDetailPage} of ${totalPages}`;
+  detailPrevPage.disabled = currentDetailPage === 1 || totalRows === 0;
+  detailNextPage.disabled = currentDetailPage === totalPages || totalRows === 0;
+}
+
+function applyDetailYearFilter(selectedYear) {
+  currentDetailPage = 1;
+  detailYearSelect.value = selectedYear;
+  renderDetailTable();
 }
 
 detailYearSelect.addEventListener('change', (event) => {
   applyDetailYearFilter(event.target.value);
+});
+
+detailPrevPage.addEventListener('click', () => {
+  if (currentDetailPage > 1) {
+    currentDetailPage -= 1;
+    renderDetailTable();
+  }
+});
+
+detailNextPage.addEventListener('click', () => {
+  const totalRows = getFilteredDetailRows(detailYearSelect.value).length;
+  const totalPages = Math.max(1, Math.ceil(totalRows / detailPageSize));
+  if (currentDetailPage < totalPages) {
+    currentDetailPage += 1;
+    renderDetailTable();
+  }
 });
 
 detailYearSelect.value = '2025';
@@ -1235,8 +1353,8 @@ new Chart(document.getElementById('sessionsChart'), {
   data: {
     labels,
     datasets: [
-      { label: 'Site Total', data: annual.map((item) => item.siteSessions), backgroundColor: '#C8A96E', borderRadius: 4 },
-      { label: 'SEO Organic', data: annual.map((item) => item.seoSessions), backgroundColor: '#2D5A3D', borderRadius: 4 }
+      { label: 'Site Total', data: annual.map((item) => sessionSeriesValue(item.siteSessions, item)), backgroundColor: '#C8A96E', borderRadius: 4 },
+      { label: 'SEO Organic', data: annual.map((item) => sessionSeriesValue(item.seoSessions, item)), backgroundColor: '#2D5A3D', borderRadius: 4 }
     ]
   },
   options: {
@@ -1244,7 +1362,7 @@ new Chart(document.getElementById('sessionsChart'), {
     maintainAspectRatio: false,
     plugins: {
       legend: { position: 'top', align: 'start', labels: { boxWidth: 12, boxHeight: 12 } },
-      tooltip: { callbacks: { label: (context) => ' ' + context.dataset.label + ': ' + context.raw.toLocaleString() } }
+      tooltip: { callbacks: { label: (context) => context.raw === null ? ' Session data unavailable: Shopify did not collect referring-channel session data for this year.' : ' ' + context.dataset.label + ': ' + context.raw.toLocaleString() } }
     },
     scales: {
       y: { ticks: { callback: (value) => Math.round(value / 1000) + 'k', font: { size: 10 } }, grid: { color: gridColor } },
@@ -1353,7 +1471,7 @@ document.querySelectorAll('.mini-table-wrap, .tw, .context-card').forEach((eleme
 });
 
 document.querySelectorAll('.chart-wrap').forEach((element) => {
-  enhanceScrollableRegion(element, 'Swipe chart');
+  enhanceScrollableRegion(element);
 });
 
 requestAnimationFrame(() => {
