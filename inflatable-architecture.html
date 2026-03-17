@@ -1,0 +1,770 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Inflatable Category: Architecture Restructure · MVP Visuals</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,400&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root {
+  --ink:     #111110;
+  --paper:   #f7f6f3;
+  --surface: #eceae4;
+  --rule:    #dddbd4;
+  --muted:   #7b7970;
+  --red:     #c13a22;
+  --red-bg:  #fce9e5;
+  --green:   #256840;
+  --grn-bg:  #e3f0e9;
+  --amber:   #9e5f09;
+  --amb-bg:  #fef0d8;
+  --blue:    #1a4f85;
+  --blu-bg:  #e3edf8;
+  --white:   #fdfcfa;
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  font-family: 'Inter', sans-serif;
+  background: var(--paper);
+  color: var(--ink);
+  font-size: 14px;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+}
+
+mono { font-family: 'JetBrains Mono', monospace; font-size: .92em; }
+
+/* ── LAYOUT ── */
+.page { max-width: 960px; margin: 0 auto; padding: 0 48px; }
+
+/* ── HEADER ── */
+header {
+  border-bottom: 2px solid var(--ink);
+  padding: 52px 0 40px;
+}
+.hd-top { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 24px; }
+.hd-brand { font-size: 11px; font-weight: 600; letter-spacing: .1em; text-transform: uppercase; color: var(--muted); }
+.hd-meta { text-align: right; }
+.hd-meta span { display: block; font-size: 11px; color: var(--muted); font-family: 'JetBrains Mono', monospace; }
+h1 { font-size: 34px; font-weight: 800; letter-spacing: -.5px; line-height: 1.1; }
+.hd-sub { font-size: 15px; color: var(--muted); margin-top: 6px; font-weight: 400; }
+
+/* ── SECTION WRAPPER ── */
+.sec { padding: 52px 0; border-bottom: 1px solid var(--rule); }
+.sec:last-child { border-bottom: none; }
+
+.sec-label {
+  display: flex; align-items: center; gap: 10px;
+  font-size: 10px; font-weight: 600; letter-spacing: .12em; text-transform: uppercase;
+  color: var(--muted); margin-bottom: 24px;
+}
+.sec-label::after { content: ''; flex: 1; height: 1px; background: var(--rule); }
+
+h2 { font-size: 21px; font-weight: 700; letter-spacing: -.2px; margin-bottom: 10px; }
+h3 { font-size: 13px; font-weight: 600; margin-bottom: 4px; }
+
+/* ── STRATEGY STATEMENT ── */
+.thesis {
+  background: var(--ink);
+  color: var(--white);
+  border-radius: 8px;
+  padding: 28px 32px;
+  font-size: 15px;
+  line-height: 1.7;
+  font-weight: 400;
+}
+.thesis strong { font-weight: 600; color: #fff; }
+
+/* ── STAT STRIP ── */
+.stat-strip { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin-top: 28px; }
+.stat-card {
+  background: var(--white);
+  border: 1px solid var(--rule);
+  border-radius: 7px;
+  padding: 16px 18px;
+}
+.stat-n { font-size: 26px; font-weight: 800; line-height: 1; letter-spacing: -.5px; }
+.stat-n.r { color: var(--red); }
+.stat-n.a { color: var(--amber); }
+.stat-l { font-size: 11px; color: var(--muted); margin-top: 4px; line-height: 1.4; }
+
+/* ── PROBLEM CALLOUT ── */
+.problem-body { font-size: 13px; color: var(--muted); max-width: 640px; margin-bottom: 0; line-height: 1.65; }
+
+/* ── CONSTRAINTS GRID ── */
+.constraint-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; margin-top: 28px; }
+.constraint {
+  background: var(--white);
+  border: 1px solid var(--rule);
+  border-left: 3px solid var(--red);
+  border-radius: 0 7px 7px 0;
+  padding: 16px 18px;
+}
+.constraint.warn { border-left-color: var(--amber); }
+.c-title { font-size: 12px; font-weight: 600; margin-bottom: 4px; }
+.c-body { font-size: 12px; color: var(--muted); line-height: 1.5; }
+.c-data { font-family: 'JetBrains Mono', monospace; font-size: 10px; color: var(--ink); background: var(--surface); padding: 5px 8px; border-radius: 4px; margin-top: 8px; display: inline-block; }
+
+/* ── ARCHITECTURE ── */
+.arch-cols { display: grid; grid-template-columns: 1fr 1fr; gap: 36px; margin-top: 4px; }
+.arch-label { font-size: 10px; font-weight: 600; letter-spacing: .1em; text-transform: uppercase; padding-bottom: 10px; margin-bottom: 14px; border-bottom: 1px solid var(--rule); }
+.arch-label.bad { color: var(--red); border-color: var(--red); }
+.arch-label.good { color: var(--green); border-color: var(--green); }
+
+.tree { display: flex; flex-direction: column; gap: 2px; }
+.node {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 7px 10px;
+  border-radius: 5px;
+}
+.node.root { background: var(--ink); color: var(--white); font-size: 11.5px; }
+.node.root.new { background: var(--green); }
+.node.root.bad { background: var(--red); }
+.node.child { background: var(--surface); margin-left: 18px; }
+.node.child.new { border-left: 2px solid var(--green); background: var(--grn-bg); }
+.node.child.bad { border-left: 2px solid var(--red); opacity: .6; text-decoration: line-through; }
+.node.child.warn { border-left: 2px solid var(--amber); background: var(--amb-bg); }
+.node.leaf { font-size: 10.5px; margin-left: 36px; padding: 5px 8px; background: transparent; border-bottom: 1px solid var(--rule); border-radius: 0; }
+.node.leaf.new { background: var(--grn-bg); border: none; border-left: 2px solid var(--green); margin-bottom: 1px; border-radius: 0 3px 3px 0; }
+.node.leaf.bad { opacity: .5; text-decoration: line-through; background: none; border-bottom: 1px solid var(--rule); }
+.node-url { flex: 1; }
+.tag {
+  font-size: 9px; padding: 2px 6px; border-radius: 3px; white-space: nowrap;
+  font-weight: 600; letter-spacing: .03em; text-transform: uppercase;
+}
+.tag-dark { background: rgba(255,255,255,.18); color: inherit; }
+.tag-red { background: var(--red-bg); color: var(--red); }
+.tag-grn { background: rgba(255,255,255,.3); color: #fff; }
+.tag-grn-sm { background: var(--grn-bg); color: var(--green); }
+.tag-amb { background: var(--amb-bg); color: var(--amber); }
+.tag-gray { background: var(--rule); color: var(--muted); }
+
+/* ── SCOPE BLOCK ── */
+.scope-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; margin-top: 4px; }
+.scope-box {
+  background: var(--white);
+  border: 1px solid var(--rule);
+  border-radius: 7px;
+  padding: 20px 22px;
+}
+.scope-box.green { border-top: 3px solid var(--green); }
+.scope-box.gray { border-top: 3px solid var(--muted); }
+.scope-head { font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: .08em; margin-bottom: 14px; }
+.scope-head.green { color: var(--green); }
+.scope-head.gray { color: var(--muted); }
+.scope-item { display: flex; gap: 8px; align-items: flex-start; margin-bottom: 9px; font-size: 12.5px; line-height: 1.4; }
+.scope-item:last-child { margin-bottom: 0; }
+.dot { width: 6px; height: 6px; border-radius: 50%; flex-shrink: 0; margin-top: 5px; }
+.dot.green { background: var(--green); }
+.dot.gray { background: var(--rule); }
+.scope-item span { color: var(--muted); }
+
+/* ── MOVES ── */
+.moves-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px; margin-top: 28px; }
+.move {
+  background: var(--white);
+  border: 1px solid var(--rule);
+  border-radius: 7px;
+  padding: 20px 22px;
+  display: flex;
+  gap: 14px;
+}
+.move-num {
+  font-size: 28px; font-weight: 800; line-height: 1; color: var(--rule);
+  flex-shrink: 0; width: 32px;
+}
+.move-title { font-size: 13px; font-weight: 600; margin-bottom: 5px; }
+.move-body { font-size: 12px; color: var(--muted); line-height: 1.55; }
+.move-signal {
+  font-family: 'JetBrains Mono', monospace; font-size: 10px;
+  color: var(--green); background: var(--grn-bg);
+  padding: 5px 8px; border-radius: 4px; margin-top: 10px; display: block;
+}
+
+/* ── OUTCOMES ── */
+.outcomes-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-top: 28px; }
+.outcome {
+  border: 1px solid var(--rule);
+  border-radius: 7px;
+  padding: 18px 20px;
+  background: var(--white);
+}
+.out-head { font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: .07em; color: var(--muted); margin-bottom: 8px; }
+.out-body { font-size: 12.5px; line-height: 1.55; }
+
+/* ── RISKS ── */
+.risks { display: flex; flex-direction: column; gap: 10px; margin-top: 28px; }
+.risk {
+  display: flex; gap: 12px; align-items: flex-start;
+  background: var(--white); border: 1px solid var(--rule);
+  border-radius: 7px; padding: 14px 18px;
+  font-size: 12.5px;
+}
+.risk-icon { font-size: 14px; flex-shrink: 0; margin-top: 1px; }
+.risk-label { font-weight: 600; margin-bottom: 2px; font-size: 12px; }
+.risk-body { color: var(--muted); font-size: 12px; line-height: 1.5; }
+
+/* ── APPENDIX DIVIDER ── */
+.appendix-divider {
+  margin: 0;
+  padding: 28px 0 20px;
+  display: flex; align-items: center; gap: 16px;
+  border-top: 2px solid var(--ink);
+}
+.appendix-divider span {
+  font-size: 10px; font-weight: 700; letter-spacing: .14em;
+  text-transform: uppercase; white-space: nowrap; color: var(--muted);
+}
+.appendix-divider::after { content: ''; flex: 1; height: 1px; background: var(--rule); }
+
+/* ── KW TABLE ── */
+.kw-table { width: 100%; border-collapse: collapse; font-size: 12px; margin-top: 16px; }
+.kw-table th {
+  text-align: left; padding: 7px 10px;
+  background: var(--ink); color: var(--white);
+  font-size: 10px; font-weight: 600; letter-spacing: .05em; text-transform: uppercase;
+}
+.kw-table td { padding: 8px 10px; border-bottom: 1px solid var(--rule); vertical-align: top; }
+.kw-table tr:nth-child(even) td { background: var(--surface); }
+.kw-table .vol { font-family: 'JetBrains Mono', monospace; font-weight: 500; font-size: 11px; }
+.kw-table .cpc-hi { color: var(--red); font-weight: 600; }
+.kw-table .bad { color: var(--red); font-size: 11px; }
+.kw-table .good { color: var(--green); font-size: 11px; }
+
+/* ── REDIRECT TABLE ── */
+.redir-table { width: 100%; border-collapse: collapse; font-family: 'JetBrains Mono', monospace; font-size: 11px; margin-top: 16px; }
+.redir-table th {
+  text-align: left; padding: 7px 10px; border-bottom: 1.5px solid var(--ink);
+  font-size: 9px; letter-spacing: .1em; text-transform: uppercase; color: var(--muted);
+  font-family: 'Inter', sans-serif; font-weight: 600;
+}
+.redir-table td { padding: 9px 10px; border-bottom: 1px solid var(--rule); vertical-align: middle; }
+.redir-table tr:last-child td { border-bottom: none; }
+.from { color: var(--red); text-decoration: line-through; }
+.to { color: var(--green); }
+.arr { color: var(--rule); }
+.redir-note { font-family: 'Inter', sans-serif; font-size: 11px; color: var(--muted); }
+
+.note-box {
+  background: var(--amb-bg); border-left: 3px solid var(--amber);
+  border-radius: 0 5px 5px 0; padding: 10px 14px;
+  font-size: 12px; color: var(--amber); margin-top: 14px; line-height: 1.5;
+}
+
+/* ── FOOTER ── */
+footer {
+  padding: 28px 0 36px;
+  display: flex; justify-content: space-between; align-items: center;
+}
+footer span { font-size: 11px; color: var(--muted); font-family: 'JetBrains Mono', monospace; }
+
+@media print {
+  body { background: #fff; }
+  .page { padding: 0 32px; }
+  .sec { page-break-inside: avoid; }
+}
+</style>
+</head>
+<body>
+<div class="page">
+
+<!-- HEADER -->
+<header>
+  <div class="hd-top">
+    <div class="hd-brand">MVP Visuals</div>
+    <div class="hd-meta">
+      <span>March 2026</span>
+      <span>Inflatable category · 24 URLs audited</span>
+    </div>
+  </div>
+  <h1>Inflatable Category<br>Architecture Restructure</h1>
+</header>
+
+
+<!-- 01 STRATEGY STATEMENT -->
+<div class="sec">
+  <div class="sec-label">Strategic objective</div>
+  <div class="thesis">
+    This plan gives the inflatable category a proper parent hub, assigns each major buyer-intent cluster to one URL, removes internal competition, and adds new pages only where demand is proven and no page exists yet. The aim is straightforward: get buyers onto the right page and make it easier for them to request a quote.
+  </div>
+</div>
+
+
+<!-- 02 THE PROBLEM -->
+<div class="sec">
+  <div class="sec-label">Current performance constraints</div>
+  <h2>The category is generating impressions it cannot act on</h2>
+  <p class="problem-body">The inflatable category already earns significant organic impressions. The breakdown happens after the click. Traffic is landing on the wrong pages, and many of the pages that do rank give buyers no clear next step toward a quote. The problem is structural.</p>
+
+  <div class="stat-strip">
+    <div class="stat-card">
+      <div class="stat-n r">47,231</div>
+      <div class="stat-l">monthly impressions on the hub page at 0.1% CTR</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-n r">8,759</div>
+      <div class="stat-l">impressions on replica page; wrong URL type, no H1</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-n a">pos 23</div>
+      <div class="stat-l">"custom inflatables," the category's primary head term</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-n a">pos 15</div>
+      <div class="stat-l">football tunnel product page, suppressed by its own collection</div>
+    </div>
+  </div>
+
+  <div class="constraint-grid">
+    <div class="constraint">
+      <div class="c-title">No true category hub</div>
+      <div class="c-body">The current top-level inflatable entry point is framed around an advertising subset, not the full custom inflatables category. That makes it a weak fit for "custom inflatables" (3,000 monthly searches, $1.50 CPC), which needs a broader category page.</div>
+      <div class="c-data">pos 39 for "custom inflatables" · 2,074 impr · 0 clicks</div>
+    </div>
+    <div class="constraint">
+      <div class="c-title">Internal cannibalization on two silos</div>
+      <div class="c-body">Product pages and their parent collections compete for the same queries. Authority gets split instead of concentrated. In arches, a product page at pos 28 with 29 inlinks is competing with a collection at pos 9.2 with 1,996 inlinks.</div>
+      <div class="c-data">tunnels product (pos 11.5) competes with tunnels collection (pos 7.1)</div>
+    </div>
+    <div class="constraint">
+      <div class="c-title">Replica cluster has no collection</div>
+      <div class="c-body">The replica-intent cluster carries 2,150 combined monthly searches and still has no proper collection page. The existing asset sits on a /pages/ URL. It earns visibility, but it does not give buyers the product context needed to convert.</div>
+      <div class="c-data">8,759 impr · /pages/ type · missing H1 · 5 clicks total</div>
+    </div>
+    <div class="constraint warn">
+      <div class="c-title">High-value queries with no destination</div>
+      <div class="c-body">Race arch ($4.00 CPC), mascot tunnels ($3.5K–$5.5K avg order), and price-intent tunnel queries rank in positions 1–5 with nowhere to land. No pages exist for them, or the pages that do exist have no pricing content.</div>
+      <div class="c-data">inflatable race arch · $4 CPC · zero pages · inflatable tunnel price · pos 5 · 4 clicks</div>
+    </div>
+  </div>
+</div>
+
+
+<!-- 03 CURRENT vs NEW -->
+<div class="sec">
+  <div class="sec-label">Architecture</div>
+  <h2>Current structure vs proposed structure</h2>
+  <p style="font-size:13px;color:var(--muted);margin-bottom:28px;">This view shows every URL in the inflatable category, current and final. The final state of 31 URLs includes new collection and product builds, net of URLs removed by redirect. The main change is a shift from a flat URL set to a two-level taxonomy with a clear role for each page. <mono>/collections/custom-inflatables</mono> becomes the category parent. <mono>/collections/inflatable-advertising</mono> stays live as a child collection in the promotional lane.</p>
+
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:36px;">
+
+    <!-- CURRENT -->
+    <div>
+      <div class="arch-label bad">Current — 24 URLs · flat &amp; competing</div>
+      <div class="tree">
+
+        <div class="node root bad">
+          <span class="node-url">/collections/inflatable-advertising</span>
+          <span class="tag tag-dark">false hub</span>
+        </div>
+        <div class="node child warn"><span class="node-url">/collections/inflatable-arches</span><span class="tag tag-gray">pos 9.2</span></div>
+        <div class="node leaf bad"><span class="node-url">/products/custom-inflatable-arches</span><span class="tag tag-red">cannibalizes</span></div>
+        <div class="node leaf"><span class="node-url">/products/inflatable-floating-arch</span><span class="tag tag-gray">pos 17.5 · 0 clicks</span></div>
+        <div class="node leaf"><span class="node-url">/products/inflatable-led-arch</span><span class="tag tag-gray">pos 11.6</span></div>
+        <div class="node leaf"><span class="node-url">/products/custom-inflatable-misting-arches</span><span class="tag tag-gray">pos 15.4</span></div>
+        <div class="node leaf"><span class="node-url">/products/custom-shape-inflatable-arches</span><span class="tag tag-gray">pos 36.6</span></div>
+        <div class="node leaf"><span class="node-url">/pages/inflatable-arch-gallery</span><span class="tag tag-gray">no H1</span></div>
+
+        <div class="node child warn"><span class="node-url">/collections/inflatable-tunnels</span><span class="tag tag-gray">pos 7.1</span></div>
+        <div class="node leaf bad"><span class="node-url">/products/custom-inflatable-tunnels</span><span class="tag tag-red">cannibalizes</span></div>
+        <div class="node leaf"><span class="node-url">/products/custom-inflatable-football-tunnel</span><span class="tag tag-gray">pos 15.5 · suppressed</span></div>
+        <div class="node leaf"><span class="node-url">/products/custom-inflatable-football-helmet</span><span class="tag tag-gray">pos 8.8 · title mismatch</span></div>
+        <div class="node leaf"><span class="node-url">/products/custom-inflatable-mascot-tunnels</span><span class="tag tag-gray">pos 12.8</span></div>
+        <div class="node leaf"><span class="node-url">/products/inflatable-little-league-tunnel</span><span class="tag tag-gray">not indexed</span></div>
+
+        <div class="node child warn"><span class="node-url">/collections/sports-inflatables</span><span class="tag tag-amb">H2 conflict</span></div>
+
+        <div class="node child warn"><span class="node-url">/pages/inflatable-product-replica</span><span class="tag tag-amb">wrong type · no H1</span></div>
+
+        <div class="node child warn"><span class="node-url">/products/inflatable-bottles-and-cans</span><span class="tag tag-amb">orphaned · 0.2% CTR</span></div>
+        <div class="node child warn"><span class="node-url">/products/custom-inflatable-logo</span><span class="tag tag-amb">orphaned</span></div>
+        <div class="node child warn"><span class="node-url">/products/custom-mascot-inflatables</span><span class="tag tag-amb">orphaned</span></div>
+        <div class="node child warn"><span class="node-url">/products/custom-inflatable-buoys</span><span class="tag tag-amb">orphaned</span></div>
+        <div class="node child warn"><span class="node-url">/products/inflatable-columns</span><span class="tag tag-amb">orphaned</span></div>
+        <div class="node child warn"><span class="node-url">/products/inflatable-dome-tents-1</span><span class="tag tag-amb">broken slug</span></div>
+
+        <div class="node child bad"><span class="node-url">/products/inflatable-race-arch</span><span class="tag tag-red">does not exist</span></div>
+        <div class="node child bad"><span class="node-url">/products/inflatable-[mascot]-tunnel</span><span class="tag tag-red">does not exist</span></div>
+        <div class="node child bad"><span class="node-url">/collections/inflatable-product-replicas</span><span class="tag tag-red">does not exist</span></div>
+        <div class="node child bad"><span class="node-url">/collections/custom-inflatables</span><span class="tag tag-red">does not exist</span></div>
+
+        <div class="node child"><span class="node-url">/pages/custom-inflatable-gallery</span><span class="tag tag-gray">support asset</span></div>
+        <div class="node child"><span class="node-url">/pages/sports-inflatable-gallery</span><span class="tag tag-gray">support asset</span></div>
+
+      </div>
+    </div>
+
+    <!-- NEW -->
+    <div>
+      <div class="arch-label good">Proposed — 31 URLs · clean two-level taxonomy</div>
+      <div class="tree">
+
+        <div class="node root new">
+          <span class="node-url">/collections/custom-inflatables</span>
+          <span class="tag tag-grn">new · absolute hub</span>
+        </div>
+
+        <div class="node child"><span class="node-url">/collections/inflatable-arches</span><span class="tag tag-gray">retarget title</span></div>
+        <div class="node leaf new"><span class="node-url">/products/inflatable-race-arch</span><span class="tag tag-grn-sm">new · $4 CPC</span></div>
+        <div class="node leaf"><span class="node-url">/products/inflatable-floating-arch</span><span class="tag tag-amb">H1 edit</span></div>
+        <div class="node leaf"><span class="node-url">/products/inflatable-led-arch</span><span class="tag tag-gray">no changes</span></div>
+        <div class="node leaf"><span class="node-url">/products/custom-inflatable-misting-arches</span><span class="tag tag-gray">no changes</span></div>
+        <div class="node leaf"><span class="node-url">/products/custom-shape-inflatable-arches</span><span class="tag tag-gray">no changes</span></div>
+        <div class="node leaf"><span class="node-url">/pages/inflatable-arch-gallery</span><span class="tag tag-gray">keep live</span></div>
+        <div class="node leaf bad"><span class="node-url">/products/custom-inflatable-arches</span><span class="tag tag-red">301 → collection</span></div>
+
+        <div class="node child"><span class="node-url">/collections/inflatable-tunnels</span><span class="tag tag-gray">H2s replaced + pricing</span></div>
+        <div class="node leaf"><span class="node-url">/products/custom-inflatable-football-tunnel</span><span class="tag tag-amb">rewrite + pricing</span></div>
+        <div class="node leaf"><span class="node-url">/products/custom-inflatable-football-helmet</span><span class="tag tag-amb">title fix + strengthen</span></div>
+        <div class="node leaf"><span class="node-url">/products/custom-inflatable-mascot-tunnels</span><span class="tag tag-amb">hub + browse links</span></div>
+        <div class="node leaf new"><span class="node-url">/products/inflatable-cougar-tunnel</span><span class="tag tag-grn-sm">new · phase 1</span></div>
+        <div class="node leaf new"><span class="node-url">/products/inflatable-bulldog-tunnel</span><span class="tag tag-grn-sm">new · phase 1</span></div>
+        <div class="node leaf new"><span class="node-url">/products/inflatable-tiger-tunnel</span><span class="tag tag-grn-sm">new · phase 1</span></div>
+        <div class="node leaf new" style="opacity:.65"><span class="node-url">/products/inflatable-panther-tunnel</span><span class="tag tag-grn-sm">new · phase 2</span></div>
+        <div class="node leaf new" style="opacity:.65"><span class="node-url">/products/inflatable-eagle-tunnel</span><span class="tag tag-grn-sm">new · phase 2</span></div>
+        <div class="node leaf"><span class="node-url">/products/inflatable-little-league-tunnel</span><span class="tag tag-amb">on-page fix + index</span></div>
+        <div class="node leaf bad"><span class="node-url">/products/custom-inflatable-tunnels</span><span class="tag tag-red">301 → collection</span></div>
+
+        <div class="node child"><span class="node-url">/collections/inflatable-advertising</span><span class="tag tag-gray">child · promo lane</span></div>
+        <div class="node leaf new"><span class="node-url">/collections/inflatable-product-replicas</span><span class="tag tag-grn-sm">new collection</span></div>
+        <div class="node leaf"><span class="node-url">/products/inflatable-bottles-and-cans</span><span class="tag tag-amb">title/H1 tighten</span></div>
+        <div class="node leaf"><span class="node-url">/products/custom-inflatable-logo</span><span class="tag tag-gray">assign to collection</span></div>
+        <div class="node leaf"><span class="node-url">/products/custom-mascot-inflatables</span><span class="tag tag-gray">assign to collection</span></div>
+        <div class="node leaf bad"><span class="node-url">/pages/inflatable-product-replica</span><span class="tag tag-red">301 → replicas</span></div>
+
+        <div class="node child"><span class="node-url">/products/custom-inflatable-buoys</span><span class="tag tag-gray">hub + arches · cross-link</span></div>
+        <div class="node child"><span class="node-url">/products/inflatable-columns</span><span class="tag tag-amb">H2 fix</span></div>
+        <div class="node child"><span class="node-url">/products/inflatable-dome-tents</span><span class="tag tag-amb">handle fix</span></div>
+
+        <div class="node child warn"><span class="node-url">/collections/sports-inflatables</span><span class="tag tag-amb">H2 cleanup · redirect deferred</span></div>
+
+        <div class="node child"><span class="node-url">/pages/custom-inflatable-gallery</span><span class="tag tag-gray">keep live</span></div>
+        <div class="node child"><span class="node-url">/pages/sports-inflatable-gallery</span><span class="tag tag-gray">keep live</span></div>
+
+      </div>
+    </div>
+
+  </div>
+
+  <div style="display:flex;gap:16px;flex-wrap:wrap;margin-top:24px;padding-top:18px;border-top:1px solid var(--rule);font-size:11px;">
+    <span style="display:flex;align-items:center;gap:5px;color:var(--muted)"><span style="width:10px;height:10px;border-radius:2px;background:var(--green);display:inline-block;"></span>New build</span>
+    <span style="display:flex;align-items:center;gap:5px;color:var(--muted)"><span style="width:10px;height:10px;border-radius:2px;background:var(--red-bg);border:1px solid var(--red);display:inline-block;"></span>Removed via 301</span>
+    <span style="display:flex;align-items:center;gap:5px;color:var(--muted)"><span style="width:10px;height:10px;border-radius:2px;background:var(--amb-bg);border:1px solid var(--amber);display:inline-block;"></span>Content edit / fix</span>
+    <span style="display:flex;align-items:center;gap:5px;color:var(--muted)"><span style="width:10px;height:10px;border-radius:2px;background:var(--surface);border:1px solid var(--rule);display:inline-block;"></span>No changes</span>
+    <span style="display:flex;align-items:center;gap:5px;color:var(--muted);opacity:.65"><span style="width:10px;height:10px;border-radius:2px;background:var(--grn-bg);border:1px solid var(--green);display:inline-block;"></span>Phase 2 (after phase 1 indexed)</span>
+  </div>
+</div>
+
+<!-- 04 SCOPE -->
+<div class="sec">
+  <div class="sec-label">Scope</div>
+  <h2>What changes. What does not.</h2>
+
+  <div class="scope-grid">
+    <div class="scope-box green">
+      <div class="scope-head green">Changes</div>
+      <div class="scope-item"><div class="dot green"></div><span>New parent hub: <strong>/collections/custom-inflatables</strong> created from scratch</span></div>
+      <div class="scope-item"><div class="dot green"></div><span>New replicas collection: <strong>/collections/inflatable-product-replicas</strong></span></div>
+      <div class="scope-item"><div class="dot green"></div><span>8 new URLs built: 2 new collections, race arch, 3 phase-1 mascot tunnels, and 2 phase-2 mascot tunnels</span></div>
+      <div class="scope-item"><div class="dot green"></div><span>2 cannibalizing product pages 301'd into their collection parents</span></div>
+      <div class="scope-item"><div class="dot green"></div><span>Arch collection title retargeted; race/finish language moved to the new page</span></div>
+      <div class="scope-item"><div class="dot green"></div><span>Tunnel collection H2s replaced so the collection stops competing with product pages</span></div>
+      <div class="scope-item"><div class="dot green"></div><span>Football tunnel product page rewritten with pricing content</span></div>
+    </div>
+    <div class="scope-box gray">
+      <div class="scope-head gray">Does not change</div>
+      <div class="scope-item"><div class="dot gray"></div><span>Most URLs stay live. This is not a rebuild.</span></div>
+      <div class="scope-item"><div class="dot gray"></div><span><strong>/collections/inflatable-advertising</strong> is not redirected. It stays as a child collection in the promotional lane.</span></div>
+      <div class="scope-item"><div class="dot gray"></div><span><strong>/collections/sports-inflatables</strong> is not redirected yet. Signal cleanup happens now; redirect decision is deferred.</span></div>
+      <div class="scope-item"><div class="dot gray"></div><span>Gallery pages kept live as conversion/support assets</span></div>
+      <div class="scope-item"><div class="dot gray"></div><span>LED arch, misting arch, and shape arch keep their current roles</span></div>
+      <div class="scope-item"><div class="dot gray"></div><span>No changes to non-inflatable categories</span></div>
+    </div>
+  </div>
+</div>
+
+
+<!-- 05 STRATEGIC MOVES -->
+<div class="sec">
+  <div class="sec-label">Strategic moves</div>
+  <h2>Four things this restructure does</h2>
+
+  <div class="moves-grid">
+    <div class="move">
+      <div class="move-num">1</div>
+      <div>
+        <div class="move-title">Establishes a real category hub</div>
+        <div class="move-body">The existing hub page is too narrowly framed for broad category queries. Building <mono>/collections/custom-inflatables</mono> as the parent, with grouped product sections and links into child collections, gives the category a usable entry point for both search engines and buyers.</div>
+        <span class="move-signal">primary target: "custom inflatables" · 3,000 vol · $1.50 CPC</span>
+      </div>
+    </div>
+    <div class="move">
+      <div class="move-num">2</div>
+      <div>
+        <div class="move-title">Eliminates internal competition</div>
+        <div class="move-body">Two product pages compete with their own collection pages for the same queries. Redirecting them consolidates authority onto the stronger URL in each case. The tunnels collection (pos 7.1, 660 inlinks) and arches collection (pos 9.2, 1,996 inlinks) should both benefit once that overlap is removed.</div>
+        <span class="move-signal">2 redirects · inlinks consolidated · collection positions expected to improve</span>
+      </div>
+    </div>
+    <div class="move">
+      <div class="move-num">3</div>
+      <div>
+        <div class="move-title">Houses the replica cluster properly</div>
+        <div class="move-body">Right now, 8,759 monthly impressions are landing on a /pages/ URL with no H1 and no product context. Building <mono>/collections/inflatable-product-replicas</mono> moves that traffic onto a proper collection page that can actually support conversion.</div>
+        <span class="move-signal">2,150 keyword vol · 8,759 impr absorbed · 0.1% CTR → target improvement</span>
+      </div>
+    </div>
+    <div class="move">
+      <div class="move-num">4</div>
+      <div>
+        <div class="move-title">Creates pages only where demand is clear</div>
+        <div class="move-body">New pages are built for the race arch cluster ($4–$5 CPC, no current URL) and for individual mascot tunnels, where competition is light and order value is high. In several cases, competitors are ranking with gallery items and minimal copy. That is a beatable standard. These are high-ticket custom orders, so a single won deal can justify the page.</div>
+        <span class="move-signal">race arch $4 CPC · mascot tunnels $3.5K–$5.5K avg order · 8 new URLs total</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!-- 06 EXPECTED OUTCOMES -->
+<div class="sec">
+  <div class="sec-label">Expected outcomes</div>
+  <h2>What this is designed to achieve</h2>
+  <p style="font-size:13px;color:var(--muted);margin-bottom:28px;">These are directional. Rankings depend on crawl timing, content quality, and competition. There are no guarantees, but each change is tied to a specific problem in the current structure.</p>
+
+  <div class="outcomes-grid">
+    <div class="outcome">
+      <div class="out-head">Ranking alignment</div>
+      <div class="out-body">Each query cluster gets one clear destination. Right now some pages compete with each other. Removing that overlap gives each URL a better chance to rank for the job it is meant to do.</div>
+    </div>
+    <div class="outcome">
+      <div class="out-head">Improved CTR on existing impressions</div>
+      <div class="out-body">The hub page earns 47,231 impressions per month at 0.1% CTR. That means it is appearing, but searchers are not finding the result compelling. A hub that matches what "custom inflatables" searchers are actually looking for should lift that response.</div>
+    </div>
+    <div class="outcome">
+      <div class="out-head">Cleaner RFQ paths</div>
+      <div class="out-body">Price-intent queries (tunnel cost, pricing, "for sale") currently land on pages with no pricing content. Adding a pricing callout and clear quote CTAs converts these bottom-funnel signals into quote requests.</div>
+    </div>
+    <div class="outcome">
+      <div class="out-head">New query coverage</div>
+      <div class="out-body">Race arch and mascot tunnel pages address clusters currently earning zero clicks because no relevant page exists. The demand is confirmed in keyword data and competitor SERP presence.</div>
+    </div>
+    <div class="outcome">
+      <div class="out-head">Cleaner crawl structure</div>
+      <div class="out-body">Fewer duplicate signals, cleaner URL types, and a clear collection hierarchy make it easier for search engines to follow the structure and assign authority correctly.</div>
+    </div>
+    <div class="outcome">
+      <div class="out-head">Durable taxonomy</div>
+      <div class="out-body">The two-level collection structure is durable. Additional mascot tunnels or new arch variants can slot into it without another restructure.</div>
+    </div>
+  </div>
+</div>
+
+
+<!-- 07 RISKS -->
+<div class="sec">
+  <div class="sec-label">Risks &amp; dependencies</div>
+  <h2>What this depends on working correctly</h2>
+
+  <div class="risks">
+    <div class="risk">
+      <div class="risk-icon">⚙</div>
+      <div>
+        <div class="risk-label">Custom Shopify collection template</div>
+        <div class="risk-body">The new hub requires a custom collection template to render grouped product sections with representative SKUs. Without it, the page falls back to a flat product grid and loses the structure this plan depends on.</div>
+      </div>
+    </div>
+    <div class="risk">
+      <div class="risk-icon">↗</div>
+      <div>
+        <div class="risk-label">Redirect chain hygiene</div>
+        <div class="risk-body">Check Shopify's existing redirect list before adding new ones. A chain (A→B→C) bleeds equity at every hop. Each new redirect should resolve as a direct 301.</div>
+      </div>
+    </div>
+    <div class="risk">
+      <div class="risk-icon">⏱</div>
+      <div>
+        <div class="risk-label">Crawl and indexing lag</div>
+        <div class="risk-body">Redirect effects on existing pages usually show in GSC within 30 to 60 days. New pages need to be indexed first, so they should be submitted manually and monitored.</div>
+      </div>
+    </div>
+    <div class="risk">
+      <div class="risk-icon">📸</div>
+      <div>
+        <div class="risk-label">Mascot tunnel pages require real product photos</div>
+        <div class="risk-body">Individual mascot tunnel pages (bulldog, cougar, tiger) need actual MVP Visuals build photography to compete in Shopping SERPs and image results. Low competition is the advantage here, and real build photos make that advantage more useful.</div>
+      </div>
+    </div>
+    <div class="risk">
+      <div class="risk-icon">⚑</div>
+      <div>
+        <div class="risk-label">Sports-inflatables decision deferred</div>
+        <div class="risk-body"><mono>/collections/sports-inflatables</mono> is not redirected as part of this restructure. On-page signal cleanup happens now. The later repurpose-versus-redirect decision depends on post-change GSC data.</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!-- APPENDIX DIVIDER -->
+<div class="appendix-divider">
+  <span>Appendix — implementation detail</span>
+</div>
+
+
+<!-- A1 REDIRECTS -->
+<div class="sec">
+  <div class="sec-label">A1 — Redirect map</div>
+  <h2>3 strategic redirects + 1 technical handle cleanup</h2>
+
+  <table class="redir-table">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>From</th>
+        <th></th>
+        <th>To</th>
+        <th>Timing</th>
+        <th>Rationale</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="tag tag-red">301</span></td>
+        <td class="from">/products/custom-inflatable-arches</td>
+        <td class="arr">→</td>
+        <td class="to">/collections/inflatable-arches</td>
+        <td class="redir-note">Immediate</td>
+        <td class="redir-note">29 inlinks consolidate to collection · removes split signal</td>
+      </tr>
+      <tr>
+        <td><span class="tag tag-red">301</span></td>
+        <td class="from">/products/custom-inflatable-tunnels</td>
+        <td class="arr">→</td>
+        <td class="to">/collections/inflatable-tunnels</td>
+        <td class="redir-note">Immediate</td>
+        <td class="redir-note">84 inlinks consolidate to collection · removes split signal</td>
+      </tr>
+      <tr>
+        <td><span class="tag tag-red">301</span></td>
+        <td class="from">/pages/inflatable-product-replica</td>
+        <td class="arr">→</td>
+        <td class="to">/collections/inflatable-product-replicas</td>
+        <td class="redir-note">After collection built</td>
+        <td class="redir-note">Wrong template · traffic moved to proper collection</td>
+      </tr>
+      <tr>
+        <td><span class="tag tag-amb">handle</span></td>
+        <td class="from">/products/inflatable-dome-tents-1</td>
+        <td class="arr">→</td>
+        <td class="to">/products/inflatable-dome-tents</td>
+        <td class="redir-note">Immediate</td>
+        <td class="redir-note">Migration artifact · Shopify auto-creates 301</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div class="note-box">
+    <strong>/collections/inflatable-advertising stays live.</strong> It remains a child collection for the promotional and branded lane. Do not redirect it to /collections/custom-inflatables.
+  </div>
+</div>
+
+
+<!-- A2 KEYWORD MAP -->
+<div class="sec">
+  <div class="sec-label">A2 — Keyword ownership</div>
+  <h2>Cluster-to-URL assignment</h2>
+
+  <table class="kw-table">
+    <thead>
+      <tr>
+        <th>Cluster</th>
+        <th>Vol</th>
+        <th>CPC</th>
+        <th>Before</th>
+        <th>After</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>custom inflatables · custom inflatable</td>
+        <td class="vol">3,700</td>
+        <td>$1.50</td>
+        <td class="bad">pos 39 · /inflatable-advertising · 0 clicks</td>
+        <td class="good">/collections/custom-inflatables · new hub</td>
+      </tr>
+      <tr>
+        <td>inflatable product replicas · event replica</td>
+        <td class="vol">2,150</td>
+        <td>—</td>
+        <td class="bad">/pages/ type · no H1 · pos 19 · 5 clicks</td>
+        <td class="good">/collections/inflatable-product-replicas · new</td>
+      </tr>
+      <tr>
+        <td>inflatable arch · custom inflatable arch</td>
+        <td class="vol">800</td>
+        <td>$2.00</td>
+        <td class="bad">split: collection pos 9.2 vs product pos 28</td>
+        <td class="good">/collections/inflatable-arches only · 301 removes split</td>
+      </tr>
+      <tr>
+        <td>inflatable race arch · finish line arch</td>
+        <td class="vol">270</td>
+        <td class="cpc-hi">$4.00</td>
+        <td class="bad">no page anywhere on site</td>
+        <td class="good">/products/inflatable-race-arch · new build</td>
+      </tr>
+      <tr>
+        <td>inflatable tunnel · sports tunnel (generic)</td>
+        <td class="vol">810</td>
+        <td>$1.10</td>
+        <td class="bad">split: collection pos 7.1 vs product pos 11.5</td>
+        <td class="good">/collections/inflatable-tunnels only · 301 removes split</td>
+      </tr>
+      <tr>
+        <td>inflatable football tunnel · price intent</td>
+        <td class="vol">690</td>
+        <td>$0.70</td>
+        <td class="bad">pos 15.5 · H2 conflict from collection · no pricing content</td>
+        <td class="good">/products/custom-inflatable-football-tunnel · rewrite + pricing</td>
+      </tr>
+      <tr>
+        <td>inflatable helmet tunnel cluster</td>
+        <td class="vol">250</td>
+        <td>$0.80</td>
+        <td class="bad">pos 8.8 · title mismatch · collection H2 competing</td>
+        <td class="good">/products/custom-inflatable-football-helmet · clean signal</td>
+      </tr>
+      <tr>
+        <td>mascot tunnel · animal mascot variants</td>
+        <td class="vol">230</td>
+        <td>$0.90</td>
+        <td class="bad">one generic page · no individual mascot URLs</td>
+        <td class="good">hub + cougar / bulldog / tiger · phase 1 new builds</td>
+      </tr>
+      <tr>
+        <td>promotional · branded · advertising inflatables</td>
+        <td class="vol">700</td>
+        <td class="cpc-hi">$7.00</td>
+        <td class="bad">buried on overloaded hub page</td>
+        <td class="good">/collections/inflatable-advertising · own focused lane</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+
+<footer>
+  <span>MVP Visuals · Inflatable Category Architecture Restructure · Search Kaizen · March 2026</span>
+  <span>arch · tunnel · inflatables silo specs</span>
+</footer>
+
+</div><!-- /page -->
+</body>
+</html>
