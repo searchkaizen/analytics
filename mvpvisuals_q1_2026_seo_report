@@ -1,0 +1,1423 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MVP Visuals — SEO Director's Brief, Q1 2026</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Barlow:wght@300;400;500;600&family=Barlow+Condensed:wght@500;600;700&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
+<style>
+:root {
+  --cream: #f5f1ea;
+  --white: #ffffff;
+  --navy: #0c1928;
+  --navy-mid: #1e3048;
+  --navy-light: #2e4a6a;
+  --ink: #1a2a3a;
+  --muted: #5a6878;
+  --faint: #9aacba;
+  --rule: #ddd8cf;
+  --amber: #b87520;
+  --amber-bg: #fdf4e7;
+  --amber-border: #f0d49a;
+  --teal: #0a7060;
+  --teal-bg: #eaf4f1;
+  --teal-border: #8ec9bf;
+  --red: #a82b1e;
+  --red-bg: #fdf0ee;
+  --red-border: #f0b8b2;
+  --blue: #1a4a8a;
+  --blue-bg: #eef3fb;
+  --font-display: 'Cormorant Garamond', Georgia, serif;
+  --font-body: 'Barlow', system-ui, sans-serif;
+  --font-condensed: 'Barlow Condensed', sans-serif;
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body {
+  background: var(--cream);
+  color: var(--ink);
+  font-family: var(--font-body);
+  font-size: 14px;
+  line-height: 1.65;
+  display: flex;
+}
+
+/* === NAV === */
+nav {
+  position: fixed;
+  top: 0; left: 0;
+  width: 200px;
+  height: 100vh;
+  background: var(--navy);
+  padding: 36px 0 24px;
+  display: flex;
+  flex-direction: column;
+  z-index: 100;
+  overflow-y: auto;
+}
+.nav-mark {
+  padding: 0 24px 28px;
+  border-bottom: 1px solid rgba(255,255,255,0.08);
+  margin-bottom: 24px;
+}
+.nav-mark .co { font-family: var(--font-condensed); font-size: 13px; font-weight: 600; color: #fff; letter-spacing: 0.05em; text-transform: uppercase; }
+.nav-mark .doc { font-size: 11px; color: rgba(255,255,255,0.4); margin-top: 4px; font-family: var(--font-body); font-weight: 300; }
+nav a {
+  display: block;
+  padding: 7px 24px;
+  font-size: 11px;
+  font-weight: 500;
+  color: rgba(255,255,255,0.38);
+  text-decoration: none;
+  letter-spacing: 0.04em;
+  border-left: 2px solid transparent;
+  transition: all 0.15s;
+  font-family: var(--font-condensed);
+  text-transform: uppercase;
+}
+nav a:hover { color: rgba(255,255,255,0.75); }
+nav a.active { color: #fff; border-left-color: var(--amber); background: rgba(255,255,255,0.04); }
+.nav-group {
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.2);
+  padding: 18px 24px 6px;
+  font-family: var(--font-condensed);
+}
+.nav-foot {
+  margin-top: auto;
+  padding: 20px 24px 0;
+  border-top: 1px solid rgba(255,255,255,0.08);
+  font-size: 10px;
+  color: rgba(255,255,255,0.22);
+  line-height: 1.6;
+  font-family: var(--font-body);
+}
+
+/* === MAIN === */
+main { margin-left: 200px; flex: 1; min-height: 100vh; }
+
+/* === COVER === */
+.cover {
+  background: var(--navy);
+  padding: 80px 72px 64px;
+  position: relative;
+  overflow: hidden;
+  min-height: 460px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+}
+.cover::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(ellipse 600px 400px at 80% 30%, rgba(184,117,32,0.12) 0%, transparent 70%),
+    radial-gradient(ellipse 400px 600px at 10% 80%, rgba(10,112,96,0.08) 0%, transparent 60%);
+  pointer-events: none;
+}
+.cover-meta {
+  font-family: var(--font-condensed);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--amber);
+  margin-bottom: 20px;
+}
+.cover h1 {
+  font-family: var(--font-display);
+  font-size: 54px;
+  font-weight: 500;
+  line-height: 1.08;
+  color: #fff;
+  max-width: 700px;
+  margin-bottom: 24px;
+}
+.cover h1 em { font-style: italic; color: rgba(255,255,255,0.65); }
+.cover-abstract {
+  font-size: 15px;
+  font-weight: 300;
+  color: rgba(255,255,255,0.65);
+  max-width: 620px;
+  line-height: 1.75;
+  margin-bottom: 52px;
+  border-left: 2px solid var(--amber);
+  padding-left: 20px;
+}
+.cover-stats {
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  gap: 0;
+  border-top: 1px solid rgba(255,255,255,0.1);
+  padding-top: 32px;
+  max-width: 860px;
+}
+.cstat {
+  padding-right: 24px;
+  border-right: 1px solid rgba(255,255,255,0.08);
+  margin-right: 24px;
+}
+.cstat:last-child { border-right: none; }
+.cstat-label { font-size: 10px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: rgba(255,255,255,0.35); margin-bottom: 6px; font-family: var(--font-condensed); }
+.cstat-val { font-family: var(--font-display); font-size: 28px; font-weight: 500; color: #fff; line-height: 1; }
+.cstat-delta { font-size: 11px; margin-top: 5px; font-family: var(--font-body); font-weight: 500; }
+.d-up { color: #4ecda4; }
+.d-down { color: #e0776e; }
+.d-flat { color: var(--amber); }
+.d-new { color: #9b9ef0; }
+
+/* === SECTIONS === */
+section { padding: 72px 72px 0; }
+.section-header { margin-bottom: 36px; }
+.section-eyebrow {
+  font-family: var(--font-condensed);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--amber);
+  margin-bottom: 10px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.section-eyebrow::after { content: ''; flex: 1; height: 1px; background: var(--amber-border); }
+.section-header h2 {
+  font-family: var(--font-display);
+  font-size: 34px;
+  font-weight: 500;
+  color: var(--navy);
+  line-height: 1.2;
+}
+.section-header h2 em { font-style: italic; color: var(--muted); }
+.lead {
+  font-size: 15px;
+  font-weight: 300;
+  color: var(--muted);
+  max-width: 780px;
+  line-height: 1.8;
+  margin-bottom: 40px;
+}
+.lead strong { font-weight: 600; color: var(--ink); }
+
+/* === LAYOUT === */
+.row2 { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; margin-bottom: 24px; }
+.row3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 24px; margin-bottom: 24px; }
+.row-asym { display: grid; grid-template-columns: 1.4fr 1fr; gap: 24px; margin-bottom: 24px; }
+.row-asym-r { display: grid; grid-template-columns: 1fr 1.4fr; gap: 24px; margin-bottom: 24px; }
+
+/* === CARDS === */
+.card {
+  background: var(--white);
+  border: 1px solid var(--rule);
+  border-radius: 4px;
+  padding: 24px 26px;
+}
+.card-label {
+  font-family: var(--font-condensed);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--faint);
+  margin-bottom: 16px;
+}
+.chart-wrap { position: relative; }
+
+/* === STAT TABLE === */
+.stat-line {
+  display: grid;
+  grid-template-columns: 1fr auto auto;
+  gap: 12px;
+  align-items: baseline;
+  padding: 10px 0;
+  border-bottom: 1px solid var(--rule);
+}
+.stat-line:last-child { border-bottom: none; }
+.sl-name { font-size: 13px; color: var(--ink); font-weight: 500; }
+.sl-name small { display: block; font-size: 11px; color: var(--faint); font-weight: 400; margin-top: 1px; }
+.sl-val { font-size: 13px; color: var(--ink); font-family: var(--font-condensed); font-weight: 600; letter-spacing: 0.02em; text-align: right; }
+.sl-yoy { font-size: 11px; font-weight: 600; min-width: 52px; text-align: right; font-family: var(--font-condensed); }
+.up { color: var(--teal); }
+.down { color: var(--red); }
+.flat { color: var(--amber); }
+.new-tag { color: var(--blue); }
+
+/* === FINDING CARDS === */
+.finding {
+  background: var(--white);
+  border: 1px solid var(--rule);
+  border-radius: 4px;
+  padding: 22px 24px;
+  margin-bottom: 16px;
+  position: relative;
+  padding-left: 28px;
+}
+.finding::before {
+  content: '';
+  position: absolute;
+  left: 0; top: 0; bottom: 0;
+  width: 4px;
+  border-radius: 4px 0 0 4px;
+}
+.finding.red::before { background: var(--red); }
+.finding.amber::before { background: var(--amber); }
+.finding.teal::before { background: var(--teal); }
+.finding.blue::before { background: var(--blue); }
+.finding-head {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 8px;
+}
+.f-tag {
+  font-family: var(--font-condensed);
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  padding: 2px 8px;
+  border-radius: 3px;
+}
+.f-tag.red { background: var(--red-bg); color: var(--red); border: 1px solid var(--red-border); }
+.f-tag.amber { background: var(--amber-bg); color: var(--amber); border: 1px solid var(--amber-border); }
+.f-tag.teal { background: var(--teal-bg); color: var(--teal); border: 1px solid var(--teal-border); }
+.f-tag.blue { background: var(--blue-bg); color: var(--blue); border: 1px solid rgba(26,74,138,0.2); }
+.finding-title { font-size: 14px; font-weight: 600; color: var(--ink); }
+.finding p { font-size: 13px; color: var(--muted); line-height: 1.7; }
+.finding p strong { color: var(--ink); font-weight: 600; }
+
+/* === CALLOUT === */
+.pullquote {
+  border-left: 3px solid var(--navy);
+  padding: 20px 24px;
+  margin: 32px 0;
+  background: var(--white);
+  border-radius: 0 4px 4px 0;
+}
+.pullquote p {
+  font-family: var(--font-display);
+  font-size: 20px;
+  font-weight: 400;
+  font-style: italic;
+  color: var(--navy);
+  line-height: 1.6;
+  margin-bottom: 8px;
+}
+.pullquote cite { font-size: 12px; color: var(--faint); font-style: normal; font-family: var(--font-condensed); letter-spacing: 0.06em; text-transform: uppercase; }
+
+/* === DATA TABLE === */
+.tbl-wrap { border: 1px solid var(--rule); border-radius: 4px; overflow: hidden; margin-bottom: 24px; }
+table.dt { width: 100%; border-collapse: collapse; font-size: 13px; }
+table.dt thead tr { background: var(--navy); }
+table.dt th { padding: 10px 14px; text-align: left; font-size: 10px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: rgba(255,255,255,0.5); font-family: var(--font-condensed); }
+table.dt th:not(:first-child) { text-align: right; }
+table.dt td { padding: 10px 14px; border-bottom: 1px solid var(--rule); color: var(--muted); vertical-align: middle; }
+table.dt td:first-child { color: var(--ink); font-weight: 500; }
+table.dt td:not(:first-child) { text-align: right; font-family: var(--font-condensed); font-size: 12px; font-weight: 500; }
+table.dt tr:hover td { background: var(--cream); }
+table.dt tr:last-child td { border-bottom: none; }
+
+/* === METRIC BOX === */
+.mbox {
+  background: var(--white);
+  border: 1px solid var(--rule);
+  border-radius: 4px;
+  padding: 20px 22px;
+}
+.mbox-label { font-family: var(--font-condensed); font-size: 10px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--faint); margin-bottom: 8px; }
+.mbox-val { font-family: var(--font-display); font-size: 32px; font-weight: 500; color: var(--navy); line-height: 1; }
+.mbox-sub { font-size: 12px; color: var(--muted); margin-top: 5px; font-weight: 400; }
+
+/* === FUNNEL STRIP === */
+.funnel { display: flex; align-items: stretch; margin-bottom: 16px; }
+.fstep { flex: 1; background: var(--white); border: 1px solid var(--rule); padding: 14px 16px; }
+.fstep + .fstep { border-left: none; }
+.fstep:first-child { border-radius: 4px 0 0 4px; }
+.fstep:last-child { border-radius: 0 4px 4px 0; }
+.fstep-label { font-size: 10px; font-family: var(--font-condensed); font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: var(--faint); margin-bottom: 4px; }
+.fstep-val { font-family: var(--font-display); font-size: 22px; font-weight: 500; color: var(--navy); }
+.fstep-rate { font-size: 11px; color: var(--muted); margin-top: 2px; }
+.fstep.dim .fstep-val { color: var(--red); }
+.farrow { display: flex; align-items: center; padding: 0 8px; color: var(--rule); font-size: 20px; flex-shrink: 0; }
+
+/* === OPPORTUNITY ROW === */
+.opp-row {
+  display: grid;
+  grid-template-columns: 36px 1fr auto;
+  gap: 16px;
+  align-items: start;
+  padding: 20px 0;
+  border-bottom: 1px solid var(--rule);
+}
+.opp-row:last-child { border-bottom: none; }
+.opp-num { font-family: var(--font-display); font-size: 28px; font-weight: 400; color: var(--rule); line-height: 1.1; }
+.opp-body h4 { font-size: 14px; font-weight: 600; color: var(--ink); margin-bottom: 4px; }
+.opp-body p { font-size: 13px; color: var(--muted); line-height: 1.65; }
+.opp-body p strong { color: var(--ink); font-weight: 600; }
+.opp-pill {
+  font-family: var(--font-condensed);
+  font-size: 11px;
+  font-weight: 700;
+  padding: 5px 12px;
+  border-radius: 3px;
+  white-space: nowrap;
+  margin-top: 4px;
+  letter-spacing: 0.04em;
+}
+.pill-rev { background: var(--teal-bg); color: var(--teal); border: 1px solid var(--teal-border); }
+.pill-vis { background: var(--amber-bg); color: var(--amber); border: 1px solid var(--amber-border); }
+.pill-struct { background: var(--blue-bg); color: var(--blue); border: 1px solid rgba(26,74,138,0.25); }
+
+/* === DIVIDER === */
+hr { border: none; border-top: 1px solid var(--rule); margin: 48px 0; }
+
+/* === STRATEGY MATRIX === */
+.matrix { display: grid; grid-template-columns: 1fr 1fr; gap: 2px; margin-bottom: 24px; border: 1px solid var(--rule); border-radius: 4px; overflow: hidden; }
+.mquad { background: var(--white); padding: 22px 24px; }
+.mquad:nth-child(1) { border-right: 1px solid var(--rule); border-bottom: 1px solid var(--rule); }
+.mquad:nth-child(2) { border-bottom: 1px solid var(--rule); }
+.mquad:nth-child(3) { border-right: 1px solid var(--rule); }
+.mquad h4 { font-size: 12px; font-weight: 700; font-family: var(--font-condensed); letter-spacing: 0.08em; text-transform: uppercase; margin-bottom: 10px; }
+.mquad h4.invest { color: var(--teal); }
+.mquad h4.maintain { color: var(--amber); }
+.mquad h4.audit { color: var(--red); }
+.mquad h4.watch { color: var(--blue); }
+.mquad ul { list-style: none; }
+.mquad li { font-size: 13px; color: var(--muted); padding: 4px 0; border-bottom: 1px dotted var(--rule); }
+.mquad li:last-child { border-bottom: none; }
+.mquad li::before { content: '→  '; color: var(--faint); font-weight: 500; }
+
+/* === NOTE === */
+.note {
+  background: var(--amber-bg);
+  border: 1px solid var(--amber-border);
+  border-radius: 4px;
+  padding: 14px 18px;
+  font-size: 13px;
+  color: #6b4e00;
+  line-height: 1.65;
+  margin-bottom: 24px;
+}
+.note strong { font-weight: 600; color: #4a3600; }
+
+/* === PAGE END === */
+.report-end {
+  padding: 60px 72px 80px;
+  border-top: 1px solid var(--rule);
+  margin-top: 64px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 48px;
+}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-mark">
+    <div class="co">MVP Visuals</div>
+    <div class="doc">SEO Director's Brief<br>Q1 2026</div>
+  </div>
+  <div class="nav-group">Executive</div>
+  <a href="#brief">The Brief</a>
+  <div class="nav-group">Performance</div>
+  <a href="#organic-revenue">Organic Revenue</a>
+  <a href="#visibility">Search Visibility</a>
+  <a href="#rankings">Keyword Rankings</a>
+  <a href="#content">Content Asset Audit</a>
+  <div class="nav-group">Strategy</div>
+  <a href="#commercial">Commercial Page Gap</a>
+  <a href="#category">Inflatable Opportunity</a>
+  <a href="#landscape">Competitive Landscape</a>
+  <div class="nav-group">Direction</div>
+  <a href="#roadmap">SEO Roadmap</a>
+  <div class="nav-foot">SearchKaizen<br>Q1 2026 · April 2026<br>Shopify · GSC · GA4</div>
+</nav>
+
+<!-- MAIN -->
+<main>
+
+<!-- COVER -->
+<div class="cover" id="brief">
+  <div class="cover-meta">SEO Director's Brief &nbsp;·&nbsp; Board of Directors &nbsp;·&nbsp; Q1 2026</div>
+  <h1>Organic Search<br>in a <em>Restructuring</em><br>SERP Environment</h1>
+  <p class="cover-abstract">
+    Organic search delivered +31% revenue growth on a higher-quality, lower-volume traffic base — a structural outcome of AI Overview disruption and deliberate content repositioning. The business case for continued SEO investment in 2026 rests not on recovering click volume, but on capturing the commercial intent signal that AI Overviews leave behind.
+  </p>
+  <div class="cover-stats">
+    <div class="cstat">
+      <div class="cstat-label">Organic Revenue</div>
+      <div class="cstat-val">$67.6K</div>
+      <div class="cstat-delta d-up">+31.4% YoY</div>
+    </div>
+    <div class="cstat">
+      <div class="cstat-label">Organic AOV</div>
+      <div class="cstat-val">$1,084</div>
+      <div class="cstat-delta d-up">+41.6% YoY</div>
+    </div>
+    <div class="cstat">
+      <div class="cstat-label">Impressions</div>
+      <div class="cstat-val">3.38M</div>
+      <div class="cstat-delta d-up">+45.4% YoY</div>
+    </div>
+    <div class="cstat">
+      <div class="cstat-label">Organic Clicks</div>
+      <div class="cstat-val">18,649</div>
+      <div class="cstat-delta d-down">−11.2% YoY</div>
+    </div>
+    <div class="cstat">
+      <div class="cstat-label">Blended CTR</div>
+      <div class="cstat-val">0.55%</div>
+      <div class="cstat-delta d-down">from 0.90% PY</div>
+    </div>
+    <div class="cstat">
+      <div class="cstat-label">Rev / Session</div>
+      <div class="cstat-val">$2.48</div>
+      <div class="cstat-delta d-up">from $1.22 PY</div>
+    </div>
+  </div>
+</div>
+
+<!-- SECTION 1: ORGANIC REVENUE -->
+<section id="organic-revenue">
+  <div class="section-header">
+    <div class="section-eyebrow">01 &nbsp; Performance</div>
+    <h2>Organic Search as a <em>Revenue Channel</em></h2>
+  </div>
+
+  <p class="lead">Google Organic is the only channel in the portfolio posting simultaneous gains in both revenue and session quality. Revenue grew +31% to $67.6K while average order value increased 42%, revenue per session doubled, and engagement time held at 56 seconds. This is not a traffic story. <strong>It is a buyer quality story.</strong></p>
+
+  <div class="row-asym">
+    <div class="card">
+      <div class="card-label">Organic Revenue vs. Other Channels (Shopify)</div>
+      <div class="chart-wrap" style="height:260px"><canvas id="chRevChart"></canvas></div>
+    </div>
+    <div>
+      <div class="card" style="margin-bottom:16px">
+        <div class="card-label">Organic Channel Scorecard</div>
+        <div class="stat-line">
+          <div class="sl-name">Revenue (Shopify)<small>Last non-direct click</small></div>
+          <div class="sl-val">$67,621</div>
+          <div class="sl-yoy up">+31.4%</div>
+        </div>
+        <div class="stat-line">
+          <div class="sl-name">Average Order Value<small>vs. $765 prior year</small></div>
+          <div class="sl-val">$1,084</div>
+          <div class="sl-yoy up">+41.6%</div>
+        </div>
+        <div class="stat-line">
+          <div class="sl-name">Revenue per Session (GA4)<small>vs. $1.22 prior year</small></div>
+          <div class="sl-val">$2.48</div>
+          <div class="sl-yoy up">+103%</div>
+        </div>
+        <div class="stat-line">
+          <div class="sl-name">Sessions (GA4)<small>Organic search, all sources</small></div>
+          <div class="sl-val">26,046</div>
+          <div class="sl-yoy down">−16%</div>
+        </div>
+        <div class="stat-line">
+          <div class="sl-name">Engagement Rate (GA4)<small>vs. 69.4% prior year</small></div>
+          <div class="sl-val">61.5%</div>
+          <div class="sl-yoy down">−7.9pp</div>
+        </div>
+        <div class="stat-line">
+          <div class="sl-name">Avg. Engagement Time (GA4)<small>Quality session signal</small></div>
+          <div class="sl-val">56 sec</div>
+          <div class="sl-yoy flat">stable</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="pullquote">
+    <p>"Fewer organic sessions generating significantly more revenue is the expected signature of AI Overviews filtering out the researchers and leaving the buyers. This dynamic is a feature of the current environment, not a failure."</p>
+    <cite>Search Quality Signal — Q1 2026 Analysis</cite>
+  </div>
+
+  <div class="row3">
+    <div class="finding teal">
+      <div class="finding-head"><span class="f-tag teal">Validated</span><span class="finding-title">AOV increase is structural</span></div>
+      <p>The +42% AOV increase is not a one-order anomaly. It reflects the product mix shift (tents + inflatables replacing tablecloth volume) combined with higher-intent commercial queries surfacing buyers earlier in the purchase cycle. Organic search is self-selecting for the B2B event buyer.</p>
+    </div>
+    <div class="finding amber">
+      <div class="finding-head"><span class="f-tag amber">Watch</span><span class="finding-title">Engagement rate decline</span></div>
+      <p>The drop from 69.4% to 61.5% engagement rate reflects the informational content build — new blog posts (Shark Tank, pickleball) attracting low-intent sessions. This is a content mix signal, not a site quality signal. As ICP-anchored content replaces adjacent posts, engagement rate should recover.</p>
+    </div>
+    <div class="finding teal">
+      <div class="finding-head"><span class="f-tag teal">Opportunity</span><span class="finding-title">Organic Shopping: $24/session</span></div>
+      <p>305 Organic Shopping sessions generated $7,362 — <strong>$24.14 per session</strong>, ten times the organic search rate. 82% engagement rate, 194 second average time. Product feed optimization for tent and inflatable SKUs represents immediate, low-effort revenue upside.</p>
+    </div>
+  </div>
+
+  <div class="note">
+    <strong>Attribution note:</strong> Organic search revenue figures are Shopify last-non-direct-click. GA4 records $64.6K for the same channel — a modest discrepancy attributable to the checkout domain transition and B2B draft-order flows. The $47.4K untracked Shopify bucket (zero sessions, $2,174 AOV) contains a meaningful share of inflatable RFQ revenue that is dark to GA4. True organic-influenced revenue is likely 15–20% higher than reported.
+  </div>
+</section>
+
+<!-- SECTION 2: VISIBILITY -->
+<section id="visibility">
+  <div class="section-header">
+    <div class="section-eyebrow">02 &nbsp; Search Visibility</div>
+    <h2>The Impression Surplus &amp; <em>Click Deficit</em></h2>
+  </div>
+
+  <p class="lead">Search impressions grew 45% to 3.38 million — the largest visibility footprint in the brand's SEO history. Yet clicks declined 11%. This divergence is the defining characteristic of search in 2026: <strong>rankings still matter, but they no longer reliably convert to clicks on informational queries.</strong> AI Overviews are absorbing the answer surface that used to produce clicks.</p>
+
+  <div class="row2">
+    <div class="card">
+      <div class="card-label">Impressions vs. Clicks — Structural Divergence</div>
+      <div class="chart-wrap" style="height:220px"><canvas id="impClickChart"></canvas></div>
+    </div>
+    <div class="card">
+      <div class="card-label">CTR Compression by Query Intent</div>
+      <div class="chart-wrap" style="height:220px"><canvas id="ctrIntentChart"></canvas></div>
+    </div>
+  </div>
+
+  <div class="tbl-wrap">
+    <table class="dt">
+      <thead>
+        <tr>
+          <th>Intent Segment</th>
+          <th>Clicks</th>
+          <th>% of Clicks</th>
+          <th>Impressions</th>
+          <th>Avg. CTR</th>
+          <th>Revenue Signal</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Brand queries</td>
+          <td>406</td>
+          <td>10.6%</td>
+          <td>693</td>
+          <td><span class="up" style="font-weight:700">61.3%</span></td>
+          <td>Brand health — stable</td>
+        </tr>
+        <tr>
+          <td>Commercial intent</td>
+          <td>419</td>
+          <td>10.9%</td>
+          <td>112,632</td>
+          <td><span class="flat" style="font-weight:700">0.37%</span></td>
+          <td>Direct revenue driver — <span class="amber" style="color:var(--amber);font-weight:600">opportunity gap</span></td>
+        </tr>
+        <tr>
+          <td>Informational</td>
+          <td>3,007</td>
+          <td>78.5%</td>
+          <td>385,166</td>
+          <td><span class="down" style="font-weight:700">0.78%</span></td>
+          <td>Brand awareness — AIO eroding</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="row2">
+    <div>
+      <div class="finding red">
+        <div class="finding-head"><span class="f-tag red">Structural Risk</span><span class="finding-title">AIO is eroding informational click share</span></div>
+        <p>Informational query clicks are down across the SearchKaizen client portfolio by <strong>23–54% YoY</strong>. MVP Visuals is within that range. Impressions growing while clicks decline is the precise signature of AI Overviews absorbing answer-intent queries. Pages most exposed: sizing guides, "how to," ideas content, and any query where the answer is a short synthesizable response. This is not recoverable through traditional optimization — it is a structural SERP change.</p>
+      </div>
+      <div class="finding amber">
+        <div class="finding-head"><span class="f-tag amber">Critical Finding</span><span class="finding-title">112K commercial impressions — 0.37% CTR</span></div>
+        <p>The commercial query pool — "custom tablecloth with logo," "inflatable arch," "custom tent," "retractable banner" — receives 112,632 impressions per quarter with an average CTR of 0.37%. AI Overviews have minimal foothold on transactional queries. <strong>This is the addressable opportunity: buyers are seeing MVP Visuals in commercial SERPs but not clicking.</strong> CTR improvement from 0.37% to 1.0% on commercial queries represents ~750 incremental clicks per quarter at $161 average revenue per organic session — approximately $120K annualized.</p>
+      </div>
+    </div>
+    <div>
+      <div class="mbox" style="margin-bottom:16px">
+        <div class="mbox-label">Commercial CTR Opportunity</div>
+        <div class="mbox-val">~$120K</div>
+        <div class="mbox-sub">Annualized revenue impact of improving commercial query CTR from 0.37% → 1.0% on existing impression volume. No new rankings required.</div>
+      </div>
+      <div class="mbox" style="margin-bottom:16px">
+        <div class="mbox-label">Highest-Risk Broken Snippet</div>
+        <div class="mbox-val">6,538</div>
+        <div class="mbox-sub">"Retractable banner" — impressions at position 8.5 with 1 click (0.02% CTR). Single title/meta fix. Banners are +66% revenue YoY.</div>
+      </div>
+      <div class="mbox">
+        <div class="mbox-label">Organic Share of Total Revenue</div>
+        <div class="mbox-val">26.3%</div>
+        <div class="mbox-sub">$67.6K of $257K total. Up from ~20% in Q1 2025. Organic is growing its revenue share while the channel mix shifts.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SECTION 3: KEYWORD RANKINGS -->
+<section id="rankings">
+  <div class="section-header">
+    <div class="section-eyebrow">03 &nbsp; Keyword Rankings</div>
+    <h2>Position Tracking: <em>Where MVP Visuals Owns the SERP</em></h2>
+  </div>
+
+  <p class="lead">367 keywords tracked across 10 category silos. Of 204 currently ranking keywords, <strong>104 sit in the top 10</strong> — a 51% top-10 rate on ranked terms. The distribution tells a clear category story: inflatable products own the SERP; tents are climbing; table covers and banners are losing ground. <em>Note: this keyword list was last updated in 2024 and does not yet reflect new inflatable advertising, dome tent, or banner SKUs added in 2025–26. A list refresh is recommended for Q2 tracking.</em></p>
+
+  <div class="grid4kpi" style="display:grid;grid-template-columns:repeat(5,1fr);gap:14px;margin-bottom:28px">
+    <div class="mbox">
+      <div class="mbox-label">Position #1</div>
+      <div class="mbox-val" style="color:var(--teal)">13</div>
+      <div class="mbox-sub">keywords at top rank</div>
+    </div>
+    <div class="mbox">
+      <div class="mbox-label">Positions 2–3</div>
+      <div class="mbox-val">38</div>
+      <div class="mbox-sub">top-3 cluster</div>
+    </div>
+    <div class="mbox">
+      <div class="mbox-label">Positions 4–10</div>
+      <div class="mbox-val">53</div>
+      <div class="mbox-sub">page 1, lower half</div>
+    </div>
+    <div class="mbox">
+      <div class="mbox-label">Positions 11–20</div>
+      <div class="mbox-val" style="color:var(--amber)">47</div>
+      <div class="mbox-sub">near page 1</div>
+    </div>
+    <div class="mbox">
+      <div class="mbox-label">Not Ranking</div>
+      <div class="mbox-val" style="color:var(--red)">163</div>
+      <div class="mbox-sub">44% — list refresh needed</div>
+    </div>
+  </div>
+
+  <div class="row2">
+    <div class="card">
+      <div class="card-label">Position Distribution — 367 Tracked Keywords</div>
+      <div class="chart-wrap" style="height:230px"><canvas id="posBucketChart"></canvas></div>
+    </div>
+    <div class="card">
+      <div class="card-label">Category Ranking Health</div>
+      <div class="chart-wrap" style="height:230px"><canvas id="catHealthChart"></canvas></div>
+    </div>
+  </div>
+
+  <div class="tbl-wrap">
+    <table class="dt">
+      <thead>
+        <tr>
+          <th>Category Silo</th>
+          <th>KWs Tracked</th>
+          <th>Avg Position</th>
+          <th>Top-10 KWs</th>
+          <th>Unranked</th>
+          <th>Total Vol.</th>
+          <th>Assessment</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td>Inflatable Arches</td><td>14</td><td style="color:var(--teal);font-weight:700">3.2</td><td>13 / 14</td><td>1</td><td>2,970</td><td><span class="f-tag teal" style="font-size:10px">Dominant</span></td></tr>
+        <tr><td>Inflatable Tunnels</td><td>23</td><td style="color:var(--teal);font-weight:700">2.8</td><td>20 / 23</td><td>2</td><td>2,080</td><td><span class="f-tag teal" style="font-size:10px">Dominant</span></td></tr>
+        <tr><td>Inflatable Silo (broad)</td><td>79</td><td style="color:var(--teal);font-weight:700">10.5</td><td>48 / 73</td><td>6</td><td>9,270</td><td><span class="f-tag teal" style="font-size:10px">Strong</span></td></tr>
+        <tr><td>Sports Inflatables</td><td>13</td><td>10.9</td><td>5 / 10</td><td>3</td><td>1,220</td><td><span class="f-tag teal" style="font-size:10px">Solid</span></td></tr>
+        <tr><td>Inflatables (broad)</td><td>30</td><td>12.2</td><td>13 / 25</td><td>5</td><td>5,330</td><td><span class="f-tag blue" style="font-size:10px">Growing</span></td></tr>
+        <tr><td>Tents</td><td>39</td><td style="color:var(--amber)">17.1</td><td>6 / 28</td><td>11</td><td>12,080</td><td><span class="f-tag amber" style="font-size:10px">Improving</span></td></tr>
+        <tr><td>Table Covers</td><td>41</td><td style="color:var(--red)">20.8</td><td>3 / 15</td><td>26</td><td>16,340</td><td><span class="f-tag red" style="font-size:10px">Declining</span></td></tr>
+        <tr><td>Flags</td><td>36</td><td style="color:var(--red)">22.9</td><td>2 / 10</td><td>26</td><td>38,560</td><td><span class="f-tag red" style="font-size:10px">Weak</span></td></tr>
+        <tr><td>Banners</td><td>55</td><td style="color:var(--red)">30.8</td><td>0 / 12</td><td>43</td><td>45,480</td><td><span class="f-tag amber" style="font-size:10px">List stale*</span></td></tr>
+        <tr><td>Displays</td><td>11</td><td>—</td><td>0 / 0</td><td>11</td><td>5,660</td><td><span class="f-tag amber" style="font-size:10px">Not tracked</span></td></tr>
+      </tbody>
+    </table>
+  </div>
+  <p style="font-size:11px;color:var(--faint);margin-top:-16px;margin-bottom:28px">* Banners category has 43/55 keywords unranked in tracker — likely reflects stale list rather than true visibility gap. Banners revenue grew +66% YoY. Tracking list should be rebuilt around current ranking URLs before drawing conclusions.</p>
+
+  <div class="row2">
+    <div>
+      <div style="font-family:var(--font-condensed);font-size:11px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--faint);margin-bottom:14px">Top Gainers — Position Movement</div>
+      <div class="tbl-wrap" style="margin-bottom:0">
+        <table class="dt">
+          <thead><tr><th>Keyword</th><th>Was</th><th>Now</th><th>Δ Pos</th><th>Volume</th></tr></thead>
+          <tbody>
+            <tr><td>custom pop up tents</td><td>79</td><td>14</td><td><span class="up">+65</span></td><td>1,400</td></tr>
+            <tr><td>custom canopy tent 10x10</td><td>29</td><td>14</td><td><span class="up">+15</span></td><td>1,800</td></tr>
+            <tr><td>custom canopy tents</td><td>31</td><td>13</td><td><span class="up">+18</span></td><td>500</td></tr>
+            <tr><td>table cloth with logo</td><td>26</td><td>9</td><td><span class="up">+17</span></td><td>300</td></tr>
+            <tr><td>inflatable beer bottle</td><td>34</td><td>4</td><td><span class="up">+30</span></td><td>150</td></tr>
+            <tr><td>inflatable bottles</td><td>31</td><td>5</td><td><span class="up">+26</span></td><td>100</td></tr>
+            <tr><td>custom advertising inflatable</td><td>11</td><td>4</td><td><span class="up">+7</span></td><td>150</td></tr>
+            <tr><td>custom inflatable logo</td><td>9</td><td>3</td><td><span class="up">+6</span></td><td>40</td></tr>
+            <tr><td>custom tents</td><td>11</td><td>6</td><td><span class="up">+5</span></td><td>1,000</td></tr>
+            <tr><td>trade show tents</td><td>5</td><td>1</td><td><span class="up">+4</span></td><td>250</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <div>
+      <div style="font-family:var(--font-condensed);font-size:11px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--faint);margin-bottom:14px">Top Decliners — Needs Investigation</div>
+      <div class="tbl-wrap" style="margin-bottom:0">
+        <table class="dt">
+          <thead><tr><th>Keyword</th><th>Was</th><th>Now</th><th>Δ Pos</th><th>Volume</th></tr></thead>
+          <tbody>
+            <tr><td>trade show table covers</td><td>3</td><td>29</td><td><span class="down">−26</span></td><td>1,300</td></tr>
+            <tr><td>trade show tablecloths</td><td>2</td><td>30</td><td><span class="down">−28</span></td><td>150</td></tr>
+            <tr><td>branded tents</td><td>5</td><td>25</td><td><span class="down">−20</span></td><td>350</td></tr>
+            <tr><td>stretch table covers with logo</td><td>10</td><td>30</td><td><span class="down">−20</span></td><td>200</td></tr>
+            <tr><td>inflatable mascot</td><td>12</td><td>25</td><td><span class="down">−13</span></td><td>200</td></tr>
+            <tr><td>replica product inflatable</td><td>3</td><td>15</td><td><span class="down">−12</span></td><td>300</td></tr>
+            <tr><td>custom stretch table covers</td><td>15</td><td>27</td><td><span class="down">−12</span></td><td>300</td></tr>
+            <tr><td>branded canopy</td><td>6</td><td>18</td><td><span class="down">−12</span></td><td>200</td></tr>
+            <tr><td>inflatable displays</td><td>2</td><td>13</td><td><span class="down">−11</span></td><td>70</td></tr>
+            <tr><td>branded inflatables</td><td>7</td><td>16</td><td><span class="down">−9</span></td><td>200</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <div class="tbl-wrap" style="margin-top:8px">
+    <table class="dt">
+      <thead>
+        <tr><th colspan="5" style="text-align:left;color:rgba(255,255,255,0.7);background:var(--navy-mid)">Near Page 1 — High-Volume Keywords at Positions 11–20 (Quick-Win Targets)</th></tr>
+        <tr><th>Keyword</th><th>Current Pos</th><th>Prior Pos</th><th>Volume</th><th>Category</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>custom canopy tent 10x10</td><td>14</td><td>29</td><td>1,800</td><td>Tents</td></tr>
+        <tr><td>advertising flags</td><td>21</td><td>31</td><td>1,400</td><td>Flags</td></tr>
+        <tr><td>custom pop up tents</td><td>14</td><td>79</td><td>1,400</td><td>Tents</td></tr>
+        <tr><td>custom table covers</td><td>25</td><td>34</td><td>1,600</td><td>Table Covers</td></tr>
+        <tr><td>custom canopy tents</td><td>13</td><td>31</td><td>500</td><td>Tents</td></tr>
+        <tr><td>branded tent</td><td>11</td><td>6</td><td>250</td><td>Tents</td></tr>
+        <tr><td>replica product inflatable</td><td>15</td><td>3</td><td>300</td><td>Inflatable Silo</td></tr>
+        <tr><td>logo table cloths</td><td>11</td><td>—</td><td>200</td><td>Table Covers</td></tr>
+        <tr><td>custom table cloth with logo</td><td>11</td><td>24</td><td>100</td><td>Table Covers</td></tr>
+        <tr><td>custom inflatable dome</td><td>12</td><td>20</td><td>100</td><td>Inflatables</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="row3" style="margin-top:8px">
+    <div class="finding teal">
+      <div class="finding-head"><span class="f-tag teal">Strength</span><span class="finding-title">Inflatable silo is a SERP fortress</span></div>
+      <p>The inflatable category — arches, tunnels, silo terms — holds an extraordinary ranking position. Average position 2.8 on tunnels, 3.2 on arches, 48 of 73 ranked inflatable silo terms in the top 10. <strong>This is not an accident — it reflects years of category-specific content and product page depth.</strong> The task is not to build this position, it is to monetize it better through CTR optimization and RFQ capture.</p>
+    </div>
+    <div class="finding red">
+      <div class="finding-head"><span class="f-tag red">Alert</span><span class="finding-title">"Trade show table covers" — #3 to #29</span></div>
+      <p>The single largest volume decline: 1,300 monthly search volume keyword dropped from position 3 to position 29 — effectively off page 1. This directly correlates with the table covers revenue decline of −37% YoY. A page that ranked in the top 3 generates materially different traffic than one at position 29. <strong>Audit the /pages/trade-show-table-covers URL for technical issues, content freshness, and competing pages that may be cannibalizing.</strong></p>
+    </div>
+    <div class="finding amber">
+      <div class="finding-head"><span class="f-tag amber">Action</span><span class="finding-title">Tents cluster: momentum to capture</span></div>
+      <p>"Custom pop up tents" moved from position 79 to 14 (+65 positions) on 1,400 monthly volume. "Custom canopy tent 10x10" from 29 to 14 on 1,800 volume. "Custom canopy tents" from 31 to 13 on 500 volume. <strong>These three keywords alone represent 3,700 monthly searches with page 2 to near-page-1 momentum.</strong> A targeted on-page optimization push on the tent collection and product pages could push multiple terms onto page 1 in Q2.</p>
+    </div>
+  </div>
+
+  <div class="pullquote" style="margin-top:32px">
+    <p>"The keyword ranking map confirms the strategic bifurcation: MVP Visuals owns the inflatable SERP and is growing in tents, while conceding ground on trade show table covers — the category most exposed to commodity competition and AIO informational query absorption."</p>
+    <cite>Ranking Position Analysis — Q1 2026</cite>
+  </div>
+</section>
+<section id="content">
+  <div class="section-header">
+    <div class="section-eyebrow">04 &nbsp; Content Performance</div>
+    <h2>Content Asset Audit &amp; <em>Strategic Repositioning</em></h2>
+  </div>
+
+  <p class="lead">The content program has produced significant visibility surface area — 13 new pages ranking with 50+ clicks in Q1 alone, and one post achieving 360K impressions in its first quarter. The question for the board is not whether the content is working technically, but <strong>whether the traffic it attracts has a commercial pathway.</strong></p>
+
+  <div class="tbl-wrap">
+    <table class="dt">
+      <thead>
+        <tr><th>Page</th><th>Clicks</th><th>Impressions</th><th>Position</th><th>ICP Fit</th><th>Commercial Path</th><th>Directive</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>/blogs/…/most-successful-shark-tank-rejects</td>
+          <td>3,340</td><td>360,572</td><td>6.5</td>
+          <td><span class="flat">Adjacent</span></td>
+          <td><span class="down">None</span></td>
+          <td><span class="f-tag amber" style="font-size:10px">Retain + CTA</span></td>
+        </tr>
+        <tr>
+          <td>/blogs/…/health-fair-ideas</td>
+          <td>1,275</td><td>55,688</td><td>10.4</td>
+          <td><span class="up">Direct ICP</span></td>
+          <td><span class="up">Table covers, tents</span></td>
+          <td><span class="f-tag teal" style="font-size:10px">Strengthen</span></td>
+        </tr>
+        <tr>
+          <td>/blogs/…/trade-show-booth-games</td>
+          <td>843</td><td>46,266</td><td>12.8</td>
+          <td><span class="up">Direct ICP</span></td>
+          <td><span class="up">Display products</span></td>
+          <td><span class="f-tag teal" style="font-size:10px">Strengthen</span></td>
+        </tr>
+        <tr>
+          <td>/blogs/…/canopy-tent-sizes</td>
+          <td>604</td><td>145,470</td><td>5.5</td>
+          <td><span class="up">Direct ICP</span></td>
+          <td><span class="up">Tent category</span></td>
+          <td><span class="f-tag teal" style="font-size:10px">Strengthen</span></td>
+        </tr>
+        <tr>
+          <td>/blogs/…/sports-fan-engagement-ideas</td>
+          <td>519</td><td>78,848</td><td>7.6</td>
+          <td><span class="flat">Adjacent ICP</span></td>
+          <td><span class="flat">Flags, inflatables</span></td>
+          <td><span class="f-tag teal" style="font-size:10px">Maintain</span></td>
+        </tr>
+        <tr>
+          <td>/blogs/…/sports-sponsorship-activation-examples</td>
+          <td>518</td><td>52,556</td><td>9.6</td>
+          <td><span class="up">Direct ICP</span></td>
+          <td><span class="up">Inflatables, tents</span></td>
+          <td><span class="f-tag teal" style="font-size:10px">Strengthen</span></td>
+        </tr>
+        <tr>
+          <td>/blogs/…/signing-day-table-ideas</td>
+          <td>314</td><td>21,714</td><td>5.6</td>
+          <td><span class="up">Direct ICP</span></td>
+          <td><span class="up">Table covers</span></td>
+          <td><span class="f-tag teal" style="font-size:10px">Strengthen</span></td>
+        </tr>
+        <tr>
+          <td>/blogs/…/career-fair-booth-ideas</td>
+          <td>290</td><td>—</td><td>10.4</td>
+          <td><span class="up">Direct ICP</span></td>
+          <td><span class="up">Display products</span></td>
+          <td><span class="f-tag amber" style="font-size:10px">−77% — investigate</span></td>
+        </tr>
+        <tr>
+          <td>/blogs/…/fun-pickleball-tournament-ideas</td>
+          <td>683</td><td>21,985</td><td>8.1</td>
+          <td><span class="flat">Adjacent ICP</span></td>
+          <td><span class="flat">Flags, tents</span></td>
+          <td><span class="f-tag blue" style="font-size:10px">Monitor</span></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="row2">
+    <div class="finding amber">
+      <div class="finding-head"><span class="f-tag amber">Strategic Decision</span><span class="finding-title">Shark Tank content: retain, do not extend</span></div>
+      <p>The Shark Tank Rejects post accounts for 17.9% of all organic clicks — on a topic with no direct purchase intent. Its original premise had defensible ICP logic: at least one MVP Visuals customer pitched on the show, making "successful brands that pitched on Shark Tank" a legitimate brand-awareness adjacency. However, <strong>the ROI on producing more adjacency content of this type has inverted.</strong> AI Overviews now answer "what companies rejected by Shark Tank succeeded?" instantly. Recommendation: retain the existing post, add a relevant product CTA at the bottom (branded inflatables for product launch events, custom display packages for growing brands), and stop producing new entertainment-adjacency content. The existing URL equity should be harvested, not replicated.</p>
+    </div>
+    <div class="finding teal">
+      <div class="finding-head"><span class="f-tag teal">Content Direction</span><span class="finding-title">ICP-anchored buyer content outperforms</span></div>
+      <p>Pages that serve buyers in the 2–8 week pre-event consideration window are the most defensible against AI Overviews — they require product specificity, trust signals, and depth that LLMs cannot replicate without a vendor relationship. <strong>"Canopy tent sizes" (145K impressions, pos 5.5), "signing day table ideas" (+2,517% YoY), "sports sponsorship activation examples"</strong> — these are performing precisely because they answer questions that only someone considering a purchase would ask. This is the content archetype to scale: event planning utility, product specification, and industry use-case content anchored to MVP Visuals' product range.</p>
+    </div>
+  </div>
+</section>
+
+<!-- SECTION 4: COMMERCIAL PAGE GAP -->
+<section id="commercial">
+  <div class="section-header">
+    <div class="section-eyebrow">05 &nbsp; Commercial Page Authority</div>
+    <h2>Collection &amp; Product Page <em>Performance Gaps</em></h2>
+  </div>
+
+  <p class="lead">Commercial pages — collections and product pages — are where search visibility translates directly to revenue. The current data reveals a consistent pattern: commercial pages are generating impression volume but failing to capture clicks, and when clicks do arrive, funnel completion rates vary significantly by category. <strong>These gaps are addressable without new link building or content creation.</strong></p>
+
+  <div class="tbl-wrap">
+    <table class="dt">
+      <thead>
+        <tr><th>Page</th><th>Sessions</th><th>Add to Cart</th><th>ATC→Chk</th><th>Chk→Pur</th><th>Revenue (GA4)</th><th>GSC Clicks</th><th>Signal</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>/collections/custom-tents</td><td>3,211</td><td>6.1%</td><td>21%</td><td>29%</td><td>$10,408</td><td>291</td><td><span class="up">Healthy funnel</span></td></tr>
+        <tr><td>/pages/trade-show-table-covers</td><td>1,822</td><td>22.8%</td><td>18%</td><td>22%</td><td>$12,288</td><td>444</td><td><span class="up">Strong intent</span></td></tr>
+        <tr><td>/collections/inflatable-arches</td><td>2,879</td><td>4.6%</td><td>14%</td><td>11%</td><td>$2,378</td><td>421</td><td><span class="down">RFQ leak</span></td></tr>
+        <tr><td>/collections/inflatable-tunnels</td><td>2,335</td><td>2.1%</td><td>8%</td><td>0%</td><td>$0</td><td>352</td><td><span class="down">Full RFQ sink</span></td></tr>
+        <tr><td>/pages/food-concession-tents</td><td>4,004</td><td>2.5%</td><td>4%</td><td>0%</td><td>$0</td><td>423</td><td><span class="down">Broken checkout</span></td></tr>
+        <tr><td>/collections/custom-table-covers</td><td>1,102</td><td>22.8%</td><td>15%</td><td>27%</td><td>$1,727</td><td>111</td><td><span class="flat">Position gap</span></td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="row2">
+    <div>
+      <p style="font-size:13px;font-weight:600;color:var(--ink);margin-bottom:12px;font-family:var(--font-condensed);letter-spacing:0.04em;text-transform:uppercase">Inflatable Arches — Funnel Breakdown</p>
+      <div class="funnel">
+        <div class="fstep">
+          <div class="fstep-label">Sessions</div>
+          <div class="fstep-val">2,879</div>
+          <div class="fstep-rate">landing entries</div>
+        </div>
+        <div class="farrow">›</div>
+        <div class="fstep">
+          <div class="fstep-label">Add to Cart</div>
+          <div class="fstep-val">132</div>
+          <div class="fstep-rate">4.6% rate</div>
+        </div>
+        <div class="farrow">›</div>
+        <div class="fstep dim">
+          <div class="fstep-label">Checkout</div>
+          <div class="fstep-val">18</div>
+          <div class="fstep-rate">14% of ATCs</div>
+        </div>
+        <div class="farrow">›</div>
+        <div class="fstep dim">
+          <div class="fstep-label">Purchase</div>
+          <div class="fstep-val">2</div>
+          <div class="fstep-rate">11% of Chk</div>
+        </div>
+      </div>
+      <div style="background:var(--red-bg);border:1px solid var(--red-border);border-radius:4px;padding:12px 16px;font-size:13px;color:var(--red);margin-top:4px">
+        <strong>98% cart abandonment</strong> is B2B quote behavior, not checkout failure. These 130 abandoned carts represent an untracked pipeline estimated at $230K+ (130 × ~$1,790 avg inflatable unit value). A visible, GA4-tracked "Request Custom Quote" CTA converts this dark funnel into measurable lead attribution.
+      </div>
+    </div>
+    <div class="finding red" style="height:fit-content">
+      <div class="finding-head"><span class="f-tag red">Urgent</span><span class="finding-title">/pages/food-concession-tents: $0 revenue on 4,004 sessions</span></div>
+      <p>This page has 4,004 sessions, 101 add-to-cart events (2.5% ATC rate — clear purchase intent), and generates zero revenue. ATC-to-checkout rate of 4% is too low even for B2B quote behavior and is not consistent with an RFQ pattern. <strong>This is a broken checkout path</strong> — most likely a Shopify product configuration issue (out-of-stock variant, pricing display error, or disabled checkout for this product set). Diagnosing and fixing this is the highest-ROI single action available in Q2. Estimated recovery: $5–15K based on ATC volume and category AOV comparables.</p>
+    </div>
+  </div>
+</section>
+
+<!-- SECTION 5: INFLATABLE OPPORTUNITY -->
+<section id="category">
+  <div class="section-header">
+    <div class="section-eyebrow">06 &nbsp; Category Deep Dive</div>
+    <h2>The Inflatable SEO Gap: <em>Revenue Without Visibility</em></h2>
+  </div>
+
+  <p class="lead">Inflatables are MVP Visuals' fastest-growing, highest-AOV category — now 23% of total revenue, up from approximately 6% last year. Yet organic search visibility for inflatable queries is declining across every measured term. <strong>This category is growing in spite of organic search, not because of it.</strong> That creates both a near-term attribution risk and a significant medium-term opportunity.</p>
+
+  <div class="row2">
+    <div class="card">
+      <div class="card-label">Inflatable Revenue Growth vs. Organic Visibility (YoY)</div>
+      <div class="chart-wrap" style="height:240px"><canvas id="inflatGapChart"></canvas></div>
+    </div>
+    <div class="card">
+      <div class="card-label">Inflatable Query Landscape (GSC)</div>
+      <div class="stat-line">
+        <div class="sl-name">inflatable arch<small>Position 7.4 · 3,908 impressions</small></div>
+        <div class="sl-val">31 clicks</div>
+        <div class="sl-yoy down">−61%</div>
+      </div>
+      <div class="stat-line">
+        <div class="sl-name">inflatable arches<small>Position 6.8 · 2,693 impressions</small></div>
+        <div class="sl-val">5 clicks</div>
+        <div class="sl-yoy down">−50%</div>
+      </div>
+      <div class="stat-line">
+        <div class="sl-name">custom inflatables<small>Position 22.1 · 3,632 impressions</small></div>
+        <div class="sl-val">7 clicks</div>
+        <div class="sl-yoy down">−53%</div>
+      </div>
+      <div class="stat-line">
+        <div class="sl-name">custom inflatable arch<small>Position 9.3 · 1,874 impressions</small></div>
+        <div class="sl-val">14 clicks</div>
+        <div class="sl-yoy down">−46%</div>
+      </div>
+      <div class="stat-line">
+        <div class="sl-name">inflatable archway<small>Position 6.9 · 1,848 impressions</small></div>
+        <div class="sl-val">13 clicks</div>
+        <div class="sl-yoy up">+18%</div>
+      </div>
+      <div class="stat-line">
+        <div class="sl-name">inflatable marketing<small>Position 9.4 · 1,272 impressions</small></div>
+        <div class="sl-val">0 clicks</div>
+        <div class="sl-yoy down">−100%</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="finding blue">
+    <div class="finding-head"><span class="f-tag blue">Investment Case</span><span class="finding-title">The inflatable arches landing page rebuild is the right move — here is the data case</span></div>
+    <p>The /collections/inflatable-arches page sits at position 8.9 with 54K impressions and 421 clicks (0.78% CTR). Combined inflatable arch impression volume across all query variations exceeds 18,000 per quarter. At the current CTR, that delivers ~140 clicks. At a 2% CTR (achievable with a page rebuild optimized for commercial intent), that delivers ~360 clicks at $2.48 revenue per organic session — $3,700 per quarter in directly attributable incremental revenue. More importantly, the inflatable category's $1,790 average unit value means a single qualified lead generated from organic carries significant pipeline weight. <strong>The landing page rebuild is not a visibility project — it is a revenue infrastructure project.</strong></p>
+  </div>
+
+  <div class="note">
+    <strong>Strategic note:</strong> "Custom inflatables" sits at position 22.1 with 3,632 impressions — this is the broadest commercial query in the inflatable set and the one most worth targeting with a dedicated landing page and supporting content. Moving from position 22 to position 10 on "custom inflatables" alone, given the 3,632 impression baseline, would generate an estimated 100+ incremental commercial clicks per quarter.
+  </div>
+</section>
+
+<!-- SECTION 6: LANDSCAPE -->
+<section id="landscape">
+  <div class="section-header">
+    <div class="section-eyebrow">07 &nbsp; Competitive &amp; SERP Context</div>
+    <h2>Operating in a <em>Structurally Harder</em> Search Environment</h2>
+  </div>
+
+  <p class="lead">The SEO challenges described in this report do not exist in isolation. They are the local expression of two industry-wide forces: the AI Overview displacement of informational click traffic, and the commoditization of commercial SERPs in the exact product categories — custom tents, tablecloths, trade show displays — where MVP Visuals operates.</p>
+
+  <div class="row2" style="margin-bottom:32px">
+    <div class="card">
+      <div class="card-label">SERP Competitive Pressure by Category</div>
+      <div class="chart-wrap" style="height:220px"><canvas id="serpPressChart"></canvas></div>
+    </div>
+    <div class="card">
+      <div class="card-label">AIO Exposure by Content Type</div>
+      <div style="padding:8px 0">
+        <div style="margin-bottom:18px">
+          <div style="display:flex;justify-content:space-between;font-size:12px;margin-bottom:5px">
+            <span style="color:var(--ink);font-weight:500">Sizing / how-to guides</span>
+            <span style="color:var(--red);font-weight:600">Very High</span>
+          </div>
+          <div style="height:5px;background:var(--rule);border-radius:3px"><div style="width:90%;height:5px;background:var(--red);border-radius:3px"></div></div>
+        </div>
+        <div style="margin-bottom:18px">
+          <div style="display:flex;justify-content:space-between;font-size:12px;margin-bottom:5px">
+            <span style="color:var(--ink);font-weight:500">Ideas / inspiration content</span>
+            <span style="color:var(--red);font-weight:600">High</span>
+          </div>
+          <div style="height:5px;background:var(--rule);border-radius:3px"><div style="width:75%;height:5px;background:var(--red);border-radius:3px"></div></div>
+        </div>
+        <div style="margin-bottom:18px">
+          <div style="display:flex;justify-content:space-between;font-size:12px;margin-bottom:5px">
+            <span style="color:var(--ink);font-weight:500">Product specification / use-case</span>
+            <span style="color:var(--amber);font-weight:600">Medium</span>
+          </div>
+          <div style="height:5px;background:var(--rule);border-radius:3px"><div style="width:45%;height:5px;background:var(--amber);border-radius:3px"></div></div>
+        </div>
+        <div style="margin-bottom:18px">
+          <div style="display:flex;justify-content:space-between;font-size:12px;margin-bottom:5px">
+            <span style="color:var(--ink);font-weight:500">Vendor comparison / review content</span>
+            <span style="color:var(--amber);font-weight:600">Medium</span>
+          </div>
+          <div style="height:5px;background:var(--rule);border-radius:3px"><div style="width:40%;height:5px;background:var(--amber);border-radius:3px"></div></div>
+        </div>
+        <div style="margin-bottom:4px">
+          <div style="display:flex;justify-content:space-between;font-size:12px;margin-bottom:5px">
+            <span style="color:var(--ink);font-weight:500">Commercial / transactional pages</span>
+            <span style="color:var(--teal);font-weight:600">Low</span>
+          </div>
+          <div style="height:5px;background:var(--rule);border-radius:3px"><div style="width:18%;height:5px;background:var(--teal);border-radius:3px"></div></div>
+        </div>
+        <div style="font-size:11px;color:var(--faint);margin-top:12px">AIO absorption risk = probability Google answers the query without a click</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="pullquote">
+    <p>"The correct response to structural CTR compression is not to fight for informational click volume — it is to build authority on the commercial queries where AI Overviews have the least foothold and the buyer is closest to a purchase decision."</p>
+    <cite>SERP Strategy Framework — 2026</cite>
+  </div>
+
+  <div class="row3">
+    <div class="finding red">
+      <div class="finding-head"><span class="f-tag red">Headwind</span><span class="finding-title">Red ocean commercial SERPs</span></div>
+      <p>"Custom tablecloth," "custom tent," "custom canopy" — these SERPs are occupied by Amazon, Vistaprint, BannerBuzz, and an expanding field of dropship operators running the same supplier network. Google Shopping ads absorb above-fold real estate. Competing purely on category authority here is a diminishing-return investment. The answer is not retreat — it is <strong>specificity and use-case depth</strong> that commoditized competitors cannot replicate at scale.</p>
+    </div>
+    <div class="finding amber">
+      <div class="finding-head"><span class="f-tag amber">Context</span><span class="finding-title">Dropship context and differentiation</span></div>
+      <p>MVP Visuals operates as a dropship operator in a dropship-saturated SERP. The defensible position is not pricing or breadth — it is brand trust, event expertise, and relationship. Organic search should support this by surfacing content that demonstrates expertise a commodity supplier cannot: <strong>event setup guides, product specification depth, case studies, use-case specificity</strong> — the kind of pre-sale education that builds the conversion trust necessary for $1,000+ orders.</p>
+    </div>
+    <div class="finding teal">
+      <div class="finding-head"><span class="f-tag teal">Signal</span><span class="finding-title">LLM referral traffic is emerging</span></div>
+      <p>ChatGPT (356 sessions, first conversion), ChatGPT.com (+1,915% YoY), Perplexity, and Claude are appearing in the referring channel data. This is early-stage but directional: well-structured, authoritative product and event content is beginning to surface in AI answer environments. The same content that protects against AIO click loss also builds LLM citation surface. These channels are currently zero-revenue but will matter as AI-assisted purchase research normalizes in the B2B events market.</p>
+    </div>
+  </div>
+</section>
+
+<!-- SECTION 7: ROADMAP -->
+<section id="roadmap">
+  <div class="section-header">
+    <div class="section-eyebrow">08 &nbsp; Strategic Direction</div>
+    <h2>SEO Roadmap: <em>Commercial Authority</em> over Volume</h2>
+  </div>
+
+  <p class="lead">The 2026 SEO strategy reorients from informational traffic volume — which AIO is progressively eroding — toward commercial page authority, conversion infrastructure, and content that serves buyers in the final stage of a considered B2B purchase. The following matrix frames the investment and maintenance posture across the site.</p>
+
+  <div class="matrix">
+    <div class="mquad">
+      <h4 class="invest">Invest — Q2 Priority</h4>
+      <ul>
+        <li>Inflatable arches landing page rebuild</li>
+        <li>Commercial snippet optimization (retractable banner, tent queries)</li>
+        <li>RFQ capture on inflatable collection pages</li>
+        <li>Google Shopping product feed expansion</li>
+        <li>Inflatable advertising and mascot category pages</li>
+      </ul>
+    </div>
+    <div class="mquad">
+      <h4 class="maintain">Maintain — Hold current position</h4>
+      <ul>
+        <li>Trade show and health fair ideas content</li>
+        <li>Custom tents collection page funnel</li>
+        <li>Signing day and sponsorship activation content</li>
+        <li>Brand search — stable at 61% CTR</li>
+        <li>Feather flag and banner category pages</li>
+      </ul>
+    </div>
+    <div class="mquad">
+      <h4 class="audit">Audit / Fix — Immediate action</h4>
+      <ul>
+        <li>Food concession tents checkout path (broken)</li>
+        <li>Logo tablecloth collection (NRG sunset artifacts)</li>
+        <li>Career fair booth ideas (−77% — cause unknown)</li>
+        <li>Inflatable tunnels funnel (0 purchases, 49 ATCs)</li>
+        <li>Unassigned GA4 sessions (bot filtering)</li>
+      </ul>
+    </div>
+    <div class="mquad">
+      <h4 class="watch">Evolve — Medium term</h4>
+      <ul>
+        <li>Shark Tank post → add ICP product CTA, no new production</li>
+        <li>LLM citation tracking as referral channel matures</li>
+        <li>Bing Organic (−30%) — assess page-level cause</li>
+        <li>Perplexity / ChatGPT conversion optimization</li>
+        <li>Month-over-month trajectory analysis (Q2 enrichment)</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="card" style="margin-bottom:0">
+    <div class="card-label">Q2 SEO Priorities — Ranked by Revenue Impact</div>
+    <div class="opp-row">
+      <div class="opp-num">1</div>
+      <div class="opp-body">
+        <h4>Fix food concession tents checkout path</h4>
+        <p>4,004 sessions, 101 ATCs, $0 revenue. <strong>Estimated recovery: $5–15K in Q2</strong> assuming the ATC volume signals real purchase intent. Diagnose: Shopify product configuration, variant pricing display, or checkout flow for this product set. Highest ROI single action available — no SEO required, pure CRO.</p>
+      </div>
+      <span class="opp-pill pill-rev">$5–15K est.</span>
+    </div>
+    <div class="opp-row">
+      <div class="opp-num">2</div>
+      <div class="opp-body">
+        <h4>Inflatable pages: implement tracked RFQ lead capture</h4>
+        <p>Install a "Request Custom Quote" CTA with GA4 lead event on /collections/inflatable-arches and /collections/inflatable-tunnels. 180+ ATCs with near-zero purchase completion represents an untracked B2B pipeline of <strong>$230K+ in estimated inflatable AOV.</strong> This recovers attribution, creates a measurable lead funnel, and feeds sales follow-up for the highest-AOV category.</p>
+      </div>
+      <span class="opp-pill pill-struct">Pipeline visibility</span>
+    </div>
+    <div class="opp-row">
+      <div class="opp-num">3</div>
+      <div class="opp-body">
+        <h4>Retractable banner snippet fix</h4>
+        <p>"Retractable banner" — 6,538 impressions, position 8.5, 1 click. <strong>Single title tag and meta description rewrite.</strong> Banners are +66% revenue YoY. Moving CTR from 0.02% to 1% on this term alone represents ~65 incremental commercial clicks per quarter at high AOV. Fastest SEO fix in the dataset.</p>
+      </div>
+      <span class="opp-pill pill-vis">Quick win</span>
+    </div>
+    <div class="opp-row">
+      <div class="opp-num">4</div>
+      <div class="opp-body">
+        <h4>Complete inflatable arches landing page</h4>
+        <p>The in-progress rebuild with video hero, specification guide, and RFQ wizard closes the gap between $36.7K inflatable arch revenue (Shopify) and near-zero organic attribution. <strong>Target: move commercial CTR from 0.78% to 2%+ on 54K impressions</strong> — approximately $3.7K/quarter directly attributable organic revenue gain, plus indirect pipeline lift from the RFQ flow.</p>
+      </div>
+      <span class="opp-pill pill-rev">$3.7K/qtr direct</span>
+    </div>
+    <div class="opp-row">
+      <div class="opp-num">5</div>
+      <div class="opp-body">
+        <h4>Google Shopping feed optimization</h4>
+        <p>Organic Shopping delivers $24.14 revenue per session — ten times organic search efficiency. 305 sessions generated $7.4K with zero paid investment. <strong>Doubling Organic Shopping sessions through feed title optimization, image improvement, and category expansion for tents and inflatables</strong> would add ~$7K at existing efficiency rates.</p>
+      </div>
+      <span class="opp-pill pill-rev">~$7K incremental</span>
+    </div>
+    <div class="opp-row" style="border-bottom:none">
+      <div class="opp-num">6</div>
+      <div class="opp-body">
+        <h4>Content: ICP repositioning and commercial CTA integration</h4>
+        <p>Retire adjacent-entertainment content production. Scale ICP-anchored content: inflatable specifications, event display planning, use-case and vertical-specific guides (sports, trade show, concession). Add product CTAs to top-traffic informational posts — health fair ideas, trade show booth games, canopy tent sizes — where buyer intent is present but a purchase pathway is absent. <strong>This is the long-term defense against AIO erosion: depth and specificity that AI summaries cannot substitute.</strong></p>
+      </div>
+      <span class="opp-pill pill-vis">2026 defense</span>
+    </div>
+  </div>
+</section>
+
+<!-- REPORT END -->
+<div class="report-end">
+  <div>
+    <div style="font-family:var(--font-condensed);font-size:11px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--faint);margin-bottom:12px">Data Sources &amp; Methodology</div>
+    <p style="font-size:13px;color:var(--muted);line-height:1.7;margin-bottom:12px">All revenue figures reference Shopify last-non-direct-click attribution, the established revenue SSOT for this account. GA4 records are used for session-level engagement and funnel analysis. Google Search Console data covers January 1 – March 31, 2026, compared to the equivalent prior-year window using day-of-week matching. Organic Shopping data sourced from GA4 channel grouping, which classifies Google Shopping organic placements separately from text search.</p>
+    <p style="font-size:13px;color:var(--muted);line-height:1.7">Month-over-month breakdown within Q1 pending. Klaviyo send volume and list metrics pending. CRM/lead pipeline data not available — RFQ pipeline estimates based on ATC volume and category AOV.</p>
+  </div>
+  <div>
+    <div style="font-family:var(--font-condensed);font-size:11px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--faint);margin-bottom:12px">Prepared By</div>
+    <p style="font-family:var(--font-display);font-size:18px;font-weight:500;color:var(--navy);margin-bottom:4px">SearchKaizen</p>
+    <p style="font-size:13px;color:var(--muted)">Fractional SEO · Organic Revenue Growth Engineering</p>
+    <p style="font-size:13px;color:var(--muted);margin-top:8px">April 2026 &nbsp;·&nbsp; Q1 Performance Review<br>For: MVP Visuals Board of Directors</p>
+  </div>
+</div>
+
+</main>
+
+<script>
+Chart.defaults.font.family = "'Barlow', sans-serif";
+Chart.defaults.font.size = 11;
+Chart.defaults.color = '#5a6878';
+Chart.defaults.borderColor = '#e8e2d8';
+
+// Position bucket chart
+new Chart(document.getElementById('posBucketChart'), {
+  type: 'bar',
+  data: {
+    labels: ['#1', '2–3', '4–5', '6–10', '11–20', '21–50', '50+', 'Not\nRanking'],
+    datasets: [{
+      label: 'Keywords',
+      data: [13, 38, 21, 32, 47, 51, 2, 163],
+      backgroundColor: ['#0a7060','#0a7060','#2e8b7a','#5aa898','#b87520','#c8a060','#ddd8cf','#e8e2d8'],
+      borderRadius: 2
+    }]
+  },
+  options: {
+    responsive: true, maintainAspectRatio: false,
+    plugins: { legend: { display: false }, tooltip: { callbacks: { label: c => c.raw + ' keywords' } } },
+    scales: {
+      x: { ticks: { color: '#9aacba', font: { size: 10 } }, grid: { display: false } },
+      y: { ticks: { color: '#9aacba', font: { size: 10 } }, grid: { color: '#f0ebe3' } }
+    }
+  }
+});
+
+// Category health chart
+new Chart(document.getElementById('catHealthChart'), {
+  type: 'bar',
+  data: {
+    labels: ['Infl. Arches', 'Tunnels', 'Infl. Silo', 'Sports Infl.', 'Infl. Broad', 'Tents', 'Table Covers', 'Flags'],
+    datasets: [{
+      label: 'Avg Position',
+      data: [3.2, 2.8, 10.5, 10.9, 12.2, 17.1, 20.8, 22.9],
+      backgroundColor: [
+        '#0a7060','#0a7060','#2e8b7a','#5aa898',
+        '#7fbfb8','#b87520','#a82b1e','#c04030'
+      ],
+      borderRadius: 2
+    }]
+  },
+  options: {
+    indexAxis: 'y',
+    responsive: true, maintainAspectRatio: false,
+    plugins: {
+      legend: { display: false },
+      tooltip: { callbacks: { label: c => 'Avg pos ' + c.raw } }
+    },
+    scales: {
+      x: {
+        reverse: false,
+        ticks: { color: '#9aacba', font: { size: 10 }, callback: v => 'Pos ' + v },
+        grid: { color: '#f0ebe3' },
+        max: 25
+      },
+      y: { ticks: { color: '#5a6878', font: { size: 10 } }, grid: { display: false } }
+    }
+  }
+});
+
+// 1 - Channel Revenue
+new Chart(document.getElementById('chRevChart'), {
+  type: 'bar',
+  data: {
+    labels: ['Direct','Google Organic','Untracked','Klaviyo','Bing','Other'],
+    datasets: [
+      { label: 'Q1 2026', data: [111672, 67621, 47377, 11666, 6104, 12821], backgroundColor: '#0c1928', borderRadius: 2 },
+      { label: 'Q1 2025', data: [122405, 51479, 49592, 9961, 8752, 14250], backgroundColor: '#ddd8cf', borderRadius: 2 }
+    ]
+  },
+  options: {
+    responsive: true, maintainAspectRatio: false,
+    plugins: {
+      legend: { labels: { color: '#5a6878', boxWidth: 10, boxHeight: 10, font: { size: 11 } } },
+      tooltip: { callbacks: { label: c => c.dataset.label + ': $' + c.raw.toLocaleString() } }
+    },
+    scales: {
+      x: { ticks: { color: '#9aacba', maxRotation: 25, font: { size: 10 } }, grid: { display: false } },
+      y: { ticks: { color: '#9aacba', callback: v => '$' + (v/1000).toFixed(0) + 'K', font: { size: 10 } }, grid: { color: '#f0ebe3' } }
+    }
+  }
+});
+
+// 2 - Impressions vs Clicks
+new Chart(document.getElementById('impClickChart'), {
+  type: 'bar',
+  data: {
+    labels: ['Q1 2024', 'Q1 2025', 'Q1 2026'],
+    datasets: [
+      { label: 'Impressions (÷10K)', data: [null, 232.8, 338.4], backgroundColor: '#e8e2d8', borderRadius: 2, yAxisID: 'y' },
+      { label: 'Clicks', data: [null, 21003, 18649], backgroundColor: '#0c1928', borderRadius: 2, yAxisID: 'y1' }
+    ]
+  },
+  options: {
+    responsive: true, maintainAspectRatio: false,
+    plugins: {
+      legend: { labels: { color: '#5a6878', boxWidth: 10, boxHeight: 10, font: { size: 11 } } },
+      tooltip: { callbacks: { label: c => { if(c.dataset.yAxisID === 'y') return 'Impressions: ' + (c.raw * 10000).toLocaleString(); return 'Clicks: ' + c.raw.toLocaleString(); } } }
+    },
+    scales: {
+      x: { ticks: { color: '#9aacba' }, grid: { display: false } },
+      y: { position: 'left', ticks: { color: '#9aacba', callback: v => (v/100).toFixed(1)+'M', font: { size: 10 } }, grid: { color: '#f0ebe3' } },
+      y1: { position: 'right', ticks: { color: '#9aacba', font: { size: 10 } }, grid: { display: false } }
+    }
+  }
+});
+
+// 3 - CTR by intent
+new Chart(document.getElementById('ctrIntentChart'), {
+  type: 'bar',
+  data: {
+    labels: ['Brand', 'Commercial', 'Informational'],
+    datasets: [{
+      label: 'Average CTR',
+      data: [61.3, 0.37, 0.78],
+      backgroundColor: ['#0c1928', '#b87520', '#ddd8cf'],
+      borderRadius: 2
+    }]
+  },
+  options: {
+    indexAxis: 'y',
+    responsive: true, maintainAspectRatio: false,
+    plugins: {
+      legend: { display: false },
+      tooltip: { callbacks: { label: c => c.raw + '% CTR' } }
+    },
+    scales: {
+      x: { ticks: { color: '#9aacba', callback: v => v + '%', font: { size: 10 } }, grid: { color: '#f0ebe3' } },
+      y: { ticks: { color: '#5a6878', font: { size: 11 } }, grid: { display: false } }
+    }
+  }
+});
+
+// 4 - Inflatable gap
+new Chart(document.getElementById('inflatGapChart'), {
+  type: 'bar',
+  data: {
+    labels: ['Inflatable Arches\nRevenue YoY', '"inflatable arch"\nClicks YoY', '"custom inflatables"\nClicks YoY', '"inflatable arches"\nClicks YoY'],
+    datasets: [{
+      label: 'YoY Change %',
+      data: [127, -61, -53, -50],
+      backgroundColor: ['#0a7060', '#a82b1e', '#a82b1e', '#a82b1e'],
+      borderRadius: 2
+    }]
+  },
+  options: {
+    responsive: true, maintainAspectRatio: false,
+    plugins: {
+      legend: { display: false },
+      tooltip: { callbacks: { label: c => (c.raw > 0 ? '+' : '') + c.raw + '% YoY' } }
+    },
+    scales: {
+      x: { ticks: { color: '#9aacba', font: { size: 9 }, maxRotation: 0 }, grid: { display: false } },
+      y: { ticks: { color: '#9aacba', callback: v => v + '%', font: { size: 10 } }, grid: { color: '#f0ebe3' } }
+    }
+  }
+});
+
+// 5 - SERP pressure
+new Chart(document.getElementById('serpPressChart'), {
+  type: 'radar',
+  data: {
+    labels: ['Shopping Ads', 'Amazon/Big Box', 'Established Brands', 'Dropship Saturation', 'AI Shopping', 'AIO Answers'],
+    datasets: [
+      { label: 'Table Covers / Tents', data: [9, 8, 8, 7, 6, 7], borderColor: '#a82b1e', backgroundColor: 'rgba(168,43,30,0.08)', pointBackgroundColor: '#a82b1e', borderWidth: 1.5 },
+      { label: 'Inflatables', data: [5, 4, 6, 5, 4, 4], borderColor: '#0a7060', backgroundColor: 'rgba(10,112,96,0.08)', pointBackgroundColor: '#0a7060', borderWidth: 1.5 }
+    ]
+  },
+  options: {
+    responsive: true, maintainAspectRatio: false,
+    plugins: { legend: { labels: { color: '#5a6878', boxWidth: 10, boxHeight: 10, font: { size: 11 } } } },
+    scales: { r: { ticks: { display: false }, grid: { color: '#e8e2d8' }, pointLabels: { color: '#5a6878', font: { size: 10 } }, min: 0, max: 10 } }
+  }
+});
+
+// Nav scroll spy
+const sections = document.querySelectorAll('section, .cover');
+const navLinks = document.querySelectorAll('nav a');
+const io = new IntersectionObserver(entries => {
+  entries.forEach(e => {
+    if (e.isIntersecting) navLinks.forEach(a => a.classList.toggle('active', a.getAttribute('href') === '#' + e.target.id));
+  });
+}, { threshold: 0.25 });
+sections.forEach(s => io.observe(s));
+</script>
+</body>
+</html>
